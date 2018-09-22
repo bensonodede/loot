@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
-    "test": "jest"
+    "test": "jest",
+    "prepare": "patch-package"
   },
   "dependencies": {
     "apollo-boost": "^0.1.15",
@@ -39,6 +40,8 @@
   "devDependencies": {
     "babel-jest": "23.4.2",
     "jest": "23.5.0",
+    "patch-package": "^5.1.1",
+    "postinstall-prepare": "^1.0.1",
     "react-test-renderer": "16.4.1"
   },
   "jest": {
