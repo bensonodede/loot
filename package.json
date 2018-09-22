@@ -1,0 +1,47 @@
+{
+  "name": "starter",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node node_modules/react-native/local-cli/cli.js start",
+    "test": "jest"
+  },
+  "dependencies": {
+    "apollo-boost": "^0.1.15",
+    "babel-core": "^6.26.3",
+    "babel-loader": "^7.1.5",
+    "babel-preset-react-native": "4.0.0",
+    "eslint": "^5.4.0",
+    "eslint-config-airbnb": "^17.1.0",
+    "foect": "^0.1.5",
+    "graphql": "^0.13.2",
+    "moment": "^2.22.2",
+    "moment-range": "^4.0.1",
+    "react": "16.4.1",
+    "react-apollo": "^2.1.11",
+    "react-native": "0.55.4",
+    "react-native-firebase": "^4.3.8",
+    "react-native-immutable-list-view": "^0.7.3",
+    "react-native-keyboard-aware-scroll-view": "^0.7.2",
+    "react-native-location-view": "^0.1.5",
+    "react-native-maps": "^0.21.0",
+    "react-native-range-datepicker": "^1.8.2",
+    "react-native-read-more-text": "^1.1.0",
+    "react-native-responsive-dimensions": "^1.0.2",
+    "react-native-sectioned-multi-select": "^0.5.2",
+    "react-native-shadow": "^1.2.2",
+    "react-native-svg": "^7.0.2",
+    "react-native-textinput-effects": "^0.4.2",
+    "react-native-vector-icons": "^5.0.0",
+    "react-navigation": "^2.12.1",
+    "react-navigation-slide-from-right-transition": "^1.0.4"
+  },
+  "devDependencies": {
+    "babel-jest": "23.4.2",
+    "jest": "23.5.0",
+    "react-test-renderer": "16.4.1"
+  },
+  "jest": {
+    "preset": "react-native"
+  }
+}
