@@ -1,112 +1,242 @@
 import React from "react";
-import { TextInput, Text, View, Button } from "react-native";
-import Foect from "foect";
+import {
+  View,
+  Text,
+  StyleSheet,
+  StatusBar,
+  TouchableNativeFeedback,
+  Platform,
+  KeyboardAvoidingView
+} from "react-native";
+import {
+  responsiveHeight,
+  responsiveWidth,
+  responsiveFontSize
+} from "react-native-responsive-dimensions";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import dismissKeyboard from "react-native-dismiss-keyboard";
+import { Hoshi } from "react-native-textinput-effects";
+
+import IonIcons from "react-native-vector-icons/Ionicons";
+import styles from "../config/styles";
 
 export default class NameScreen extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      firstName: "",
-      lastName: ""
-    };
-  }
-
   static navigationOptions = {
     header: null
   };
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      firstName: "",
+      lastName: "",
+      disabled: true
+    };
+  }
+
+  _checkInput = () => {
+    const { firstName, lastName } = this.state;
+
+    if (firstName == "" || lastName == "") {
+      this.setState(
+        {
+          disabled: true
+        },
+        () => {
+          console.log(this.state);
+        }
+      );
+    } else {
+      this.setState(
+        {
+          disabled: false
+        },
+        () => {
+          console.log("THIS FORM IS VALID");
+        }
+      );
+    }
+  };
   render() {
+    const offset = Platform.OS === "android" ? -500 : 0;
     return (
-      <Foect.Form
-        onValidSubmit={model => {
-          console.log(model.firstName);
-          this.setState(
-            {
-              firstName: model.firstName,
-              lastName: model.lastName
-            },
-            () => console.log(this.state)
-          );
+      <KeyboardAwareScrollView
+        enableOnAndroid={true}
+        enableAutomaticScroll={true}
+        extraHeight={responsiveHeight(10)}
+        style={{
+          flex: 1,
+          backgroundColor: "#FFFFFF"
         }}
       >
-        {/* you can use form for triggering submit or checking form state(form.isSubmitted, form.isValid, ...) */}
-        {form => (
-          <View>
-            {/* every Foect.Control must have a name and optionally validation rules */}
-            <Foect.Control
-              name="firstName"
-              required
-              minLength={2}
-              maxLength={15}
+        <View
+          style={[
+            styles.container,
+            {
+              flex: 1,
+              paddingTop: responsiveHeight(6),
+              height: responsiveHeight(100)
+            }
+          ]}
+        >
+          <StatusBar
+            translucent
+            barStyle="dark-content"
+            backgroundColor={"transparent"}
+            animated
+          />
+          <TouchableNativeFeedback
+            onPress={() => {
+              console.log("TAKE ME BACK !");
+            }}
+            background={
+              Platform.Version >= 21
+                ? TouchableNativeFeedback.Ripple("#000000", true)
+                : TouchableNativeFeedback.SelectableBackground()
+            }
+          >
+            <View
+              style={{
+                width: responsiveWidth(10),
+                paddingTop: responsiveHeight(2)
+              }}
             >
-              {/* you can use control for getting/setting it's value, checking/updating(control.isValid, control.markAsTouched(), ...) it's state, checking it's errors(control.errors.required) */}
-              {control => (
-                <View>
-                  <Text>FIRST NAME</Text>
-
-                  <TextInput
-                    onBlur={control.markAsTouched}
-                    /* update control's value */
-
-                    onChangeText={text => control.onChange(text)}
-                    /* get control's value */
-
-                    value={control.value}
-                  />
-
-                  {/* check control state and show error if necessary */}
-                  {form.isSubmitted &&
-                    control.isInvalid && (
-                      <Text style={{ color: "red" }}>
-                        Please enter your name.
-                      </Text>
-                    )}
-                </View>
-              )}
-            </Foect.Control>
-
-            {/* every Foect.Control must have a name and optionally validation rules */}
-            <Foect.Control
-              name="lastName"
-              required
-              minLength={2}
-              maxLength={15}
-            >
-              {/* you can use control for getting/setting it's value, checking/updating(control.isValid, control.markAsTouched(), ...) it's state, checking it's errors(control.errors.required) */}
-              {control => (
-                <View>
-                  <Text>LAST NAME</Text>
-
-                  <TextInput
-                    onBlur={control.markAsTouched}
-                    /* update control's value */
-
-                    onChangeText={text => control.onChange(text)}
-                    /* get control's value */
-
-                    value={control.value}
-                  />
-
-                  {/* check control state and show error if necessary */}
-                  {form.isSubmitted &&
-                    control.isInvalid && (
-                      <Text style={{ color: "red" }}>
-                        Please enter your name.
-                      </Text>
-                    )}
-                </View>
-              )}
-            </Foect.Control>
-
-            {/* submit form */}
-            <Button
-              // disabled={form.isInvalid}
-              onPress={() => form.submit()}
-              title="Register"
+              <IonIcons
+                name={"md-arrow-back"}
+                size={responsiveFontSize(3.6)}
+                color={"#484848"}
+                style={{
+                  alignSelf: "center",
+                  paddingHorizontal: responsiveWidth(2)
+                }}
+              />
+            </View>
+          </TouchableNativeFeedback>
+          <Text style={style1.headerStyle}>What's your name?</Text>
+          <View
+            style={{
+              paddingTop: responsiveHeight(5),
+              paddingHorizontal: responsiveWidth(2)
+            }}
+          >
+            <Hoshi
+              label={"FIRST NAME"}
+              labelStyle={style1.labelStyle}
+              inputStyle={style1.inputStyle}
+              borderColor={"#484848"}
+              // TextInput props
+              autoCapitalize={"words"}
+              autoCorrect={false}
+              keyboardType="default"
+              returnKeyType={"done"}
+              onSubmitEditing={() => {
+                dismissKeyboard();
+              }}
+              blurOnSubmit={false}
+              onChangeText={text => {
+                this.setState(
+                  {
+                    firstName: text
+                  },
+                  () => {
+                    this._checkInput();
+                  }
+                );
+              }}
             />
           </View>
-        )}
-      </Foect.Form>
+          <View
+            style={{
+              // borderWidth: 1,
+              paddingTop: responsiveHeight(5),
+              paddingHorizontal: responsiveWidth(2)
+            }}
+          >
+            <Hoshi
+              ref={input => {
+                this.secondTextInput = input;
+              }}
+              onSubmitEditing={() => {
+                dismissKeyboard();
+              }}
+              label={"LAST NAME"}
+              labelStyle={style1.labelStyle}
+              inputStyle={style1.inputStyle}
+              borderColor={"#484848"}
+              // TextInput props
+              autoCapitalize={"words"}
+              autoCorrect={false}
+              keyboardType={"default"}
+              onChangeText={text => {
+                this.setState(
+                  {
+                    lastName: text
+                  },
+                  () => {
+                    this._checkInput();
+                  }
+                );
+              }}
+            />
+          </View>
+          <TouchableNativeFeedback
+            disabled={this.state.disabled}
+            onPress={() => {
+              console.log("TAKE ME FORWARD !");
+            }}
+            background={
+              Platform.Version >= 21
+                ? TouchableNativeFeedback.Ripple("#FFFFFF", true)
+                : TouchableNativeFeedback.SelectableBackground()
+            }
+          >
+            <View
+              style={{
+                width: responsiveWidth(15),
+                height: responsiveWidth(15),
+                backgroundColor: this.state.disabled ? "#bcd8d6" : "#00A699",
+                alignItems: "center",
+                justifyContent: "center",
+                position: "absolute",
+                bottom: responsiveWidth(5),
+                right: responsiveWidth(5),
+                borderRadius: responsiveWidth(10),
+                zIndex: 3
+              }}
+            >
+              <IonIcons
+                name={"md-arrow-forward"}
+                size={responsiveFontSize(3.6)}
+                color={"#FFFFFF"}
+                style={{
+                  alignSelf: "center",
+                  paddingHorizontal: responsiveWidth(2)
+                }}
+              />
+            </View>
+          </TouchableNativeFeedback>
+        </View>
+      </KeyboardAwareScrollView>
     );
   }
 }
+
+const style1 = StyleSheet.create({
+  labelStyle: {
+    fontFamily: "CircularStd-Medium",
+    fontSize: responsiveFontSize(2.1),
+    color: "#767676"
+  },
+  inputStyle: {
+    fontFamily: "CircularStd-Medium",
+    fontSize: responsiveFontSize(3),
+    color: "#484848"
+  },
+  headerStyle: {
+    fontFamily: "CircularStd-Bold",
+    fontSize: responsiveFontSize(4),
+    color: "#484848",
+    paddingTop: responsiveHeight(5),
+    paddingHorizontal: responsiveWidth(2)
+  }
+});

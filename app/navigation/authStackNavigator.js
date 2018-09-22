@@ -3,11 +3,10 @@ import getSlideFromRightTransition from "react-navigation-slide-from-right-trans
 
 //import NameScreen from '../app/screens/signup/nameScreen.js';
 //import CreatePassScreen from '../app/screens/signup/createPassScreen.js';
-//import PhoneNumScreen from '../app/screens/signup/phoneNumScreen.js';
-import SignUpScreen from "../screens/Signup";
-import LoginScreen from "../screens/Login";
 import WelcomeScreen from "../screens/WelcomeScreen";
+import LoginScreen from "../screens/Login";
 import NameScreen from "../screens/nameScreen";
+import PhoneNumScreen from "../screens/phoneNumScreen.js";
 import MapScreen from "../screens/mapScreen";
 import CalendarScreen from "../screens/calendar";
 import TimeScreen from "../screens/timeScreen";
@@ -18,7 +17,7 @@ export default createStackNavigator(
   {
     Welcome: WelcomeScreen,
     Name: NameScreen,
-    Signup: SignUpScreen,
+    Phone: PhoneNumScreen,
     Login: LoginScreen,
     Map: MapScreen,
     Calendar: CalendarScreen,
@@ -27,7 +26,7 @@ export default createStackNavigator(
     Detail: DetailScreen
   },
   {
-    initialRouteName: "Signup",
+    initialRouteName: "Phone",
     transitionConfig: getSlideFromRightTransition
   }
 );

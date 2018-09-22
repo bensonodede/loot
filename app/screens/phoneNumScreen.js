@@ -5,7 +5,8 @@ import {
   StyleSheet,
   StatusBar,
   TouchableNativeFeedback,
-  Platform
+  Platform,
+  KeyboardAvoidingView
 } from "react-native";
 import {
   responsiveHeight,
@@ -19,27 +20,60 @@ import { Hoshi } from "react-native-textinput-effects";
 import IonIcons from "react-native-vector-icons/Ionicons";
 import styles from "../config/styles";
 
-export default class SignUpScreen extends React.Component {
+export default class PhoneNumScreen extends React.Component {
   static navigationOptions = {
     header: null
   };
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       firstName: "",
       lastName: "",
-      valid: false
+      disabled: true
     };
   }
 
+  _checkInput = () => {
+    const { firstName, lastName } = this.state;
+
+    if (firstName == "" || lastName == "") {
+      this.setState(
+        {
+          disabled: true
+        },
+        () => {
+          console.log(this.state);
+        }
+      );
+    } else {
+      this.setState(
+        {
+          disabled: false
+        },
+        () => {
+          console.log("THIS FORM IS VALID");
+        }
+      );
+    }
+  };
   render() {
+    const offset = Platform.OS === "android" ? -500 : 0;
     return (
-      <KeyboardAwareScrollView style={{ flex: 1, backgroundColor: "#000" }}>
+      <KeyboardAwareScrollView
+        enableOnAndroid={true}
+        enableAutomaticScroll={true}
+        extraHeight={responsiveHeight(10)}
+        style={{
+          flex: 1,
+          backgroundColor: "#FFFFFF"
+        }}
+      >
         <View
           style={[
             styles.container,
             {
+              flex: 1,
               paddingTop: responsiveHeight(6),
               height: responsiveHeight(100)
             }
@@ -63,7 +97,8 @@ export default class SignUpScreen extends React.Component {
           >
             <View
               style={{
-                width: responsiveWidth(10)
+                width: responsiveWidth(10),
+                paddingTop: responsiveHeight(2)
               }}
             >
               <IonIcons
@@ -77,47 +112,57 @@ export default class SignUpScreen extends React.Component {
               />
             </View>
           </TouchableNativeFeedback>
-          <Text style={style1.headerStyle}>What's your name?</Text>
+          <Text style={style1.headerStyle}>And, your number?</Text>
           <View
             style={{
-              // borderWidth: 1,
-              paddingTop: responsiveWidth(10),
-              paddingHorizontal: responsiveWidth(2)
+              paddingTop: responsiveHeight(5),
+              paddingHorizontal: responsiveWidth(2),
+              flexDirection: "row"
             }}
           >
-            <Hoshi
-              label={"FIRST NAME"}
-              labelStyle={style1.labelStyle}
-              inputStyle={style1.inputStyle}
-              borderColor={"#484848"}
-              // TextInput props
-              autoCapitalize={"words"}
-              autoCorrect={false}
-              keyboardType="default"
-              returnKeyType="done"
-              //onKeyPress={this.handleKeyDown}
-            />
+            <View
+              style={{
+                alignItems: "center",
+                justifyContent: "center",
+                paddingTop: responsiveHeight(1)
+              }}
+            >
+              <Text style={style1.countryCode}>+254</Text>
+            </View>
+            <View style={{ flex: 1, marginLeft: responsiveWidth(2.5) }}>
+              <Hoshi
+                label={""}
+                placeholder={"7123456789"}
+                labelStyle={style1.labelStyle}
+                inputStyle={style1.inputStyle}
+                borderColor={"#484848"}
+                // TextInput props
+                autoCapitalize={"words"}
+                autoCorrect={false}
+                keyboardType={"numeric"}
+                returnKeyType={"done"}
+                onSubmitEditing={() => {
+                  dismissKeyboard();
+                }}
+                blurOnSubmit={false}
+                onChangeText={text => {
+                  this.setState(
+                    {
+                      firstName: text
+                    },
+                    () => {
+                      this._checkInput();
+                    }
+                  );
+                }}
+              />
+            </View>
           </View>
-          <View
-            style={{
-              // borderWidth: 1,
-              paddingTop: responsiveWidth(8),
-              paddingHorizontal: responsiveWidth(2)
-            }}
-          >
-            <Hoshi
-              label={"LAST NAME"}
-              labelStyle={style1.labelStyle}
-              inputStyle={style1.inputStyle}
-              borderColor={"#484848"}
-              // TextInput props
-              autoCapitalize={"words"}
-              autoCorrect={false}
-            />
-          </View>
+
           <TouchableNativeFeedback
+            disabled={this.state.disabled}
             onPress={() => {
-              console.log("TAKE ME BACK !");
+              console.log("TAKE ME FORWARD !");
             }}
             background={
               Platform.Version >= 21
@@ -129,13 +174,14 @@ export default class SignUpScreen extends React.Component {
               style={{
                 width: responsiveWidth(15),
                 height: responsiveWidth(15),
-                backgroundColor: "#00A699",
+                backgroundColor: this.state.disabled ? "#bcd8d6" : "#00A699",
                 alignItems: "center",
                 justifyContent: "center",
                 position: "absolute",
                 bottom: responsiveWidth(5),
                 right: responsiveWidth(5),
-                borderRadius: responsiveWidth(10)
+                borderRadius: responsiveWidth(10),
+                zIndex: 3
               }}
             >
               <IonIcons
@@ -158,7 +204,7 @@ export default class SignUpScreen extends React.Component {
 const style1 = StyleSheet.create({
   labelStyle: {
     fontFamily: "CircularStd-Medium",
-    fontSize: responsiveFontSize(2.2),
+    fontSize: responsiveFontSize(2.1),
     color: "#767676"
   },
   inputStyle: {
@@ -172,5 +218,14 @@ const style1 = StyleSheet.create({
     color: "#484848",
     paddingTop: responsiveHeight(5),
     paddingHorizontal: responsiveWidth(2)
+  },
+  countryCode: {
+    fontFamily: "CircularStd-Medium",
+    fontSize: responsiveFontSize(2.5),
+    color: "#FFFFFF",
+    backgroundColor: "#484848",
+    paddingVertical: responsiveHeight(2),
+    paddingHorizontal: responsiveWidth(3),
+    borderRadius: responsiveWidth(1)
   }
 });
