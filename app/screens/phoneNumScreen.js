@@ -6,18 +6,22 @@ import {
   StatusBar,
   TouchableNativeFeedback,
   Platform,
-  KeyboardAvoidingView
+  Alert
 } from "react-native";
 import {
   responsiveHeight,
   responsiveWidth,
   responsiveFontSize
 } from "react-native-responsive-dimensions";
+import firebase from "react-native-firebase";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import dismissKeyboard from "react-native-dismiss-keyboard";
 import { Hoshi } from "react-native-textinput-effects";
+import { parseNumber } from "libphonenumber-js";
+import dismissKeyboard from "react-native-dismiss-keyboard";
+import Spinner from "react-native-loading-spinner-overlay";
 
 import IonIcons from "react-native-vector-icons/Ionicons";
+
 import styles from "../config/styles";
 
 export default class PhoneNumScreen extends React.Component {
@@ -28,42 +32,71 @@ export default class PhoneNumScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      firstName: "",
-      lastName: "",
-      disabled: true
+      phoneNum: "",
+      phoneValid: "",
+      errorMsg: "",
+      disabled: true,
+      sending: false
     };
   }
 
-  _checkInput = () => {
-    const { firstName, lastName } = this.state;
+  _goToNext = confirmResult => {
+    this.props.navigation.navigate("Pin", {
+      confirmResult: confirmResult
+    });
+  };
 
-    if (firstName == "" || lastName == "") {
+  _goBack = () => {
+    this.props.navigation.goBack();
+  };
+
+  _formatNum = () => {
+    const { phoneNum } = this.state;
+    const phoneValid = parseNumber("Phone: +254" + phoneNum, "KE");
+    if (phoneValid.phone == null) {
+      this.setState({ disabled: true });
+    } else {
       this.setState(
-        {
-          disabled: true
-        },
+        { disabled: false, phoneValid: "+254" + phoneValid.phone },
         () => {
           console.log(this.state);
         }
       );
-    } else {
-      this.setState(
-        {
-          disabled: false
-        },
-        () => {
-          console.log("THIS FORM IS VALID");
-        }
-      );
     }
   };
+
+  _sendMsg = () => {
+    /* firebase
+      .auth()
+      .signInWithPhoneNumber(phoneValid)
+      .then(confirmResult =>
+        this.setState({ sending: false }, () => {
+          this._goToNext(confirmResult);
+          console.log(this.state);
+        })
+      )
+      .catch(error =>
+        this.setState({ sending: false, errorMsg: error }, () => {
+          console.log(this.state);
+        })
+      );*/
+    setTimeout(() => {
+      console.log(this.state);
+      this.setState({ sending: false });
+    }, 5000);
+  };
+
+  _signIn() {
+    this.setState({ sending: true }, () => {
+      this._sendMsg();
+      console.log(this.state);
+    });
+  }
   render() {
-    const offset = Platform.OS === "android" ? -500 : 0;
     return (
       <KeyboardAwareScrollView
         enableOnAndroid={true}
         enableAutomaticScroll={true}
-        extraHeight={responsiveHeight(10)}
         style={{
           flex: 1,
           backgroundColor: "#FFFFFF"
@@ -79,16 +112,26 @@ export default class PhoneNumScreen extends React.Component {
             }
           ]}
         >
+          <Spinner
+            visible={this.state.sending}
+            animation={"slide"}
+            color={"#FF5A5F"}
+            size={"normal"}
+            overlayColor={"rgba(0, 0, 0, 0.25)"}
+          />
           <StatusBar
             translucent
             barStyle="dark-content"
-            backgroundColor={"transparent"}
+            backgroundColor={
+              this.state.sending ? "rgba(0, 0, 0, 0.25)" : "transparent"
+            }
             animated
           />
           <TouchableNativeFeedback
             onPress={() => {
-              console.log("TAKE ME BACK !");
+              this._goBack;
             }}
+            style={{ justifyContent: "center" }}
             background={
               Platform.Version >= 21
                 ? TouchableNativeFeedback.Ripple("#000000", true)
@@ -98,7 +141,9 @@ export default class PhoneNumScreen extends React.Component {
             <View
               style={{
                 width: responsiveWidth(10),
-                paddingTop: responsiveHeight(2)
+                paddingTop: responsiveHeight(2),
+                alignItems: "center",
+                justifyContent: "center"
               }}
             >
               <IonIcons
@@ -113,6 +158,9 @@ export default class PhoneNumScreen extends React.Component {
             </View>
           </TouchableNativeFeedback>
           <Text style={style1.headerStyle}>And, your number?</Text>
+          <Text style={style1.moreInfoStyle}>
+            This is so we can contact you for deliveries and pickups.
+          </Text>
           <View
             style={{
               paddingTop: responsiveHeight(5),
@@ -132,15 +180,17 @@ export default class PhoneNumScreen extends React.Component {
             <View style={{ flex: 1, marginLeft: responsiveWidth(2.5) }}>
               <Hoshi
                 label={""}
-                placeholder={"7123456789"}
+                placeholder={"712345678"}
                 labelStyle={style1.labelStyle}
                 inputStyle={style1.inputStyle}
                 borderColor={"#484848"}
                 // TextInput props
                 autoCapitalize={"words"}
                 autoCorrect={false}
-                keyboardType={"numeric"}
+                autoFocus={false}
+                keyboardType={"phone-pad"}
                 returnKeyType={"done"}
+                maxLength={10}
                 onSubmitEditing={() => {
                   dismissKeyboard();
                 }}
@@ -148,10 +198,10 @@ export default class PhoneNumScreen extends React.Component {
                 onChangeText={text => {
                   this.setState(
                     {
-                      firstName: text
+                      phoneNum: text
                     },
                     () => {
-                      this._checkInput();
+                      this._formatNum();
                     }
                   );
                 }}
@@ -162,7 +212,7 @@ export default class PhoneNumScreen extends React.Component {
           <TouchableNativeFeedback
             disabled={this.state.disabled}
             onPress={() => {
-              console.log("TAKE ME FORWARD !");
+              this._signIn();
             }}
             background={
               Platform.Version >= 21
@@ -219,9 +269,16 @@ const style1 = StyleSheet.create({
     paddingTop: responsiveHeight(5),
     paddingHorizontal: responsiveWidth(2)
   },
-  countryCode: {
+  moreInfoStyle: {
     fontFamily: "CircularStd-Medium",
     fontSize: responsiveFontSize(2.5),
+    color: "#484848",
+    paddingTop: responsiveHeight(3),
+    paddingHorizontal: responsiveWidth(2)
+  },
+  countryCode: {
+    fontFamily: "CircularStd-Medium",
+    fontSize: responsiveFontSize(2.8),
     color: "#FFFFFF",
     backgroundColor: "#484848",
     paddingVertical: responsiveHeight(2),

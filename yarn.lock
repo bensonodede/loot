@@ -3964,6 +3964,14 @@ levn@^0.3.0, levn@~0.3.0:
     prelude-ls "~1.1.2"
     type-check "~0.3.2"
 
+libphonenumber-js@^1.4.7:
+  version "1.4.7"
+  resolved "https://registry.yarnpkg.com/libphonenumber-js/-/libphonenumber-js-1.4.7.tgz#45c6ab77046d851ef4b7ab6dd30810d7db8e6f40"
+  dependencies:
+    minimist "^1.2.0"
+    semver-compare "^1.0.0"
+    xml2js "^0.4.17"
+
 load-json-file@^1.0.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/load-json-file/-/load-json-file-1.1.0.tgz#956905708d58b4bab4c2261b04f59f31c99374c0"
@@ -4354,6 +4362,10 @@ moment-range@^4.0.1:
   resolved "https://registry.yarnpkg.com/moment-range/-/moment-range-4.0.1.tgz#1ae8cf209dded0a5ce5e16603146265b3906a86f"
   dependencies:
     es6-symbol "^3.1.0"
+
+moment@2.19.3:
+  version "2.19.3"
+  resolved "https://registry.yarnpkg.com/moment/-/moment-2.19.3.tgz#bdb99d270d6d7fda78cc0fbace855e27fe7da69f"
 
 moment@^2.17.1, moment@^2.22.2:
   version "2.22.2"
@@ -5037,6 +5049,13 @@ react-native-cancelable-fetch@^0.1.1:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/react-native-cancelable-fetch/-/react-native-cancelable-fetch-0.1.1.tgz#aab030b44b426f19d558cebe1cd910397572380d"
 
+react-native-confirmation-code-input@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/react-native-confirmation-code-input/-/react-native-confirmation-code-input-1.0.4.tgz#f5c2cced66f26b61050fea8bfd17473af1ad5ff9"
+  dependencies:
+    lodash "^4.17.4"
+    prop-types "^15.5.10"
+
 react-native-dismiss-keyboard@1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/react-native-dismiss-keyboard/-/react-native-dismiss-keyboard-1.0.0.tgz#32886242b3f2317e121f3aeb9b0a585e2b879b49"
@@ -5079,9 +5098,13 @@ react-native-keyboard-aware-scroll-view@^0.7.2:
     prop-types "^15.6.2"
     react-native-iphone-x-helper "^1.0.3"
 
-"react-native-location-view@https://github.com/bensonodede/react-native-location-view/tarball/master":
+react-native-loading-spinner-overlay@^0.5.2:
+  version "0.5.2"
+  resolved "https://registry.yarnpkg.com/react-native-loading-spinner-overlay/-/react-native-loading-spinner-overlay-0.5.2.tgz#b7bcd277476d596615fd7feee601789f9bdc7acc"
+
+react-native-location-view@^0.1.5:
   version "0.1.5"
-  resolved "https://github.com/bensonodede/react-native-location-view/tarball/master#ad3977c8d261564951ebce8d34a506acb0cd825d"
+  resolved "https://registry.yarnpkg.com/react-native-location-view/-/react-native-location-view-0.1.5.tgz#9eeab02e65121712a787df24a82135c65c6eb93e"
   dependencies:
     prop-types "^15.6.0"
     react-native-cancelable-fetch "^0.1.1"
@@ -5094,9 +5117,16 @@ react-native-maps@^0.21.0:
     babel-plugin-module-resolver "^2.3.0"
     babel-preset-react-native "1.9.0"
 
-"react-native-range-datepicker@https://github.com/bensonodede/react-native-range-datepicker/tarball/master":
+react-native-masked-text@^1.9.1:
+  version "1.9.1"
+  resolved "https://registry.yarnpkg.com/react-native-masked-text/-/react-native-masked-text-1.9.1.tgz#ffe5b626c4db8e1c10933e4b47bd82117e01783b"
+  dependencies:
+    moment "2.19.3"
+    tinymask "^1.0.2"
+
+react-native-range-datepicker@^1.8.2:
   version "1.8.2"
-  resolved "https://github.com/bensonodede/react-native-range-datepicker/tarball/master#98d80d3f22d2a147ad7dcf470d6c4ab467f924e8"
+  resolved "https://registry.yarnpkg.com/react-native-range-datepicker/-/react-native-range-datepicker-1.8.2.tgz#0cc77d029220aee3dba2bcaf2bdd678d1fbd4056"
   dependencies:
     moment "^2.17.1"
     prop-types "^15.6.0"
@@ -5153,9 +5183,9 @@ react-native-tab-view@^1.0.0:
   dependencies:
     prop-types "^15.6.1"
 
-"react-native-textinput-effects@https://github.com/bensonodede/react-native-textinput-effects/tarball/master":
+react-native-textinput-effects@^0.4.2:
   version "0.4.2"
-  resolved "https://github.com/bensonodede/react-native-textinput-effects/tarball/master#67f11e921fcf47f918e1c756ae266f0e04d9025c"
+  resolved "https://registry.yarnpkg.com/react-native-textinput-effects/-/react-native-textinput-effects-0.4.2.tgz#05336a8ed9e4992397fc5de714692d774eb91b07"
 
 react-native-vector-icons@^5.0.0:
   version "5.0.0"
@@ -5627,13 +5657,17 @@ sane@^2.0.0:
   optionalDependencies:
     fsevents "^1.2.3"
 
-sax@^1.2.4:
+sax@>=0.6.0, sax@^1.2.4:
   version "1.2.4"
   resolved "https://registry.yarnpkg.com/sax/-/sax-1.2.4.tgz#2816234e2378bddc4e5354fab5caa895df7100d9"
 
 sax@~1.1.1:
   version "1.1.6"
   resolved "https://registry.yarnpkg.com/sax/-/sax-1.1.6.tgz#5d616be8a5e607d54e114afae55b7eaf2fcc3240"
+
+semver-compare@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/semver-compare/-/semver-compare-1.0.0.tgz#0dee216a1c941ab37e9efb1788f6afc5ff5537fc"
 
 semver-diff@^2.0.0:
   version "2.1.0"
@@ -6078,6 +6112,10 @@ timed-out@^4.0.0:
   version "4.0.1"
   resolved "https://registry.yarnpkg.com/timed-out/-/timed-out-4.0.1.tgz#f32eacac5a175bea25d7fab565ab3ed8741ef56f"
 
+tinymask@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/tinymask/-/tinymask-1.0.2.tgz#df3775a94087b0d3d056c256e8923c01b7ec0941"
+
 tmp@^0.0.31:
   version "0.0.31"
   resolved "https://registry.yarnpkg.com/tmp/-/tmp-0.0.31.tgz#8f38ab9438e17315e5dbd8b3657e8bfb277ae4a7"
@@ -6474,6 +6512,13 @@ xml-name-validator@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/xml-name-validator/-/xml-name-validator-3.0.0.tgz#6ae73e06de4d8c6e47f9fb181f78d648ad457c6a"
 
+xml2js@^0.4.17:
+  version "0.4.19"
+  resolved "https://registry.yarnpkg.com/xml2js/-/xml2js-0.4.19.tgz#686c20f213209e94abf0d1bcf1efaa291c7827a7"
+  dependencies:
+    sax ">=0.6.0"
+    xmlbuilder "~9.0.1"
+
 xmlbuilder@4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/xmlbuilder/-/xmlbuilder-4.0.0.tgz#98b8f651ca30aa624036f127d11cc66dc7b907a3"
@@ -6483,6 +6528,10 @@ xmlbuilder@4.0.0:
 xmlbuilder@8.2.2:
   version "8.2.2"
   resolved "https://registry.yarnpkg.com/xmlbuilder/-/xmlbuilder-8.2.2.tgz#69248673410b4ba42e1a6136551d2922335aa773"
+
+xmlbuilder@~9.0.1:
+  version "9.0.7"
+  resolved "https://registry.yarnpkg.com/xmlbuilder/-/xmlbuilder-9.0.7.tgz#132ee63d2ec5565c557e20f4c22df9aca686b10d"
 
 xmldoc@^0.4.0:
   version "0.4.0"
