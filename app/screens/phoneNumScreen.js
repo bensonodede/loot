@@ -21,7 +21,6 @@ import dismissKeyboard from "react-native-dismiss-keyboard";
 import Spinner from "react-native-loading-spinner-overlay";
 
 import IonIcons from "react-native-vector-icons/Ionicons";
-
 import styles from "../config/styles";
 
 export default class PhoneNumScreen extends React.Component {
@@ -66,24 +65,23 @@ export default class PhoneNumScreen extends React.Component {
   };
 
   _sendMsg = () => {
-    /* firebase
-      .auth()
-      .signInWithPhoneNumber(phoneValid)
-      .then(confirmResult =>
-        this.setState({ sending: false }, () => {
-          this._goToNext(confirmResult);
-          console.log(this.state);
-        })
-      )
-      .catch(error =>
-        this.setState({ sending: false, errorMsg: error }, () => {
-          console.log(this.state);
-        })
-      );*/
     setTimeout(() => {
-      console.log(this.state);
-      this.setState({ sending: false });
-    }, 5000);
+      firebase
+        .auth()
+        .signInWithPhoneNumber(this.state.phoneValid)
+        .then(confirmResult =>
+          this.setState({ sending: false }, () => {
+            this._goToNext(confirmResult);
+            console.log(confirmResult);
+            console.log(this.state);
+          })
+        )
+        .catch(error =>
+          this.setState({ sending: false, errorMsg: error }, () => {
+            console.log(this.state);
+          })
+        );
+    }, 500);
   };
 
   _signIn() {
@@ -115,15 +113,15 @@ export default class PhoneNumScreen extends React.Component {
           <Spinner
             visible={this.state.sending}
             animation={"slide"}
-            color={"#FF5A5F"}
-            size={"normal"}
-            overlayColor={"rgba(0, 0, 0, 0.25)"}
+            color={"#FFFFFF"}
+            //size={"normal"}
+            overlayColor={"rgba(0, 0, 0, 0.35)"}
           />
           <StatusBar
             translucent
             barStyle="dark-content"
             backgroundColor={
-              this.state.sending ? "rgba(0, 0, 0, 0.25)" : "transparent"
+              this.state.sending ? "rgba(0, 0, 0, 0.35)" : "transparent"
             }
             animated
           />

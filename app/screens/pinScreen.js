@@ -15,8 +15,6 @@ import {
 } from "react-native-responsive-dimensions";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import dismissKeyboard from "react-native-dismiss-keyboard";
-import { Hoshi } from "react-native-textinput-effects";
-import { parseNumber } from "libphonenumber-js";
 import firebase from "react-native-firebase";
 import CodeInput from "react-native-confirmation-code-input";
 
@@ -31,24 +29,52 @@ export default class PinScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      phoneNum: "",
-      disabled: true,
-      phoneValid: ""
+      confirmResult: null
     };
   }
 
-  _onFinishCheckingCode(isValid) {
-    console.log(isValid);
-    if (!isValid) {
-      Alert.alert("Confirmation Code", "Code not match!", [{ text: "OK" }], {
-        cancelable: true
-      });
-    } else {
-      Alert.alert("Confirmation Code", "Successful!", [{ text: "OK" }], {
-        cancelable: true
-      });
+  componentDidMount() {
+    const confirmResult = this.props.navigation.getParam("confirmResult");
+    this.setState({ confirmResult }, () => {
+      console.log(this.state);
+    });
+  }
+  _goBack = () => {
+    this.props.navigation.goBack();
+  };
+
+  _checkCode(code) {
+    console.log(code);
+
+    if (confirmResult) {
+      this.state.confirmResult
+        .confirm(code)
+        .then(user => {
+          Alert.alert(
+            "Confirmation Code",
+            "Code YES match!",
+            [{ text: "OK" }],
+            {
+              cancelable: true
+            }
+          );
+        })
+        .catch(error =>
+          Alert.alert("Confirmation Code", "Code NO match!", [{ text: "OK" }], {
+            cancelable: true
+          })
+        );
     }
   }
+  //if (!isValid) {
+  //  Alert.alert("Confirmation Code", "Code not match!", [{ text: "OK" }], {
+  //    cancelable: true
+  //  });
+  //} else {
+  //  Alert.alert("Confirmation Code", "Successful!", [{ text: "OK" }], {
+  //    cancelable: true
+  //  });
+  //}
 
   render() {
     return (
@@ -78,7 +104,7 @@ export default class PinScreen extends React.Component {
           />
           <TouchableNativeFeedback
             onPress={() => {
-              console.log("TAKE ME BACK !");
+              this._goBack;
             }}
             background={
               Platform.Version >= 21
@@ -113,19 +139,23 @@ export default class PinScreen extends React.Component {
           >
             <View style={{ flex: 1, marginLeft: responsiveWidth(2.5) }}>
               <CodeInput
-                ref="pinInput"
+                ref={"pinInput"}
                 keyboardType={"phone-pad"}
-                compareWithCode="12345"
-                activeColor="#00A699"
-                inactiveColor="#00A699"
+                codeLength={6}
+                activeColor={"#00A699"}
+                inactiveColor={"#00A699"}
                 autoFocus={true}
                 ignoreCase={true}
                 inputPosition="center"
                 className={"border-circle"}
                 size={responsiveFontSize(6.5)}
-                onFulfill={isValid => this._onFinishCheckingCode(isValid)}
+                onFulfill={code => this._checkCode(code)}
                 cellBorderWidth={2}
                 codeInputStyle={style1.inputStyle}
+                onSubmitEditing={() => {
+                  dismissKeyboard();
+                }}
+                blurOnSubmit={false}
               />
             </View>
           </View>

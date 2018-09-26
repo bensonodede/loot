@@ -52,7 +52,7 @@ export default class NameScreen extends React.Component {
           disabled: false
         },
         () => {
-          console.log("THIS FORM IS VALID");
+          console.log(this.state);
         }
       );
     }
@@ -182,7 +182,7 @@ export default class NameScreen extends React.Component {
           <TouchableNativeFeedback
             disabled={this.state.disabled}
             onPress={() => {
-              console.log("TAKE ME FORWARD !");
+              console.log(this.state);
             }}
             background={
               Platform.Version >= 21
