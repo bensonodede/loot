@@ -14,8 +14,9 @@ import {
   responsiveFontSize
 } from "react-native-responsive-dimensions";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import dismissKeyboard from "react-native-dismiss-keyboard";
 import { Hoshi } from "react-native-textinput-effects";
+import Ripple from "react-native-material-ripple";
+import dismissKeyboard from "react-native-dismiss-keyboard";
 
 import IonIcons from "react-native-vector-icons/Ionicons";
 import styles from "../config/styles";
@@ -85,33 +86,45 @@ export default class NameScreen extends React.Component {
             backgroundColor={"transparent"}
             animated
           />
-          <TouchableNativeFeedback
-            onPress={() => {
-              console.log("TAKE ME BACK !");
+
+          <View
+            style={{
+              width: responsiveWidth(15),
+              height: responsiveWidth(15),
+              borderRadius: responsiveWidth(15),
+              marginLeft: responsiveWidth(-2)
             }}
-            background={
-              Platform.Version >= 21
-                ? TouchableNativeFeedback.Ripple("#000000", true)
-                : TouchableNativeFeedback.SelectableBackground()
-            }
           >
-            <View
-              style={{
-                width: responsiveWidth(10),
-                paddingTop: responsiveHeight(2)
+            <Ripple
+              rippleColor={"#000000"}
+              rippleContainerBorderRadius={responsiveWidth(15)}
+              onPressIn={() => {
+                this.props.navigation.goBack();
               }}
             >
-              <IonIcons
-                name={"md-arrow-back"}
-                size={responsiveFontSize(3.6)}
-                color={"#484848"}
+              <View
                 style={{
-                  alignSelf: "center",
-                  paddingHorizontal: responsiveWidth(2)
+                  borderRadius: responsiveWidth(15),
+                  width: responsiveWidth(15),
+                  height: responsiveWidth(15),
+                  paddingVertical: responsiveHeight(2),
+                  backgroundColor: "transparent",
+                  justifyContent: "center"
                 }}
-              />
-            </View>
-          </TouchableNativeFeedback>
+              >
+                <IonIcons
+                  name={"md-arrow-back"}
+                  size={responsiveFontSize(3.6)}
+                  color={"#484848"}
+                  style={{
+                    alignSelf: "center",
+                    paddingHorizontal: responsiveWidth(2)
+                  }}
+                />
+              </View>
+            </Ripple>
+          </View>
+
           <Text style={style1.headerStyle}>What's your name?</Text>
           <View
             style={{
@@ -179,42 +192,49 @@ export default class NameScreen extends React.Component {
               }}
             />
           </View>
-          <TouchableNativeFeedback
-            disabled={this.state.disabled}
-            onPress={() => {
-              console.log(this.state);
+
+          <View
+            style={{
+              width: responsiveWidth(15),
+              height: responsiveWidth(15),
+              borderRadius: responsiveWidth(15),
+              position: "absolute",
+              bottom: responsiveWidth(5),
+              right: responsiveWidth(5),
+              borderRadius: responsiveWidth(10),
+              zIndex: 3
             }}
-            background={
-              Platform.Version >= 21
-                ? TouchableNativeFeedback.Ripple("#FFFFFF", true)
-                : TouchableNativeFeedback.SelectableBackground()
-            }
           >
-            <View
-              style={{
-                width: responsiveWidth(15),
-                height: responsiveWidth(15),
-                backgroundColor: this.state.disabled ? "#bcd8d6" : "#00A699",
-                alignItems: "center",
-                justifyContent: "center",
-                position: "absolute",
-                bottom: responsiveWidth(5),
-                right: responsiveWidth(5),
-                borderRadius: responsiveWidth(10),
-                zIndex: 3
+            <Ripple
+              disabled={this.state.disabled}
+              rippleColor={"#000000"}
+              rippleContainerBorderRadius={responsiveWidth(15)}
+              onPressIn={() => {
+                console.log(this.state);
               }}
             >
-              <IonIcons
-                name={"md-arrow-forward"}
-                size={responsiveFontSize(3.6)}
-                color={"#FFFFFF"}
+              <View
                 style={{
-                  alignSelf: "center",
-                  paddingHorizontal: responsiveWidth(2)
+                  borderRadius: responsiveWidth(15),
+                  width: responsiveWidth(15),
+                  height: responsiveWidth(15),
+                  paddingVertical: responsiveHeight(2),
+                  backgroundColor: this.state.disabled ? "#bcd8d6" : "#00A699",
+                  justifyContent: "center"
                 }}
-              />
-            </View>
-          </TouchableNativeFeedback>
+              >
+                <IonIcons
+                  name={"md-arrow-forward"}
+                  size={responsiveFontSize(3.6)}
+                  color={"#FFFFFF"}
+                  style={{
+                    alignSelf: "center",
+                    paddingHorizontal: responsiveWidth(2)
+                  }}
+                />
+              </View>
+            </Ripple>
+          </View>
         </View>
       </KeyboardAwareScrollView>
     );

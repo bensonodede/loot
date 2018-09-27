@@ -5,7 +5,8 @@ import {
   Text,
   FlatList,
   Image,
-  TouchableWithoutFeedback
+  TouchableWithoutFeedback,
+  Button
 } from "react-native";
 import firebase from "react-native-firebase";
 import {
@@ -62,6 +63,9 @@ export default class FeedScreen extends React.Component {
     );
   };
 
+  signOut = () => {
+    firebase.auth().signOut();
+  };
   renderHeader = () => {
     return (
       <View>
@@ -78,6 +82,12 @@ export default class FeedScreen extends React.Component {
         >
           Featured
         </Text>
+        <Button
+          title={"SIGN OUT"}
+          onPress={() => {
+            this.signOut;
+          }}
+        />
       </View>
     );
   };
@@ -107,6 +117,18 @@ export default class FeedScreen extends React.Component {
           barStyle="dark-content"
           backgroundColor={"#FFFFFF"}
           animated
+        />
+        <Button
+          onPress={() => {
+            firebase
+              .auth()
+              .signOut()
+              .then(() => {
+                console.log("SIGNED OUT");
+              })
+              .catch(error => console.log(error));
+          }}
+          title={"SIGN OUT"}
         />
         <FlatList
           showsVerticalScrollIndicator={false}

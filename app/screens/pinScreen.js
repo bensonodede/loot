@@ -6,7 +6,8 @@ import {
   StatusBar,
   TouchableNativeFeedback,
   Platform,
-  Alert
+  Alert,
+  Button
 } from "react-native";
 import {
   responsiveHeight,
@@ -34,6 +35,14 @@ export default class PinScreen extends React.Component {
   }
 
   componentDidMount() {
+    this.unsubscribe = firebase.auth().onAuthStateChanged(user => {
+      if (user) {
+        //this.setState({ user: user.toJSON() });
+        console.log(user);
+      } else {
+        console.log("NO USER");
+      }
+    });
     const confirmResult = this.props.navigation.getParam("confirmResult");
     this.setState({ confirmResult }, () => {
       console.log(this.state);
@@ -42,14 +51,18 @@ export default class PinScreen extends React.Component {
   _goBack = () => {
     this.props.navigation.goBack();
   };
+  signOut = () => {
+    firebase.auth().signOut();
+  };
 
   _checkCode(code) {
     console.log(code);
 
-    if (confirmResult) {
+    if (this.state.confirmResult) {
       this.state.confirmResult
         .confirm(code)
         .then(user => {
+          console.log(user);
           Alert.alert(
             "Confirmation Code",
             "Code YES match!",
@@ -60,9 +73,10 @@ export default class PinScreen extends React.Component {
           );
         })
         .catch(error =>
-          Alert.alert("Confirmation Code", "Code NO match!", [{ text: "OK" }], {
-            cancelable: true
-          })
+          //Alert.alert("Confirmation Code", "Code NO match!", [{ text: "OK" }], {
+          //  cancelable: true
+          //});
+          console.log(error)
         );
     }
   }
@@ -137,6 +151,12 @@ export default class PinScreen extends React.Component {
               flexDirection: "row"
             }}
           >
+            <Button
+              onPress={() => {
+                this.signOut;
+              }}
+              title={"SIGN OUT"}
+            />
             <View style={{ flex: 1, marginLeft: responsiveWidth(2.5) }}>
               <CodeInput
                 ref={"pinInput"}

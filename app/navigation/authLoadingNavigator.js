@@ -1,7 +1,7 @@
 import { createStackNavigator } from "react-navigation";
 
-import AuthLoadingScreen from "../screens/authLoadingScreen";
+import SplashScreen from "../screens/splashScreen";
 
 export default createStackNavigator({
-  AuthLoading: AuthLoadingScreen
+  AuthLoading: SplashScreen
 });

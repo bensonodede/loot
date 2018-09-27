@@ -6,7 +6,7 @@ import {
   StatusBar,
   TouchableNativeFeedback,
   Platform,
-  Alert
+  Button
 } from "react-native";
 import {
   responsiveHeight,
@@ -19,6 +19,8 @@ import { Hoshi } from "react-native-textinput-effects";
 import { parseNumber } from "libphonenumber-js";
 import dismissKeyboard from "react-native-dismiss-keyboard";
 import Spinner from "react-native-loading-spinner-overlay";
+import Ripple from "react-native-material-ripple";
+import { TextInputMask } from "react-native-masked-text";
 
 import IonIcons from "react-native-vector-icons/Ionicons";
 import styles from "../config/styles";
@@ -30,6 +32,7 @@ export default class PhoneNumScreen extends React.Component {
 
   constructor(props) {
     super(props);
+    this.unsubscribe = null;
     this.state = {
       phoneNum: "",
       phoneValid: "",
@@ -37,6 +40,17 @@ export default class PhoneNumScreen extends React.Component {
       disabled: true,
       sending: false
     };
+  }
+
+  componentDidMount() {
+    this.unsubscribe = firebase.auth().onAuthStateChanged(user => {
+      if (user) {
+        console.log(user);
+        this.props.navigation.navigate("Feed");
+      } else {
+        console.log("NO USER");
+      }
+    });
   }
 
   _goToNext = confirmResult => {
@@ -125,36 +139,43 @@ export default class PhoneNumScreen extends React.Component {
             }
             animated
           />
-          <TouchableNativeFeedback
-            onPress={() => {
-              this._goBack;
+          <View
+            style={{
+              width: responsiveWidth(15),
+              height: responsiveWidth(15),
+              borderRadius: responsiveWidth(15),
+              marginLeft: responsiveWidth(-2)
             }}
-            style={{ justifyContent: "center" }}
-            background={
-              Platform.Version >= 21
-                ? TouchableNativeFeedback.Ripple("#000000", true)
-                : TouchableNativeFeedback.SelectableBackground()
-            }
           >
-            <View
-              style={{
-                width: responsiveWidth(10),
-                paddingTop: responsiveHeight(2),
-                alignItems: "center",
-                justifyContent: "center"
+            <Ripple
+              rippleColor={"#000000"}
+              rippleContainerBorderRadius={responsiveWidth(15)}
+              onPressIn={() => {
+                this.props.navigation.goBack();
               }}
             >
-              <IonIcons
-                name={"md-arrow-back"}
-                size={responsiveFontSize(3.6)}
-                color={"#484848"}
+              <View
                 style={{
-                  alignSelf: "center",
-                  paddingHorizontal: responsiveWidth(2)
+                  borderRadius: responsiveWidth(15),
+                  width: responsiveWidth(15),
+                  height: responsiveWidth(15),
+                  paddingVertical: responsiveHeight(2),
+                  backgroundColor: "transparent",
+                  justifyContent: "center"
                 }}
-              />
-            </View>
-          </TouchableNativeFeedback>
+              >
+                <IonIcons
+                  name={"md-arrow-back"}
+                  size={responsiveFontSize(3.6)}
+                  color={"#484848"}
+                  style={{
+                    alignSelf: "center",
+                    paddingHorizontal: responsiveWidth(2)
+                  }}
+                />
+              </View>
+            </Ripple>
+          </View>
           <Text style={style1.headerStyle}>And, your number?</Text>
           <Text style={style1.moreInfoStyle}>
             This is so we can contact you for deliveries and pickups.
@@ -176,7 +197,7 @@ export default class PhoneNumScreen extends React.Component {
               <Text style={style1.countryCode}>+254</Text>
             </View>
             <View style={{ flex: 1, marginLeft: responsiveWidth(2.5) }}>
-              <Hoshi
+              {/* <Hoshi
                 label={""}
                 placeholder={"712345678"}
                 labelStyle={style1.labelStyle}
@@ -203,46 +224,72 @@ export default class PhoneNumScreen extends React.Component {
                     }
                   );
                 }}
+              />*/}
+              <TextInputMask
+                refInput={ref => (this._myDatetimeField = ref)}
+                // here we set the custom component and their props.
+                customTextInput={Hoshi}
+                customTextInputProps={{
+                  label: "",
+                  labelStyle: style1.labelStyle,
+                  inputStyle: style1.inputStyle,
+                  maxLength: 10
+                }}
+                type={"custom"}
+                options={{
+                  mask: "999 999999"
+                }}
+                // don't forget: the value and state!
+                onChangeText={datetime => {
+                  console.log(this._myDatetimeField.getElement());
+                }}
+                value={this.state.birthday}
               />
             </View>
           </View>
 
-          <TouchableNativeFeedback
-            disabled={this.state.disabled}
-            onPress={() => {
-              this._signIn();
+          <View
+            style={{
+              width: responsiveWidth(15),
+              height: responsiveWidth(15),
+              borderRadius: responsiveWidth(15),
+              position: "absolute",
+              bottom: responsiveWidth(5),
+              right: responsiveWidth(5),
+              borderRadius: responsiveWidth(10),
+              zIndex: 3
             }}
-            background={
-              Platform.Version >= 21
-                ? TouchableNativeFeedback.Ripple("#FFFFFF", true)
-                : TouchableNativeFeedback.SelectableBackground()
-            }
           >
-            <View
-              style={{
-                width: responsiveWidth(15),
-                height: responsiveWidth(15),
-                backgroundColor: this.state.disabled ? "#bcd8d6" : "#00A699",
-                alignItems: "center",
-                justifyContent: "center",
-                position: "absolute",
-                bottom: responsiveWidth(5),
-                right: responsiveWidth(5),
-                borderRadius: responsiveWidth(10),
-                zIndex: 3
+            <Ripple
+              disabled={this.state.disabled}
+              rippleColor={"#000000"}
+              rippleContainerBorderRadius={responsiveWidth(15)}
+              onPressIn={() => {
+                console.log(this.state);
               }}
             >
-              <IonIcons
-                name={"md-arrow-forward"}
-                size={responsiveFontSize(3.6)}
-                color={"#FFFFFF"}
+              <View
                 style={{
-                  alignSelf: "center",
-                  paddingHorizontal: responsiveWidth(2)
+                  borderRadius: responsiveWidth(15),
+                  width: responsiveWidth(15),
+                  height: responsiveWidth(15),
+                  paddingVertical: responsiveHeight(2),
+                  backgroundColor: this.state.disabled ? "#bcd8d6" : "#00A699",
+                  justifyContent: "center"
                 }}
-              />
-            </View>
-          </TouchableNativeFeedback>
+              >
+                <IonIcons
+                  name={"md-arrow-forward"}
+                  size={responsiveFontSize(3.6)}
+                  color={"#FFFFFF"}
+                  style={{
+                    alignSelf: "center",
+                    paddingHorizontal: responsiveWidth(2)
+                  }}
+                />
+              </View>
+            </Ripple>
+          </View>
         </View>
       </KeyboardAwareScrollView>
     );

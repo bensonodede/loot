@@ -13,6 +13,7 @@ import TimeScreen from "../screens/timeScreen";
 import FeedScreen from "../screens/feedScreen";
 import DetailScreen from "../screens/detailScreen";
 import PinScreen from "../screens/pinScreen";
+import SomeScreen from "../screens/someScreen";
 
 export default createStackNavigator(
   {
@@ -25,7 +26,8 @@ export default createStackNavigator(
     Time: TimeScreen,
     Feed: FeedScreen,
     Detail: DetailScreen,
-    Pin: PinScreen
+    Pin: PinScreen,
+    Some: SomeScreen
   },
   {
     initialRouteName: "Phone",
