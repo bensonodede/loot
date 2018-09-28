@@ -4,7 +4,7 @@ import {
   Text,
   StyleSheet,
   StatusBar,
-  TouchableNativeFeedback,
+  TouchableOpacity,
   Platform,
   Button
 } from "react-native";
@@ -20,7 +20,7 @@ import { parseNumber } from "libphonenumber-js";
 import dismissKeyboard from "react-native-dismiss-keyboard";
 import Spinner from "react-native-loading-spinner-overlay";
 import Ripple from "react-native-material-ripple";
-import { TextInputMask } from "react-native-masked-text";
+import FlashMessage from "react-native-flash-message";
 
 import IonIcons from "react-native-vector-icons/Ionicons";
 import styles from "../config/styles";
@@ -93,6 +93,14 @@ export default class PhoneNumScreen extends React.Component {
         .catch(error =>
           this.setState({ sending: false, errorMsg: error }, () => {
             console.log(this.state);
+            console.log(error);
+            this.refs.fmLocalInstance.showMessage({
+              message: "Error",
+              description: "You don't seem to be connected to the internet.",
+              type: "warning",
+              backgroundColor: "#d93900",
+              color: "#FFFFFF"
+            });
           })
         );
     }, 500);
@@ -176,6 +184,7 @@ export default class PhoneNumScreen extends React.Component {
               </View>
             </Ripple>
           </View>
+
           <Text style={style1.headerStyle}>And, your number?</Text>
           <Text style={style1.moreInfoStyle}>
             This is so we can contact you for deliveries and pickups.
@@ -197,7 +206,7 @@ export default class PhoneNumScreen extends React.Component {
               <Text style={style1.countryCode}>+254</Text>
             </View>
             <View style={{ flex: 1, marginLeft: responsiveWidth(2.5) }}>
-              {/* <Hoshi
+              <Hoshi
                 label={""}
                 placeholder={"712345678"}
                 labelStyle={style1.labelStyle}
@@ -224,28 +233,23 @@ export default class PhoneNumScreen extends React.Component {
                     }
                   );
                 }}
-              />*/}
-              <TextInputMask
-                refInput={ref => (this._myDatetimeField = ref)}
-                // here we set the custom component and their props.
-                customTextInput={Hoshi}
-                customTextInputProps={{
-                  label: "",
-                  labelStyle: style1.labelStyle,
-                  inputStyle: style1.inputStyle,
-                  maxLength: 10
-                }}
-                type={"custom"}
-                options={{
-                  mask: "999 999999"
-                }}
-                // don't forget: the value and state!
-                onChangeText={datetime => {
-                  console.log(this._myDatetimeField.getElement());
-                }}
-                value={this.state.birthday}
               />
             </View>
+            <Button
+              onPress={() => {
+                // here we are using the `showMessage` method for a local (and second) instance of Flash Message Component
+                this.refs.fmLocalInstance.showMessage({
+                  message: "Error",
+                  description:
+                    "You don't seem to be connected to the internet.",
+                  type: "warning",
+                  backgroundColor: "#d93900",
+                  color: "#FFFFFF"
+                });
+              }}
+              title="Request Details"
+              color="#841584"
+            />
           </View>
 
           <View
@@ -265,7 +269,7 @@ export default class PhoneNumScreen extends React.Component {
               rippleColor={"#000000"}
               rippleContainerBorderRadius={responsiveWidth(15)}
               onPressIn={() => {
-                console.log(this.state);
+                this._signIn();
               }}
             >
               <View
@@ -291,6 +295,12 @@ export default class PhoneNumScreen extends React.Component {
             </Ripple>
           </View>
         </View>
+        <FlashMessage
+          ref="fmLocalInstance"
+          position="bottom"
+          animated={true}
+          autoHide={false}
+        />
       </KeyboardAwareScrollView>
     );
   }

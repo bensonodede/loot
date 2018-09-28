@@ -63,7 +63,7 @@ export default StyleSheet.create({
     color: "#00A699"
   },
   orangeish: {
-    color: "#FC642D"
+    color: "#d93900"
   },
   blackish: {
     color: "#484848"

@@ -80,15 +80,6 @@ export default class PinScreen extends React.Component {
         );
     }
   }
-  //if (!isValid) {
-  //  Alert.alert("Confirmation Code", "Code not match!", [{ text: "OK" }], {
-  //    cancelable: true
-  //  });
-  //} else {
-  //  Alert.alert("Confirmation Code", "Successful!", [{ text: "OK" }], {
-  //    cancelable: true
-  //  });
-  //}
 
   render() {
     return (
