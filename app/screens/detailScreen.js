@@ -13,9 +13,9 @@ import {
   responsiveWidth,
   responsiveFontSize
 } from "react-native-responsive-dimensions";
-import ReadMore from "react-native-read-more-text";
+import Ripple from "react-native-material-ripple";
 
-import Icon from "react-native-vector-icons/Ionicons";
+import IonIcons from "react-native-vector-icons/Ionicons";
 import styles from "../config/styles";
 
 export default class DetailScreen extends React.Component {
@@ -52,7 +52,7 @@ export default class DetailScreen extends React.Component {
 
     return (
       <View style={{ flex: 1, backgroundColor: "#FFFFFF" }}>
-        <ScrollView style={{ flex: 1, backgroundColor: "#FFFFFF" }}>
+        <View style={{ flex: 1, backgroundColor: "#FFFFFF" }}>
           <StatusBar
             translucent
             barStyle="light-content"
@@ -61,9 +61,49 @@ export default class DetailScreen extends React.Component {
           />
           <View
             style={{
+              width: responsiveWidth(15),
+              height: responsiveWidth(15),
+              borderRadius: responsiveWidth(15),
+              position: "absolute",
+              top: responsiveHeight(5),
+              left: 0,
+              zIndex: 9
+            }}
+          >
+            <Ripple
+              rippleColor={"#000000"}
+              rippleContainerBorderRadius={responsiveWidth(15)}
+              onPressIn={() => {
+                this.props.navigation.goBack();
+              }}
+            >
+              <View
+                style={{
+                  borderRadius: responsiveWidth(15),
+                  width: responsiveWidth(15),
+                  height: responsiveWidth(15),
+                  paddingVertical: responsiveHeight(2),
+                  backgroundColor: "transparent",
+                  justifyContent: "center"
+                }}
+              >
+                <IonIcons
+                  name={"md-arrow-back"}
+                  size={responsiveFontSize(3.6)}
+                  color={"#FFFFFF"}
+                  style={{
+                    alignSelf: "center",
+                    paddingHorizontal: responsiveWidth(2)
+                  }}
+                />
+              </View>
+            </Ripple>
+          </View>
+          <View
+            style={{
               flex: 1,
               alignItems: "center",
-              height: responsiveHeight(65),
+              height: responsiveHeight(90),
               width: responsiveWidth(100)
             }}
           >
@@ -71,7 +111,7 @@ export default class DetailScreen extends React.Component {
               source={{ uri: details.imageUrl }}
               style={{
                 flex: 1,
-                height: responsiveHeight(85),
+                height: responsiveHeight(90),
                 width: responsiveWidth(100),
                 position: "absolute",
                 top: 0,
@@ -80,7 +120,18 @@ export default class DetailScreen extends React.Component {
               resizeMode={"cover"}
             />
           </View>
-          <View
+          <Image
+            style={{
+              height: responsiveHeight(50),
+              width: responsiveWidth(100),
+              position: "absolute",
+              zIndex: 5,
+              bottom: 0,
+              left: 0
+            }}
+            source={require("../assets/transparent-fade-black-1.png")}
+          />
+          {/*<View
             style={{
               paddingHorizontal: responsiveWidth(4),
               paddingVertical: responsiveHeight(2),
@@ -153,75 +204,83 @@ export default class DetailScreen extends React.Component {
                 </Text>
               </View>
             </View>
-          </View>
-        </ScrollView>
+          </View>*/}
+        </View>
         <View
           style={{
             zIndex: 3,
-            height: responsiveHeight(12),
-            backgroundColor: "#FFFFFF",
+            height: responsiveHeight(15),
+            backgroundColor: "#000000",
             flexDirection: "row",
             justifyContent: "space-between",
-            borderTopWidth: 1,
-            borderTopColor: "#DCDCDC"
+            alignItems: "center",
+            borderTopWidth: 2,
+            borderTopColor: "rgba(246,246,246,0.2)"
           }}
         >
           <View
             style={{
               flex: 1,
-              padding: 20,
-              marginVertical: responsiveHeight(1),
-              marginHorizontal: responsiveWidth(3),
               width: responsiveWidth(30),
-              justifyContent: "center"
+              justifyContent: "center",
+              paddingLeft: responsiveWidth(5)
             }}
           >
-            <Text style={[styles.blackish, styles.fontMedium, styles.regular]}>
+            <Text
+              style={[
+                styles.fontMedium,
+                { color: "#FFFFFF", fontSize: responsiveFontSize(2.5) }
+              ]}
+            >
               {details.price} ksh
             </Text>
             <Text
               style={[
-                styles.greyish,
                 styles.fontLight,
-                { fontSize: responsiveFontSize(2.1) }
+                { fontSize: responsiveFontSize(2.1), color: "#b7b7b7" }
               ]}
             >
               per day
             </Text>
           </View>
-          <TouchableNativeFeedback
-            //onPress={onPress}
-            background={
-              Platform.Version >= 21
-                ? TouchableNativeFeedback.Ripple("#FFFFFF", true)
-                : TouchableNativeFeedback.SelectableBackground()
-            }
+
+          <View
+            style={{
+              //width: responsiveWidth(15),
+              //height: responsiveWidth(15),
+              borderRadius: responsiveWidth(1.5),
+              paddingRight: responsiveWidth(5)
+            }}
           >
-            <View
-              style={{
-                flex: 2,
-                //paddingVertical: 0,
-                //paddingHorizontal: 15,
-                marginVertical: responsiveHeight(1.7),
-                marginHorizontal: responsiveWidth(6.2),
-                width: responsiveWidth(3),
-                borderRadius: responsiveWidth(1),
-                //elevation: 3,
-                backgroundColor: "#FF5A5F",
-                justifyContent: "center"
+            <Ripple
+              rippleColor={"#FFFFFF"}
+              rippleContainerBorderRadius={responsiveWidth(1.5)}
+              onPress={() => {
+                this.props.navigation.navigate("Calendar");
               }}
             >
-              <Text
-                style={[
-                  styles.fontMedium,
-                  styles.regular,
-                  { color: "#FFFFFF", textAlign: "center" }
-                ]}
+              <View
+                style={{
+                  width: responsiveWidth(45),
+                  height: responsiveHeight(8),
+                  borderRadius: responsiveWidth(1.5),
+                  paddingVertical: responsiveHeight(2),
+                  backgroundColor: "rgba(255,255,255,0.2)",
+                  justifyContent: "center"
+                }}
               >
-                Check availability
-              </Text>
-            </View>
-          </TouchableNativeFeedback>
+                <Text
+                  style={[
+                    styles.fontMedium,
+                    styles.regular,
+                    { color: "#FFFFFF", textAlign: "center" }
+                  ]}
+                >
+                  Check availability
+                </Text>
+              </View>
+            </Ripple>
+          </View>
         </View>
       </View>
     );

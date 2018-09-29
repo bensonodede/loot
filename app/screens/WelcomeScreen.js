@@ -28,14 +28,6 @@ export default class WelcomeScreen extends React.Component {
     this.unsubscribe = null;
   }
 
-  _goToLoginPage = () => {
-    this.props.navigation.navigate("Login");
-  };
-
-  _goToSignupPage = () => {
-    this.props.navigation.navigate("Name");
-  };
-
   render() {
     return (
       <View
@@ -105,7 +97,7 @@ export default class WelcomeScreen extends React.Component {
             rippleColor={"#FFFFFF"}
             rippleContainerBorderRadius={responsiveHeight(4)}
             onPress={() => {
-              this.props.navigation.navigate("Phone");
+              this.props.navigation.navigate("PhoneLogin");
             }}
           >
             <View

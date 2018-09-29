@@ -1,0 +1,1367 @@
+patch-package
+--- a/node_modules/react-native-range-datepicker/RangeDatepicker/Day.js
++++ b/node_modules/react-native-range-datepicker/RangeDatepicker/Day.js
+@@ -1,94 +1,257 @@
+-'use strict'
+-import React from 'react';
++"use strict";
++import React from "react";
+ import {
+-	View,
+-	StyleSheet,
+-	Text,
+-	TouchableWithoutFeedback,
+-	Dimensions
+-} from 'react-native';
+-import moment from 'moment';
+-
+-const DEVICE_WIDTH = Dimensions.get('window').width;
++  View,
++  StyleSheet,
++  Text,
++  TouchableWithoutFeedback,
++  Dimensions
++} from "react-native";
++import moment from "moment";
++import styles from "../../../app/config/styles";
++import { responsiveWidth } from "react-native-responsive-dimensions";
++const DEVICE_WIDTH = Dimensions.get("window").width;
+ 
+ export default class Day extends React.Component {
+-	constructor(props) {
+-		super(props);
+-	}
++  constructor(props) {
++    super(props);
++  }
+ 
+-	shouldComponentUpdate(nextProps, nextState) {
+-		if(nextProps.day.type == this.props.day.type)
+-			return false;
++  shouldComponentUpdate(nextProps, nextState) {
++    if (nextProps.day.type == this.props.day.type) return false;
+ 
+-		return true;
+-	}
++    return true;
++  }
+ 
+-	render() {
+-		let {day, dayProps} = this.props;
+-		let dayStyle = {backgroundColor : 'transparent', position: 'relative'};
+-		let textDayStyle = {color: 'black'};
++  render() {
++    let { day, dayProps } = this.props;
++    let dayStyle = { backgroundColor: "transparent", position: "relative" };
++    let textDayStyle = { color: "black" };
+ 
+-		switch(day.type){
+-			case "single" : 
+-				dayStyle = {backgroundColor : dayProps.selectedBackgroundColor, borderRadius: Math.floor(DEVICE_WIDTH / 7) }
+-				textDayStyle = {color: dayProps.selectedTextColor};
+-				break;
+-			case "first" :
+-				dayStyle = {backgroundColor : dayProps.selectedBackgroundColor, borderBottomLeftRadius: Math.floor(DEVICE_WIDTH / 7), borderTopLeftRadius: Math.floor(DEVICE_WIDTH / 7) }
+-				textDayStyle = {color: dayProps.selectedTextColor};
+-				break;
+-			case "last" :
+-				dayStyle = {backgroundColor : dayProps.selectedBackgroundColor, borderBottomRightRadius: Math.floor(DEVICE_WIDTH / 7), borderTopRightRadius: Math.floor(DEVICE_WIDTH / 7) }
+-				textDayStyle = {color: dayProps.selectedTextColor};
+-				break;
+-			case "between" :
+-				dayStyle = {backgroundColor : dayProps.selectedBackgroundColor}
+-				textDayStyle = {color: dayProps.selectedTextColor};
+-				break;
+-			case "disabled" :
+-			case "blockout" :
+-				textDayStyle = {color: '#ccc'};
+-			default: break;
+-		}
++    switch (day.type) {
++      case "single":
++        dayStyle = {
++          backgroundColor: dayProps.selectedBackgroundColor,
++          borderRadius: Math.floor(DEVICE_WIDTH / 7),
++          paddingRight: responsiveWidth(0.11)
++        };
++        textDayStyle = { color: dayProps.selectedTextColor };
++        break;
++      case "first":
++        dayStyle = {
++          backgroundColor: dayProps.selectedBackgroundColor,
++          borderBottomLeftRadius: Math.floor(DEVICE_WIDTH / 7),
++          borderTopLeftRadius: Math.floor(DEVICE_WIDTH / 7),
++          paddingRight: responsiveWidth(0.11)
++        };
++        textDayStyle = { color: dayProps.selectedTextColor };
++        break;
++      case "last":
++        dayStyle = {
++          backgroundColor: dayProps.selectedBackgroundColor,
++          borderBottomRightRadius: Math.floor(DEVICE_WIDTH / 7),
++          borderTopRightRadius: Math.floor(DEVICE_WIDTH / 7),
++          paddingRight: responsiveWidth(0.11)
++        };
++        textDayStyle = { color: dayProps.selectedTextColor };
++        break;
++      case "between":
++        dayStyle = {
++          backgroundColor: dayProps.selectedBackgroundColor,
++          paddingRight: responsiveWidth(0.11)
++        };
++        textDayStyle = { color: dayProps.selectedTextColor };
++        break;
++      case "disabled":
++      case "blockout":
++        textDayStyle = { color: "#ccc" };
++      default:
++        break;
++    }
+ 
+-		if(day.date){
+-			if(day.type == 'disabled')
+-				return (
+-					<TouchableWithoutFeedback activeOpacity={1} style={dayStyle}>
+-						<View style={{...dayStyle, height: Math.floor(DEVICE_WIDTH / 7), justifyContent: 'center'}}>
+-							<Text style={{...textDayStyle, textAlign: "center", width: Math.floor(DEVICE_WIDTH / 7), backgroundColor: 'transparent', fontSize: Math.floor(DEVICE_WIDTH / 26)}}>{moment(day.date, 'YYYYMMDD').date()}</Text>
+-							{day.date == moment().format("YYYYMMDD") ? (<View style={{position: 'absolute', top:0, bottom:0, left:0, right: 0, justifyContent: 'center', backgroundColor: 'transparent'}}><Text style={{fontSize: Math.floor(DEVICE_WIDTH / 17), fontWeight: 'bold', color: '#ccc', textAlign: 'center'}}>__</Text></View>) : null}
+-						</View>
+-					</TouchableWithoutFeedback>
+-				);
+-			else if(day.type == 'blockout') {
+-				const strikeTop = Math.floor(DEVICE_WIDTH / -22);
+-				return (
+-					<TouchableWithoutFeedback activeOpacity={1} style={dayStyle}>
+-						<View style={{...dayStyle, height: Math.floor(DEVICE_WIDTH / 7), justifyContent: 'center'}}>
+-							<Text style={{...textDayStyle, textAlign: "center", width: Math.floor(DEVICE_WIDTH / 7), backgroundColor: 'transparent', fontSize: Math.floor(DEVICE_WIDTH / 26)}}>{moment(day.date, 'YYYYMMDD').date()}</Text>
+-							<View style={{position: 'absolute', top: strikeTop, bottom:0, left:0, right: 0, justifyContent: 'center', backgroundColor: 'transparent'}}><Text style={{fontSize: Math.floor(DEVICE_WIDTH / 17), color: '#ccc', textAlign: 'center'}}>__</Text></View>
+-						</View>
+-					</TouchableWithoutFeedback>
+-				);
+-			}
+-			else
+-				return (
+-					<TouchableWithoutFeedback activeOpacity={1} style={dayStyle} onPress={() => this.props.onSelectDate(moment(day.date, 'YYYYMMDD'))}>
+-						<View style={{...dayStyle, height: Math.floor(DEVICE_WIDTH / 7), justifyContent: 'center'}}>
+-							<Text style={{...textDayStyle, textAlign: "center", width: Math.floor(DEVICE_WIDTH / 7), backgroundColor: 'transparent', fontSize: Math.floor(DEVICE_WIDTH / 26)}}>{moment(day.date, 'YYYYMMDD').date()}</Text>
+-							{day.date == moment().format("YYYYMMDD") ? (<View style={{position: 'absolute', top:0, bottom:0, left:0, right: 0, justifyContent: 'center', backgroundColor: 'transparent'}}><Text style={{fontSize: Math.floor(DEVICE_WIDTH / 17), fontWeight: 'bold', color: dayProps.selectedBackgroundColor, textAlign: 'center'}}>__</Text></View>) : null}
+-						</View>
+-					</TouchableWithoutFeedback>
+-				);
+-		}
+-		else
+-			return (
+-				<TouchableWithoutFeedback activeOpacity={1} style={dayStyle}>
+-					<View style={{...dayStyle, height: Math.floor(DEVICE_WIDTH / 7), justifyContent: 'center'}}>
+-						<Text style={{ ...textDayStyle, textAlign: "center", width: Math.floor(DEVICE_WIDTH / 7), backgroundColor: 'transparent', fontSize: Math.floor(DEVICE_WIDTH / 26)}}>{null}</Text>
+-					</View>
+-				</TouchableWithoutFeedback>
+-			);
+-	}
++    if (day.date) {
++      if (day.type == "disabled")
++        return (
++          <TouchableWithoutFeedback activeOpacity={1} style={dayStyle}>
++            <View
++              style={{
++                ...dayStyle,
++                height: Math.floor(DEVICE_WIDTH / 7),
++                justifyContent: "center",
++                paddingRight: responsiveWidth(0.11)
++              }}
++            >
++              <Text
++                style={{
++                  ...textDayStyle,
++                  textAlign: "center",
++                  width: Math.floor(DEVICE_WIDTH / 7),
++                  backgroundColor: "transparent",
++                  fontFamily: "CircularStd-Medium",
++                  fontSize: Math.floor(DEVICE_WIDTH / 21.5)
++                }}
++              >
++                {moment(day.date, "YYYYMMDD").date()}
++              </Text>
++              {day.date == moment().format("YYYYMMDD") ? (
++                <View
++                  style={{
++                    position: "absolute",
++                    top: 0,
++                    bottom: 0,
++                    left: 0,
++                    right: 0,
++                    justifyContent: "center",
++                    backgroundColor: "transparent"
++                  }}
++                >
++                  <Text
++                    style={{
++                      fontSize: Math.floor(DEVICE_WIDTH / 15),
++                      fontFamily: "CircularStd-Medium",
++                      fontWeight: "bold",
++                      color: "#ccc",
++                      textAlign: "center"
++                    }}
++                  >
++                    __
++                  </Text>
++                </View>
++              ) : null}
++            </View>
++          </TouchableWithoutFeedback>
++        );
++      else if (day.type == "blockout") {
++        const strikeTop = Math.floor(DEVICE_WIDTH / -22);
++        return (
++          <TouchableWithoutFeedback activeOpacity={1} style={dayStyle}>
++            <View
++              style={{
++                ...dayStyle,
++                height: Math.floor(DEVICE_WIDTH / 7),
++                justifyContent: "center",
++                paddingRight: responsiveWidth(0.11)
++              }}
++            >
++              <Text
++                style={{
++                  ...textDayStyle,
++                  textAlign: "center",
++                  width: Math.floor(DEVICE_WIDTH / 7),
++                  backgroundColor: "transparent",
++                  fontFamily: "CircularStd-Medium",
++                  fontSize: Math.floor(DEVICE_WIDTH / 21.5)
++                }}
++              >
++                {moment(day.date, "YYYYMMDD").date()}
++              </Text>
++              <View
++                style={{
++                  position: "absolute",
++                  top: strikeTop,
++                  bottom: 0,
++                  left: 0,
++                  right: 0,
++                  justifyContent: "center",
++                  backgroundColor: "transparent"
++                }}
++              >
++                <Text
++                  style={{
++                    fontSize: Math.floor(DEVICE_WIDTH / 15),
++                    fontFamily: "CircularStd-Medium",
++                    color: "#ccc",
++                    textAlign: "center"
++                  }}
++                >
++                  __
++                </Text>
++              </View>
++            </View>
++          </TouchableWithoutFeedback>
++        );
++      } else
++        return (
++          <TouchableWithoutFeedback
++            activeOpacity={1}
++            style={dayStyle}
++            onPress={() =>
++              this.props.onSelectDate(moment(day.date, "YYYYMMDD"))
++            }
++          >
++            <View
++              style={{
++                ...dayStyle,
++                height: Math.floor(DEVICE_WIDTH / 7),
++                justifyContent: "center",
++                paddingRight: responsiveWidth(0.11)
++              }}
++            >
++              <Text
++                style={{
++                  ...textDayStyle,
++                  textAlign: "center",
++                  width: Math.floor(DEVICE_WIDTH / 7),
++                  backgroundColor: "transparent",
++                  fontFamily: "CircularStd-Medium",
++                  fontSize: Math.floor(DEVICE_WIDTH / 21.5)
++                }}
++              >
++                {moment(day.date, "YYYYMMDD").date()}
++              </Text>
++              {day.date == moment().format("YYYYMMDD") ? (
++                <View
++                  style={{
++                    position: "absolute",
++                    top: 0,
++                    bottom: 0,
++                    left: 0,
++                    right: 0,
++                    justifyContent: "center",
++                    backgroundColor: "transparent"
++                  }}
++                >
++                  <Text
++                    style={{
++                      fontSize: Math.floor(DEVICE_WIDTH / 15),
++                      fontFamily: "CircularStd-Medium",
++                      fontWeight: "bold",
++                      color: dayProps.selectedBackgroundColor,
++                      textAlign: "center"
++                    }}
++                  >
++                    __
++                  </Text>
++                </View>
++              ) : null}
++            </View>
++          </TouchableWithoutFeedback>
++        );
++    } else
++      return (
++        <TouchableWithoutFeedback activeOpacity={1} style={dayStyle}>
++          <View
++            style={{
++              ...dayStyle,
++              height: Math.floor(DEVICE_WIDTH / 7),
++              justifyContent: "center",
++              paddingRight: responsiveWidth(0.11)
++            }}
++          >
++            <Text
++              style={{
++                ...textDayStyle,
++                textAlign: "center",
++                width: Math.floor(DEVICE_WIDTH / 7),
++                backgroundColor: "transparent",
++                fontFamily: "CircularStd-Medium",
++                fontSize: Math.floor(DEVICE_WIDTH / 21.5)
++              }}
++            >
++              {null}
++            </Text>
++          </View>
++        </TouchableWithoutFeedback>
++      );
++  }
+ }
+--- a/node_modules/react-native-range-datepicker/RangeDatepicker/Month.js
++++ b/node_modules/react-native-range-datepicker/RangeDatepicker/Month.js
+@@ -1,136 +1,194 @@
+-'use strict'
+-import React from 'react';
++"use strict";
++import React from "react";
++import { View, StyleSheet, ScrollView, Text } from "react-native";
+ import {
+-	View,
+-	StyleSheet,
+-	ScrollView,
+-	Text
+-} from 'react-native';
+-import DayRow from './DayRow'
+-import moment from 'moment'
++  responsiveHeight,
++  responsiveWidth,
++  responsiveFontSize
++} from "react-native-responsive-dimensions";
++import DayRow from "./DayRow";
++import moment from "moment";
+ 
+ export default class Month extends React.Component {
+-	constructor(props) {
+-		super(props);
+-	}
+-
+-	shouldComponentUpdate(nextProps, nextState) {
+-
+-		if(nextProps.minDate != this.props.minDate)
+-			return true;
+-
+-		if(nextProps.maxDate != this.props.maxDate)
+-			return true;
+-
+-		if(nextProps.availableDates != this.props.availableDates)
+-			return true;
+-
+-		if(nextProps.startDate && nextProps.startDate.format("YYYYMM") == nextProps.month)
+-			return true;
+-
+-		if(nextProps.untilDate && nextProps.untilDate.format("YYYYMM") == nextProps.month)
+-			return true;
+-
+-		if(this.props.startDate && this.props.startDate.format("YYYYMM") == nextProps.month)
+-			return true;
+-
+-		if(this.props.untilDate && this.props.untilDate.format("YYYYMM") == nextProps.month)
+-			return true;
+-
+-		if(nextProps.startDate && nextProps.untilDate && nextProps.startDate.format("YYYYMM") < nextProps.month && nextProps.untilDate.format("YYYYMM") > nextProps.month)
+-			return true;
+-
+-		if(this.props.untilDate && this.props.startDate && this.props.startDate.format("YYYYMM") < nextProps.month && this.props.untilDate.format("YYYYMM") > nextProps.month)
+-			return true;
+-
+-		return false;
+-	}
+-
+-
+-	getDayStack(month){
+-		let res = [];
+-		let currMonth = moment(month).month(); //get this month
+-		let currDate = moment(month).startOf("month"); //get first day in this month
+-
+-		let dayColumn = [];
+-		let dayRow = [];
+-		let dayObject = {};
+-		let {startDate, untilDate, availableDates, minDate, maxDate, ignoreMinDate} = this.props;
+-
+-		do{
+-			dayColumn = [];
+-			for(let i = 0; i < 7; i++){
+-				dayObject = {
+-					type : null,
+-					date: null
+-				};
+-				if(i == currDate.days() && currDate.month() == currMonth)
+-				{
+-					if(minDate && minDate.format("YYYYMMDD") && currDate.format("YYYYMMDD") < minDate.format("YYYYMMDD")){
+-						if(startDate && startDate.format('YYYYMMDD') > currDate.format("YYYYMMDD") && currDate.format("YYYYMMDD") > moment().format("YYYYMMDD") && ignoreMinDate){}
+-						else{
+-							dayObject.type = 'disabled';
+-						}
+-					}
+-					if(maxDate && maxDate.format("YYYYMMDD") && currDate.format("YYYYMMDD") > maxDate.format("YYYYMMDD")){
+-						dayObject.type = 'disabled';
+-					}
+-					if(availableDates && availableDates.indexOf(currDate.format("YYYYMMDD")) == -1){
+-						dayObject.type = 'blockout';
+-					}
+-					if(startDate && startDate.format('YYYYMMDD') == currDate.format('YYYYMMDD')){
+-						if(!untilDate)
+-							dayObject.type = 'single';
+-						else{
+-							dayObject.type = 'first';
+-						}
+-					}
+-					if(untilDate && untilDate.format('YYYYMMDD') == currDate.format('YYYYMMDD')){
+-						dayObject.type = 'last';
+-					}
+-					if((startDate && startDate.format('YYYYMMDD') < currDate.format('YYYYMMDD')) && 
+-						(untilDate && untilDate.format('YYYYMMDD') > currDate.format('YYYYMMDD')))
+-						dayObject.type = 'between';
+-
+-					dayObject.date = currDate.clone().format('YYYYMMDD');
+-					dayColumn.push(dayObject);
+-					currDate.add(1, 'day');
+-				}
+-				else{
+-					if(startDate && untilDate &&
+-						(
+-							startDate.format('YYYYMMDD') < currDate.format('YYYYMMDD')  && 
+-							untilDate.format('YYYYMMDD') >= currDate.format('YYYYMMDD')
+-						)
+-					)
+-						dayObject.type = 'between';
+-
+-					dayColumn.push(dayObject);
+-				}
+-			}
+-
+-			dayRow.push(dayColumn);
+-		} while (currDate.month() == currMonth);
+-
+-		return dayRow;
+-	}
+-
+-	render() {
+-		const { month, dayProps } = this.props;
+-		const dayStack = this.getDayStack(moment(month, 'YYYYMM'));
+-		return (
+-			<View>
+-				<Text style={{fontSize: 20, padding: 20}}>{moment(month, 'YYYYMM').format("MMMM YYYY")}</Text>
+-				<View>
+-					{
+-						dayStack.map((days, i) => {
+-							return (
+-								<DayRow days={days} dayProps={dayProps} key={i} onSelectDate={this.props.onSelectDate}/>
+-							)
+-						})
+-					}
+-				</View>
+-			</View>
+-		);
+-	}
++  constructor(props) {
++    super(props);
++  }
++
++  shouldComponentUpdate(nextProps, nextState) {
++    if (nextProps.minDate != this.props.minDate) return true;
++
++    if (nextProps.maxDate != this.props.maxDate) return true;
++
++    if (nextProps.availableDates != this.props.availableDates) return true;
++
++    if (
++      nextProps.startDate &&
++      nextProps.startDate.format("YYYYMM") == nextProps.month
++    )
++      return true;
++
++    if (
++      nextProps.untilDate &&
++      nextProps.untilDate.format("YYYYMM") == nextProps.month
++    )
++      return true;
++
++    if (
++      this.props.startDate &&
++      this.props.startDate.format("YYYYMM") == nextProps.month
++    )
++      return true;
++
++    if (
++      this.props.untilDate &&
++      this.props.untilDate.format("YYYYMM") == nextProps.month
++    )
++      return true;
++
++    if (
++      nextProps.startDate &&
++      nextProps.untilDate &&
++      nextProps.startDate.format("YYYYMM") < nextProps.month &&
++      nextProps.untilDate.format("YYYYMM") > nextProps.month
++    )
++      return true;
++
++    if (
++      this.props.untilDate &&
++      this.props.startDate &&
++      this.props.startDate.format("YYYYMM") < nextProps.month &&
++      this.props.untilDate.format("YYYYMM") > nextProps.month
++    )
++      return true;
++
++    return false;
++  }
++
++  getDayStack(month) {
++    let res = [];
++    let currMonth = moment(month).month(); //get this month
++    let currDate = moment(month).startOf("month"); //get first day in this month
++
++    let dayColumn = [];
++    let dayRow = [];
++    let dayObject = {};
++    let {
++      startDate,
++      untilDate,
++      availableDates,
++      minDate,
++      maxDate,
++      ignoreMinDate
++    } = this.props;
++
++    do {
++      dayColumn = [];
++      for (let i = 0; i < 7; i++) {
++        dayObject = {
++          type: null,
++          date: null
++        };
++        if (i == currDate.days() && currDate.month() == currMonth) {
++          if (
++            minDate &&
++            minDate.format("YYYYMMDD") &&
++            currDate.format("YYYYMMDD") < minDate.format("YYYYMMDD")
++          ) {
++            if (
++              startDate &&
++              startDate.format("YYYYMMDD") > currDate.format("YYYYMMDD") &&
++              currDate.format("YYYYMMDD") > moment().format("YYYYMMDD") &&
++              ignoreMinDate
++            ) {
++            } else {
++              dayObject.type = "disabled";
++            }
++          }
++          if (
++            maxDate &&
++            maxDate.format("YYYYMMDD") &&
++            currDate.format("YYYYMMDD") > maxDate.format("YYYYMMDD")
++          ) {
++            dayObject.type = "disabled";
++          }
++          if (
++            availableDates &&
++            availableDates.indexOf(currDate.format("YYYYMMDD")) == -1
++          ) {
++            dayObject.type = "blockout";
++          }
++          if (
++            startDate &&
++            startDate.format("YYYYMMDD") == currDate.format("YYYYMMDD")
++          ) {
++            if (!untilDate) dayObject.type = "single";
++            else {
++              dayObject.type = "first";
++            }
++          }
++          if (
++            untilDate &&
++            untilDate.format("YYYYMMDD") == currDate.format("YYYYMMDD")
++          ) {
++            dayObject.type = "last";
++          }
++          if (
++            startDate &&
++            startDate.format("YYYYMMDD") < currDate.format("YYYYMMDD") &&
++            (untilDate &&
++              untilDate.format("YYYYMMDD") > currDate.format("YYYYMMDD"))
++          )
++            dayObject.type = "between";
++
++          dayObject.date = currDate.clone().format("YYYYMMDD");
++          dayColumn.push(dayObject);
++          currDate.add(1, "day");
++        } else {
++          if (
++            startDate &&
++            untilDate &&
++            (startDate.format("YYYYMMDD") < currDate.format("YYYYMMDD") &&
++              untilDate.format("YYYYMMDD") >= currDate.format("YYYYMMDD"))
++          )
++            dayObject.type = "between";
++
++          dayColumn.push(dayObject);
++        }
++      }
++
++      dayRow.push(dayColumn);
++    } while (currDate.month() == currMonth);
++
++    return dayRow;
++  }
++
++  render() {
++    const { month, dayProps } = this.props;
++    const dayStack = this.getDayStack(moment(month, "YYYYMM"));
++    return (
++      <View>
++        <Text
++          style={{
++            fontSize: responsiveFontSize(3),
++            padding: 20,
++            fontFamily: "CircularStd-Medium"
++          }}
++        >
++          {moment(month, "YYYYMM").format("MMMM YYYY")}
++        </Text>
++        <View>
++          {dayStack.map((days, i) => {
++            return (
++              <DayRow
++                days={days}
++                dayProps={dayProps}
++                key={i}
++                onSelectDate={this.props.onSelectDate}
++              />
++            );
++          })}
++        </View>
++      </View>
++    );
++  }
+ }
+--- a/node_modules/react-native-range-datepicker/RangeDatepicker/index.js
++++ b/node_modules/react-native-range-datepicker/RangeDatepicker/index.js
+@@ -1,6 +1,6 @@
+-'use strict'
+-import React, { Component } from 'react';
+-import PropTypes from 'prop-types';
++"use strict";
++import React, { Component } from "react";
++import PropTypes from "prop-types";
+ import {
+   Text,
+   TouchableOpacity,
+@@ -11,271 +11,442 @@ import {
+   Platform,
+   ListView,
+   StyleSheet,
+-  Button,
+   Dimensions
+-} from 'react-native';
+-import Month from './Month';
++} from "react-native";
++import {
++  responsiveHeight,
++  responsiveWidth,
++  responsiveFontSize
++} from "react-native-responsive-dimensions";
++import Ripple from "react-native-material-ripple";
++import IonIcons from "react-native-vector-icons/Ionicons";
++
++import Month from "./Month";
+ // import styles from './styles';
+-import moment from 'moment';
++import moment from "moment";
+ 
+-const DEVICE_WIDTH = Dimensions.get('window').width;
++const DEVICE_WIDTH = Dimensions.get("window").width;
+ 
+ export default class RangeDatepicker extends Component {
+-	constructor(props) {
+-		super(props);
+-    	this.ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 != r2});
+-		this.state = {
+-			startDate: props.startDate && moment(props.startDate, 'YYYYMMDD'),
+-			untilDate: props.untilDate && moment(props.untilDate, 'YYYYMMDD'),
+-			availableDates: props.availableDates || null
+-		}
+-
+-		this.onSelectDate = this.onSelectDate.bind(this);
+-		this.onReset = this.onReset.bind(this);
+-		this.handleConfirmDate = this.handleConfirmDate.bind(this);
+-		this.handleRenderRow = this.handleRenderRow.bind(this);
+-	}
+-
+-	static defaultProps = {
+-		initialMonth: '',
+-		dayHeadings: ['S', 'M', 'T', 'W', 'T', 'F', 'S'],
+-		maxMonth: 12,
+-		buttonColor: 'green',
+-		buttonContainerStyle: {},
+-		showReset: true,
+-		showClose: true,
+-		ignoreMinDate: false,
+-		onClose: () => {},
+-		onSelect: () => {},
+-		onConfirm: () => {},
+-		placeHolderStart: 'Start Date',
+-		placeHolderUntil: 'Until Date',
+-		selectedBackgroundColor: 'green',
+-		selectedTextColor: 'white',
+-		todayColor: 'green',
+-		startDate: '',
+-		untilDate: '',
+-		minDate: '',
+-		maxDate: '',
+-		infoText: '',
+-		infoStyle: {color: '#fff', fontSize: 13},
+-		infoContainerStyle: {marginRight: 20, paddingHorizontal: 20, paddingVertical: 5, backgroundColor: 'green', borderRadius: 20, alignSelf: 'flex-end'}
+-	};
+-
++  constructor(props) {
++    super(props);
++    this.ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 != r2 });
++    this.state = {
++      startDate: props.startDate && moment(props.startDate, "YYYYMMDD"),
++      untilDate: props.untilDate && moment(props.untilDate, "YYYYMMDD"),
++      availableDates: props.availableDates || null,
++      disabledBtn: props.disabledBtn,
++      selectedDays: props.selectedDays
++    };
+ 
+-	static propTypes = {
+-		initialMonth: PropTypes.string,
+-		dayHeadings: PropTypes.arrayOf(PropTypes.string),
+-		availableDates: PropTypes.arrayOf(PropTypes.string),
+-		maxMonth: PropTypes.number,
+-		buttonColor: PropTypes.string,
+-		buttonContainerStyle: PropTypes.object,
+-		startDate: PropTypes.string,
+-		untilDate: PropTypes.string,
+-		minDate: PropTypes.string,
+-		maxDate: PropTypes.string,
+-		showReset: PropTypes.bool,
+-		showClose: PropTypes.bool,
+-		ignoreMinDate: PropTypes.bool,
+-		onClose: PropTypes.func,
+-		onSelect: PropTypes.func,
+-		onConfirm: PropTypes.func,
+-		placeHolderStart: PropTypes.string,
+-		placeHolderUntil: PropTypes.string,
+-		selectedBackgroundColor: PropTypes.string,
+-		selectedTextColor: PropTypes.string,
+-		todayColor: PropTypes.string,
+-		infoText: PropTypes.string,
+-		infoStyle: PropTypes.object,
+-		infoContainerStyle: PropTypes.object
+-	}
++    this.onSelectDate = this.onSelectDate.bind(this);
++    this.onReset = this.onReset.bind(this);
++    this.handleConfirmDate = this.handleConfirmDate.bind(this);
++    this.handleRenderRow = this.handleRenderRow.bind(this);
++  }
+ 
+-	componentWillReceiveProps(nextProps) {
+-		this.setState({availableDates: nextProps.availableDates});
+-	}
++  static defaultProps = {
++    initialMonth: "",
++    dayHeadings: ["S", "M", "T", "W", "T", "F", "S"],
++    maxMonth: 12,
++    buttonColor: "green",
++    buttonContainerStyle: {},
++    showReset: true,
++    showClose: true,
++    ignoreMinDate: false,
++    disabledBtn: true,
++    selectedDays: "",
++    onClose: () => {},
++    onSelect: () => {},
++    onConfirm: () => {},
++    placeHolderStart: "Start Date",
++    placeHolderUntil: "Until Date",
++    selectedBackgroundColor: "green",
++    selectedTextColor: "white",
++    todayColor: "green",
++    startDate: "",
++    untilDate: "",
++    minDate: "",
++    maxDate: "",
++    infoText: "",
++    infoStyle: { color: "#fff", fontSize: 13 },
++    infoContainerStyle: {
++      marginRight: 20,
++      paddingHorizontal: 20,
++      paddingVertical: 5,
++      backgroundColor: "green",
++      borderRadius: 20,
++      alignSelf: "flex-end"
++    }
++  };
+ 
+-	onSelectDate(date){
+-		let startDate = null;
+-		let untilDate = null;
+-		const { availableDates } = this.state;
++  static propTypes = {
++    initialMonth: PropTypes.string,
++    dayHeadings: PropTypes.arrayOf(PropTypes.string),
++    availableDates: PropTypes.arrayOf(PropTypes.string),
++    maxMonth: PropTypes.number,
++    buttonColor: PropTypes.string,
++    buttonContainerStyle: PropTypes.object,
++    startDate: PropTypes.string,
++    untilDate: PropTypes.string,
++    minDate: PropTypes.string,
++    maxDate: PropTypes.string,
++    showReset: PropTypes.bool,
++    showClose: PropTypes.bool,
++    ignoreMinDate: PropTypes.bool,
++    disabledBtn: PropTypes.bool,
++    onClose: PropTypes.func,
++    onSelect: PropTypes.func,
++    onConfirm: PropTypes.func,
++    placeHolderStart: PropTypes.string,
++    placeHolderUntil: PropTypes.string,
++    selectedBackgroundColor: PropTypes.string,
++    selectedTextColor: PropTypes.string,
++    todayColor: PropTypes.string,
++    infoText: PropTypes.string,
++    infoStyle: PropTypes.object,
++    infoContainerStyle: PropTypes.object
++  };
+ 
+-		if(this.state.startDate && !this.state.untilDate)
+-		{
+-			if(date.format('YYYYMMDD') < this.state.startDate.format('YYYYMMDD') || this.isInvalidRange(date)){
+-				startDate = date;
+-			}
+-			else if(date.format('YYYYMMDD') > this.state.startDate.format('YYYYMMDD')){
+-				startDate = this.state.startDate;
+-				untilDate = date;
+-			}
+-			else{
+-				startDate = null;
+-				untilDate = null;
+-			}
+-		}
+-		else if(!this.isInvalidRange(date)) {
+-			startDate = date;
+-		}
+-		else {
+-			startDate = null;
+-			untilDate = null;
+-		}
++  componentWillReceiveProps(nextProps) {
++    this.setState({
++      availableDates: nextProps.availableDates,
++      disabledBtn: nextProps.disabledBtn,
++      selectedDays: nextProps.selectedDays
++    });
++  }
+ 
+-		this.setState({startDate, untilDate});
+-		this.props.onSelect(startDate, untilDate);
+-	}
++  onSelectDate(date) {
++    let startDate = null;
++    let untilDate = null;
++    const { availableDates } = this.state;
+ 
+-	isInvalidRange(date) {
+-		const { startDate, untilDate, availableDates } = this.state;
++    if (this.state.startDate && !this.state.untilDate) {
++      if (
++        date.format("YYYYMMDD") < this.state.startDate.format("YYYYMMDD") ||
++        this.isInvalidRange(date)
++      ) {
++        startDate = date;
++      } else if (
++        date.format("YYYYMMDD") > this.state.startDate.format("YYYYMMDD")
++      ) {
++        startDate = this.state.startDate;
++        untilDate = date;
++      } else {
++        startDate = null;
++        untilDate = null;
++      }
++    } else if (!this.isInvalidRange(date)) {
++      startDate = date;
++    } else {
++      startDate = null;
++      untilDate = null;
++    }
+ 
+-		if(availableDates && availableDates.length > 0){
+-			//select endDate condition
+-			if(startDate && !untilDate) {
+-				for(let i = startDate.format('YYYYMMDD'); i <= date.format('YYYYMMDD'); i = moment(i, 'YYYYMMDD').add(1, 'days').format('YYYYMMDD')){
+-					if(availableDates.indexOf(i) == -1 && startDate.format('YYYYMMDD') != i)
+-						return true;
+-				}
+-			}
+-			//select startDate condition
+-			else if(availableDates.indexOf(date.format('YYYYMMDD')) == -1)
+-				return true;
+-		}
++    this.setState({ startDate, untilDate });
++    this.props.onSelect(startDate, untilDate);
++  }
+ 
+-		return false;
+-	}
++  isInvalidRange(date) {
++    const { startDate, untilDate, availableDates } = this.state;
+ 
+-	getMonthStack(){
+-		let res = [];
+-		const { maxMonth, initialMonth } = this.props;
+-		let initMonth = moment();
+-		if(initialMonth && initialMonth != '')
+-			initMonth = moment(initialMonth, 'YYYYMM');
++    if (availableDates && availableDates.length > 0) {
++      //select endDate condition
++      if (startDate && !untilDate) {
++        for (
++          let i = startDate.format("YYYYMMDD");
++          i <= date.format("YYYYMMDD");
++          i = moment(i, "YYYYMMDD")
++            .add(1, "days")
++            .format("YYYYMMDD")
++        ) {
++          if (
++            availableDates.indexOf(i) == -1 &&
++            startDate.format("YYYYMMDD") != i
++          )
++            return true;
++        }
++      }
++      //select startDate condition
++      else if (availableDates.indexOf(date.format("YYYYMMDD")) == -1)
++        return true;
++    }
+ 
+-		for(let i = 0; i < maxMonth; i++){
+-			res.push(initMonth.clone().add(i, 'month').format('YYYYMM'));
+-		}
++    return false;
++  }
+ 
+-		return res;
+-	}
++  getMonthStack() {
++    let res = [];
++    const { maxMonth, initialMonth } = this.props;
++    let initMonth = moment();
++    if (initialMonth && initialMonth != "")
++      initMonth = moment(initialMonth, "YYYYMM");
+ 
+-	onReset(){
+-		this.setState({
+-			startDate: null,
+-			untilDate: null,
+-		});
++    for (let i = 0; i < maxMonth; i++) {
++      res.push(
++        initMonth
++          .clone()
++          .add(i, "month")
++          .format("YYYYMM")
++      );
++    }
+ 
+-		this.props.onSelect(null, null);
+-	}
++    return res;
++  }
+ 
+-	handleConfirmDate(){
+-		this.props.onConfirm && this.props.onConfirm(this.state.startDate,this.state.untilDate);
+-	}
++  onReset() {
++    this.setState({
++      startDate: null,
++      untilDate: null
++    });
+ 
+-	handleRenderRow(month) {
+-		const { selectedBackgroundColor, selectedTextColor, todayColor, ignoreMinDate, minDate, maxDate } = this.props;
+-		let { availableDates, startDate, untilDate } = this.state;
++    this.props.onSelect(null, null);
++  }
+ 
++  handleConfirmDate() {
++    this.props.onConfirm &&
++      this.props.onConfirm(this.state.startDate, this.state.untilDate);
++  }
+ 
++  handleRenderRow(month) {
++    const {
++      selectedBackgroundColor,
++      selectedTextColor,
++      todayColor,
++      ignoreMinDate,
++      minDate,
++      maxDate
++    } = this.props;
++    let { availableDates, startDate, untilDate } = this.state;
+ 
+-		if(availableDates && availableDates.length > 0){
+-			availableDates = availableDates.filter(function(d){
+-				if(d.indexOf(month) >= 0)
+-					return true;
+-			});
+-		}
++    if (availableDates && availableDates.length > 0) {
++      availableDates = availableDates.filter(function(d) {
++        if (d.indexOf(month) >= 0) return true;
++      });
++    }
+ 
+-		return (
+-			<Month
+-				onSelectDate={this.onSelectDate}
+-				startDate={startDate}
+-				untilDate={untilDate}
+-				availableDates={availableDates}
+-				minDate={minDate ? moment(minDate, 'YYYYMMDD') : minDate}
+-				maxDate={maxDate ? moment(maxDate, 'YYYYMMDD') : maxDate}
+-				ignoreMinDate={ignoreMinDate}
+-				dayProps={{selectedBackgroundColor, selectedTextColor, todayColor}}
+-				month={month} />
+-		)
+-	}
++    return (
++      <Month
++        onSelectDate={this.onSelectDate}
++        startDate={startDate}
++        untilDate={untilDate}
++        availableDates={availableDates}
++        minDate={minDate ? moment(minDate, "YYYYMMDD") : minDate}
++        maxDate={maxDate ? moment(maxDate, "YYYYMMDD") : maxDate}
++        ignoreMinDate={ignoreMinDate}
++        dayProps={{ selectedBackgroundColor, selectedTextColor, todayColor }}
++        month={month}
++      />
++    );
++  }
+ 
+-	render(){
+-		const monthStack = this.ds.cloneWithRows(this.getMonthStack());
+-			return (
+-				<View style={{backgroundColor: '#fff', zIndex: 1000, alignSelf: 'center'}}>
+-					{
+-						this.props.showClose || this.props.showReset ?
+-							(<View style={{ flexDirection: 'row', justifyContent: "space-between", padding: 20, paddingBottom: 10}}>
+-								{
+-									this.props.showClose && <Text style={{fontSize: 20}} onPress={this.props.onClose}>Close</Text>
+-								}
+-								{
+-									this.props.showReset && <Text style={{fontSize: 20}} onPress={this.onReset}>Reset</Text>
+-								}
+-							</View>)
+-							:
+-							null
+-					}
+-					<View style={{ flexDirection: 'row', justifyContent: "space-between", paddingHorizontal: 20, paddingBottom: 5, alignItems: 'center'}}>
+-						<View style={{flex: 1}}>
+-							<Text style={{fontSize: 34, color: '#666'}}>
+-								{ this.state.startDate ? moment(this.state.startDate).format("MMM DD YYYY") : this.props.placeHolderStart}
+-							</Text>
+-						</View>
++  render() {
++    const monthStack = this.ds.cloneWithRows(this.getMonthStack());
++    return (
++      <View
++        style={{ backgroundColor: "#fff", zIndex: 1000, alignSelf: "center" }}
++      >
++        {this.props.showClose || this.props.showReset ? (
++          <View
++            style={{
++              flexDirection: "row",
++              justifyContent: "space-between",
++              padding: 20,
++              paddingBottom: 10
++            }}
++          >
++            {this.props.showClose && (
++              <IonIcons
++                name={"md-close"}
++                size={responsiveFontSize(3.6)}
++                color={"#484848"}
++                style={{
++                  alignSelf: "center",
++                  paddingHorizontal: responsiveWidth(2)
++                }}
++                onPress={this.props.onClose}
++              />
++            )}
++            {this.props.showReset && (
++              <Text
++                style={{
++                  fontSize: responsiveFontSize(2.7),
++                  fontFamily: "CircularStd-Medium",
++                  color: "#484848"
++                }}
++                onPress={this.onReset}
++              >
++                Clear
++              </Text>
++            )}
++          </View>
++        ) : null}
++        <View
++          style={{
++            flexDirection: "row",
++            justifyContent: "space-between",
++            paddingHorizontal: responsiveWidth(5),
++            paddingBottom: 5,
++            alignItems: "center"
++          }}
++        >
++          <View style={{ flex: 1, paddingRight: responsiveWidth(6) }}>
++            <Text
++              style={{
++                fontSize: responsiveFontSize(4),
++                color: "#484848",
++                fontFamily: "CircularStd-Medium"
++              }}
++            >
++              {this.state.startDate
++                ? moment(this.state.startDate).format("MMM DD YYYY")
++                : this.props.placeHolderStart}
++            </Text>
++          </View>
+ 
+-						<View style={{}}>
+-							<Text style={{fontSize: 80}}>
+-								/
+-							</Text>
+-						</View>
++          <View style={{}}>
++            <Text
++              style={{
++                fontFamily: "Montserrat-ExtraLight",
++                fontSize: responsiveFontSize(10),
++                color: "#DCDCDC"
++              }}
++            >
++              /
++            </Text>
++          </View>
+ 
+-						<View style={{flex: 1}}>
+-							<Text style={{fontSize: 34, color: '#666', textAlign: 'right'}}>
+-								{ this.state.untilDate ? moment(this.state.untilDate).format("MMM DD YYYY") : this.props.placeHolderUntil}
+-							</Text>
+-						</View>
+-					</View>
+-					{
+-						this.props.infoText != "" && 
+-						<View style={this.props.infoContainerStyle}>
+-							<Text style={this.props.infoStyle}>{this.props.infoText}</Text>
+-						</View>
+-					}
+-					<View style={styles.dayHeader}>
+-						{
+-							this.props.dayHeadings.map((day, i) => {
+-								return (<Text style={{width: DEVICE_WIDTH / 7, textAlign: 'center'}} key={i}>{day}</Text>)
+-							})
+-						}
+-					</View>
+-					<ListView
+-			            dataSource={monthStack}
+-			            renderRow={this.handleRenderRow}
+-			            initialListSize={1}
+-			            showsVerticalScrollIndicator={false} />
+-					<View style={[styles.buttonWrapper, this.props.buttonContainerStyle]}>
+-						<Button
+-							title="Select Date" 
+-							onPress={this.handleConfirmDate}
+-							color={this.props.buttonColor} />
+-					</View>
+-				</View>
+-			)
+-	}
++          <View style={{ flex: 1, paddingLeft: responsiveWidth(8) }}>
++            <Text
++              style={{
++                fontSize: responsiveFontSize(4),
++                fontFamily: "CircularStd-Medium",
++                color: "#484848",
++                textAlign: "right"
++              }}
++            >
++              {this.state.untilDate
++                ? moment(this.state.untilDate).format("MMM DD YYYY")
++                : this.props.placeHolderUntil}
++            </Text>
++          </View>
++        </View>
++        {this.props.infoText != "" && (
++          <View style={this.props.infoContainerStyle}>
++            <Text style={this.props.infoStyle}>{this.props.infoText}</Text>
++          </View>
++        )}
++        <View style={styles.dayHeader}>
++          {this.props.dayHeadings.map((day, i) => {
++            return (
++              <Text
++                style={{
++                  width: DEVICE_WIDTH / 7,
++                  textAlign: "center",
++                  fontFamily: "CircularStd-Medium",
++                  color: "#484848"
++                }}
++                key={i}
++              >
++                {day}
++              </Text>
++            );
++          })}
++        </View>
++        <ListView
++          dataSource={monthStack}
++          renderRow={this.handleRenderRow}
++          initialListSize={1}
++          showsVerticalScrollIndicator={false}
++        />
++        <View style={[styles.buttonWrapper, this.props.buttonContainerStyle]}>
++          <View
++            style={{
++              width: responsiveWidth(55),
++              justifyContent: "center"
++            }}
++          >
++            {this.state.disabledBtn ? (
++              <Text
++                style={{
++                  fontFamily: "CircularStd-Medium",
++                  fontSize: responsiveFontSize(2.3),
++                  color: "#484848"
++                }}
++              >
++                Please choose a minimum of 3 days.
++              </Text>
++            ) : (
++              <Text
++                style={{
++                  fontFamily: "CircularStd-Medium",
++                  fontSize: responsiveFontSize(2.3),
++                  color: "#484848"
++                }}
++              >
++                {this.state.selectedDays} days selected.
++              </Text>
++            )}
++          </View>
++          <View
++            style={{
++              borderRadius: responsiveWidth(1.5)
++            }}
++          >
++            <Ripple
++              disabled={this.state.disabledBtn}
++              rippleColor={"#FFFFFF"}
++              rippleContainerBorderRadius={responsiveWidth(1.5)}
++              onPressIn={this.handleConfirmDate}
++            >
++              <View
++                style={{
++                  width: responsiveWidth(28),
++                  height: responsiveHeight(9),
++                  borderRadius: responsiveWidth(1.5),
++                  paddingVertical: responsiveHeight(2),
++                  backgroundColor: this.state.disabledBtn
++                    ? "#bcd8d6"
++                    : "#00A699",
++                  justifyContent: "center"
++                }}
++              >
++                <Text
++                  style={[
++                    styles.fontMedium,
++                    {
++                      color: "#FFFFFF",
++                      textAlign: "center",
++                      fontSize: responsiveFontSize(2.5)
++                    }
++                  ]}
++                >
++                  Save
++                </Text>
++              </View>
++            </Ripple>
++          </View>
++        </View>
++      </View>
++    );
++  }
+ }
+ 
+ const styles = StyleSheet.create({
+-	dayHeader : { 
+-		flexDirection: 'row', 
+-		borderBottomWidth: 1, 
+-		paddingBottom: 10,
+-		paddingTop: 10,
+-	},
+-	buttonWrapper : {
+-		paddingVertical: 10, 
+-		paddingHorizontal: 15, 
+-		backgroundColor: 'white', 
+-		borderTopWidth: 1, 
+-		borderColor: '#ccc',
+-		alignItems: 'stretch'
+-	},
++  dayHeader: {
++    flexDirection: "row",
++    borderBottomWidth: 1,
++    borderColor: "#DCDCDC",
++    paddingBottom: 10,
++    paddingTop: 10
++  },
++  buttonWrapper: {
++    paddingVertical: 10,
++    paddingHorizontal: responsiveWidth(4),
++    backgroundColor: "white",
++    borderTopWidth: 1,
++    borderColor: "#DCDCDC",
++    flexDirection: "row",
++    justifyContent: "space-between"
++  }
+ });

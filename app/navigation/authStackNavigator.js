@@ -14,12 +14,14 @@ import FeedScreen from "../screens/feedScreen";
 import DetailScreen from "../screens/detailScreen";
 import PinScreen from "../screens/pinScreen";
 import SomeScreen from "../screens/someScreen";
+import PhoneNumLoginScreen from "../screens/phoneNumLoginScreen";
 
 export default createStackNavigator(
   {
     Welcome: WelcomeScreen,
     Name: NameScreen,
     Phone: PhoneNumScreen,
+    PhoneLogin: PhoneNumLoginScreen,
     Login: LoginScreen,
     Map: MapScreen,
     Calendar: CalendarScreen,
@@ -30,7 +32,7 @@ export default createStackNavigator(
     Some: SomeScreen
   },
   {
-    initialRouteName: "Phone",
+    initialRouteName: "Calendar",
     transitionConfig: getSlideFromRightTransition
   }
 );

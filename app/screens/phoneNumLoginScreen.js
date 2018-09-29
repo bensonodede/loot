@@ -24,7 +24,7 @@ import FlashMessage from "react-native-flash-message";
 import IonIcons from "react-native-vector-icons/Ionicons";
 import styles from "../config/styles";
 
-export default class PhoneNumScreen extends React.Component {
+export default class PhoneNumLoginScreen extends React.Component {
   static navigationOptions = {
     header: null
   };
@@ -32,6 +32,7 @@ export default class PhoneNumScreen extends React.Component {
   constructor(props) {
     super(props);
     this.unsubscribe = null;
+    this.disconnected = true;
     this.state = {
       isConnected: true,
       phoneNum: "",
@@ -44,30 +45,22 @@ export default class PhoneNumScreen extends React.Component {
   }
 
   componentDidMount() {
-    const firstName = this.props.navigation.getParam("firstName");
-    const lastName = this.props.navigation.getParam("lastName");
-    const name = firstName + " " + lastName;
-    console.log(name);
     NetInfo.isConnected.addEventListener(
       "connectionChange",
       this.handleConnectivityChange
     );
 
     NetInfo.isConnected.fetch().then(isConnected => {
-      this.setState({ isConnected });
+      if (this.disconnected) {
+        this.setState({ isConnected });
+      }
     });
 
     this.unsubscribe = firebase.auth().onAuthStateChanged(user => {
       if (user) {
-        user
-          .updateProfile({
-            displayName: name
-          })
-          .then(() => {
-            this.setState({ sending: false });
-            console.log(user);
-            this.props.navigation.navigate("Feed");
-          });
+        this.setState({ sending: false });
+        console.log(user);
+        this.props.navigation.navigate("Feed");
       } else {
         console.log("NOT SIGNED IN");
         this.setState({
@@ -85,11 +78,12 @@ export default class PhoneNumScreen extends React.Component {
       "connectionChange",
       this.handleConnectivityChange
     );
+    this.disconnected = false;
     if (this.unsubscribe) this.unsubscribe();
   }
 
   _noInternetAlert() {
-    this.refs.fmLocalInstance.showMessage({
+    this.refs.fm1LocalInstance.showMessage({
       message: "No internet connection",
       type: "warning",
       backgroundColor: "#d93900",
@@ -98,7 +92,7 @@ export default class PhoneNumScreen extends React.Component {
   }
 
   _yesInternetAlert() {
-    this.refs.fmLocalInstance.showMessage({
+    this.refs.fm1LocalInstance.showMessage({
       message: "Connected",
       type: "default",
       backgroundColor: "#00A699",
@@ -116,12 +110,6 @@ export default class PhoneNumScreen extends React.Component {
     }
   };
 
-  _goToNext = confirmResult => {
-    this.props.navigation.navigate("Pin", {
-      confirmResult: confirmResult
-    });
-  };
-
   _goBack = () => {
     this.props.navigation.goBack();
   };
@@ -132,12 +120,18 @@ export default class PhoneNumScreen extends React.Component {
     if (phoneValid.phone == null) {
       this.setState({ disabled: true });
     } else {
-      this.setState({ disabled: false, phoneValid: "+254" + phoneValid.phone });
+      this.setState(
+        { disabled: false, phoneValid: "+254" + phoneValid.phone },
+        () => {
+          console.log(this.state);
+        }
+      );
     }
   };
 
   _signIn() {
     if (this.state.isConnected) {
+      console.log(this.state);
       this.setState({ sending: true }, () => {
         this._sendMsg();
       });
@@ -255,9 +249,9 @@ export default class PhoneNumScreen extends React.Component {
             </Ripple>
           </View>
 
-          <Text style={style1.headerStyle}>And, your number?</Text>
+          <Text style={style1.headerStyle}>Enter your phone number.</Text>
           <Text style={style1.moreInfoStyle}>
-            This is so we can contact you for deliveries and pickups.
+            Maybe we'll text you someday when we are not too shy...
           </Text>
           <View
             style={{
@@ -351,7 +345,7 @@ export default class PhoneNumScreen extends React.Component {
           </View>
         </View>
         <FlashMessage
-          ref="fmLocalInstance"
+          ref="fm1LocalInstance"
           position="bottom"
           hideOnPress={true}
           animated={true}

@@ -25,6 +25,7 @@ export default class FeedScreen extends React.Component {
     super();
     this.ref = firebase.firestore().collection("games");
     this.unsubscribe = null;
+    this.userUnsubscribe = null;
     this.state = {
       games: [],
       loading: true
@@ -33,10 +34,18 @@ export default class FeedScreen extends React.Component {
 
   componentDidMount() {
     this.unsubscribe = this.ref.onSnapshot(this.onCollectionUpdate);
+    this.userUnsubscribe = firebase.auth().onAuthStateChanged(user => {
+      if (user) {
+        console.log(user);
+      } else {
+        console.log("NOT SIGNED IN");
+      }
+    });
   }
 
   componentWillUnmount() {
     this.unsubscribe();
+    if (this.userUnsubscribe) this.userUnsubscribe();
   }
 
   onCollectionUpdate = querySnapshot => {
@@ -63,9 +72,6 @@ export default class FeedScreen extends React.Component {
     );
   };
 
-  signOut = () => {
-    firebase.auth().signOut();
-  };
   renderHeader = () => {
     return (
       <View>
@@ -82,12 +88,6 @@ export default class FeedScreen extends React.Component {
         >
           Featured
         </Text>
-        <Button
-          title={"SIGN OUT"}
-          onPress={() => {
-            this.signOut;
-          }}
-        />
       </View>
     );
   };
@@ -118,7 +118,7 @@ export default class FeedScreen extends React.Component {
           backgroundColor={"#FFFFFF"}
           animated
         />
-        <Button
+        {/* <Button
           onPress={() => {
             firebase
               .auth()
@@ -129,7 +129,7 @@ export default class FeedScreen extends React.Component {
               .catch(error => console.log(error));
           }}
           title={"SIGN OUT"}
-        />
+        />*/}
         <FlatList
           showsVerticalScrollIndicator={false}
           showsHorizontalScrollIndicator={false}

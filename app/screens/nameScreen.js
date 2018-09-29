@@ -39,23 +39,13 @@ export default class NameScreen extends React.Component {
     const { firstName, lastName } = this.state;
 
     if (firstName == "" || lastName == "") {
-      this.setState(
-        {
-          disabled: true
-        },
-        () => {
-          console.log(this.state);
-        }
-      );
+      this.setState({
+        disabled: true
+      });
     } else {
-      this.setState(
-        {
-          disabled: false
-        },
-        () => {
-          console.log(this.state);
-        }
-      );
+      this.setState({
+        disabled: false
+      });
     }
   };
   render() {
@@ -207,10 +197,13 @@ export default class NameScreen extends React.Component {
           >
             <Ripple
               disabled={this.state.disabled}
-              rippleColor={"#000000"}
+              rippleColor={"#FFFFFF"}
               rippleContainerBorderRadius={responsiveWidth(15)}
               onPressIn={() => {
-                console.log(this.state);
+                this.props.navigation.navigate("Phone", {
+                  firstName: this.state.firstName,
+                  lastName: this.state.lastName
+                });
               }}
             >
               <View

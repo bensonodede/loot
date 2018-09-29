@@ -31,6 +31,7 @@
     "react-native-location-view": "^0.1.5",
     "react-native-maps": "^0.21.0",
     "react-native-material-ripple": "^0.8.0",
+    "react-native-permissions": "^1.1.1",
     "react-native-range-datepicker": "^1.8.2",
     "react-native-read-more-text": "^1.1.0",
     "react-native-responsive-dimensions": "^1.0.2",

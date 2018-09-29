@@ -40,7 +40,7 @@ export default class PinScreen extends React.Component {
         //this.setState({ user: user.toJSON() });
         console.log(user);
       } else {
-        console.log("NO USER");
+        console.log("NOT SIGNED IN");
       }
     });
     const confirmResult = this.props.navigation.getParam("confirmResult");
@@ -96,7 +96,7 @@ export default class PinScreen extends React.Component {
             styles.container,
             {
               flex: 1,
-              paddingTop: responsiveHeight(6),
+              paddingTop: responsiveHeight(5),
               height: responsiveHeight(100)
             }
           ]}
@@ -142,12 +142,6 @@ export default class PinScreen extends React.Component {
               flexDirection: "row"
             }}
           >
-            <Button
-              onPress={() => {
-                this.signOut;
-              }}
-              title={"SIGN OUT"}
-            />
             <View style={{ flex: 1, marginLeft: responsiveWidth(2.5) }}>
               <CodeInput
                 ref={"pinInput"}
