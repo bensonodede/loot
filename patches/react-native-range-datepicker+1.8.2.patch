@@ -1272,7 +1272,7 @@ patch-package
 +                style={{
 +                  fontFamily: "CircularStd-Medium",
 +                  fontSize: responsiveFontSize(2.3),
-+                  color: "#484848"
++                  color: "#707070"
 +                }}
 +              >
 +                Please choose a minimum of 3 days.

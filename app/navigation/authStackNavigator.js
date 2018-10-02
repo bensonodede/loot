@@ -32,7 +32,7 @@ export default createStackNavigator(
     Some: SomeScreen
   },
   {
-    initialRouteName: "Calendar",
+    initialRouteName: "Time",
     transitionConfig: getSlideFromRightTransition
   }
 );

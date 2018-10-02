@@ -10,6 +10,7 @@ import com.oblador.vectoricons.VectorIconsPackage;
 import io.invertase.firebase.RNFirebasePackage;
 import io.invertase.firebase.auth.RNFirebaseAuthPackage; 
 import io.invertase.firebase.firestore.RNFirebaseFirestorePackage; 
+import com.BV.LinearGradient.LinearGradientPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
@@ -33,6 +34,7 @@ public class MainApplication extends Application implements ReactApplication {
             new RNTextInputMaskPackage(),
             new SvgPackage(),
             new MapsPackage(),
+            new LinearGradientPackage(),
             new VectorIconsPackage(),
             new RNFirebasePackage(),
             new RNFirebaseAuthPackage(),
