@@ -15,6 +15,7 @@ import DetailScreen from "../screens/detailScreen";
 import PinScreen from "../screens/pinScreen";
 import SomeScreen from "../screens/someScreen";
 import PhoneNumLoginScreen from "../screens/phoneNumLoginScreen";
+import RadioButtonScreen from "../screens/radioButton";
 
 export default createStackNavigator(
   {
@@ -26,6 +27,7 @@ export default createStackNavigator(
     Map: MapScreen,
     Calendar: CalendarScreen,
     Time: TimeScreen,
+    Radio: RadioButtonScreen,
     Feed: FeedScreen,
     Detail: DetailScreen,
     Pin: PinScreen,

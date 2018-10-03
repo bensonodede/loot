@@ -15,7 +15,6 @@ import RadioForm, {
   RadioButtonLabel
 } from "react-native-simple-radio-button";
 
-import RadioButtonGroup from "./radioButtonGroup";
 import styles from "../config/styles";
 import {
   responsiveHeight,
@@ -133,36 +132,7 @@ export default class App extends Component {
         >
           When do we deliver?
         </Text>
-        <RadioButtonGroup
-          valueKey="value1Index"
-          onPress={this.onPress}
-          options={this.state.types1}
-          valueIndex={this.state.value1Index}
-        />
-        <RadioButtonGroup
-          valueKey="value2Index"
-          onPress={this.onPress}
-          options={this.state.types2}
-          valueIndex={this.state.value2Index}
-        />
-        <RadioButtonGroup
-          valueKey="value3Index"
-          onPress={this.onPress}
-          options={this.state.types3}
-          valueIndex={this.state.value3Index}
-        />
-        <Text>
-          Types1 selected color:{" "}
-          {this.state.types1[this.state.value1Index].label}
-        </Text>
-        <Text>
-          Types2 selected color:{" "}
-          {this.state.types2[this.state.value2Index].label}
-        </Text>
-        <Text>
-          Types3 selected color:{" "}
-          {this.state.types3[this.state.value3Index].label}
-        </Text>
+
         {/*<FlatList
           showsVerticalScrollIndicator={false}
           showsHorizontalScrollIndicator={false}
