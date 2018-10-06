@@ -39,6 +39,8 @@ export default class CalendarScreen extends React.Component {
           animated
         />
         <DatepickerRange
+          // placeHolderStart={"First Day"}
+          // placeHolderUntil={"Last Day"}
           minDate={today_date}
           maxDate={last_date}
           maxMonth={3}
@@ -54,6 +56,8 @@ export default class CalendarScreen extends React.Component {
             const begin = startDate._d;
             const end = untilDate._d;
             this.setState({ startDate: begin, untilDate: end }, () => {
+              //Pass in selected datesto next page
+              this.props.navigation.navigate("Map");
               console.log(this.state);
             });
           }}

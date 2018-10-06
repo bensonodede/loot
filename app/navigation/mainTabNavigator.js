@@ -1,30 +1,46 @@
+import React from "react";
 import {
   createStackNavigator,
   createBottomTabNavigator
 } from "react-navigation";
+import { createMaterialBottomTabNavigator } from "react-navigation-material-bottom-tabs";
+
+import {
+  responsiveHeight,
+  responsiveWidth,
+  responsiveFontSize
+} from "react-native-responsive-dimensions";
+import FeatherIcon from "react-native-vector-icons/Feather";
 //import { FluidNavigator, Transition } from 'react-navigation-fluid-transitions';
 
 import OtherScreen from "../screens/otherScreen";
-import HomeScreen from "../screens/homeScreen";
-import ProductScreen from "../screens/productScreen";
+import FeedScreen from "../screens/feedScreen";
+import DetailScreen from "../screens/detailScreen";
+import CalendarScreen from "../screens/calendar";
+import MapScreen from "../screens/mapScreen";
+import TimeScreen from "../screens/timeScreen";
+import RadioButtonScreen from "../screens/radioButton";
 
 const HomeStack = createStackNavigator({
-  Home: HomeScreen,
-  Product: ProductScreen
+  Feed: FeedScreen
 });
 
 HomeStack.navigationOptions = {
-  tabBarLabel: "Home"
-  /*tabBarIcon: ({ focused }) => (
-    <TabBarIcon
-      focused={focused}
-      name={
-        Platform.OS === 'ios'
-          ? `ios-information-circle${focused ? '' : '-outline'}`
-          : 'md-information-circle'
-      }
-    />
-  ),*/
+  tabBarLabel: "Home",
+  tabBarIcon: ({ focused, tintColor }) =>
+    focused ? (
+      <FeatherIcon
+        name={"home"}
+        size={responsiveFontSize(3.4)}
+        color={"#FFFFFF"}
+      />
+    ) : (
+      <FeatherIcon
+        name={"home"}
+        size={responsiveFontSize(3.2)}
+        color={"#727272"}
+      />
+    )
 };
 
 const OtherStack = createStackNavigator({
@@ -32,20 +48,72 @@ const OtherStack = createStackNavigator({
 });
 
 OtherStack.navigationOptions = {
-  tabBarLabel: "Other"
-  /*tabBarIcon: ({ focused }) => (
-    <TabBarIcon
-      focused={focused}
-      name={
-        Platform.OS === 'ios'
-          ? `ios-information-circle${focused ? '' : '-outline'}`
-          : 'md-information-circle'
-      }
-    />
-  ),*/
+  tabBarLabel: "Profile",
+  tabBarIcon: ({ focused, tintColor }) =>
+    focused ? (
+      <FeatherIcon
+        name={"user"}
+        size={responsiveFontSize(3.4)}
+        color={"#FFFFFF"}
+      />
+    ) : (
+      <FeatherIcon
+        name={"user"}
+        size={responsiveFontSize(3.2)}
+        color={"#727272"}
+      />
+    )
 };
 
-export default createBottomTabNavigator({
-  HomeStack,
-  OtherStack
+const ChatStack = createStackNavigator({
+  Other: OtherScreen
 });
+
+ChatStack.navigationOptions = {
+  tabBarLabel: "Chat",
+
+  tabBarIcon: ({ focused, tintColor }) =>
+    focused ? (
+      <FeatherIcon
+        name={"message-circle"}
+        size={responsiveFontSize(3.4)}
+        color={"#FFFFFF"}
+      />
+    ) : (
+      <FeatherIcon
+        name={"message-circle"}
+        size={responsiveFontSize(3.2)}
+        color={"#727272"}
+      />
+    )
+};
+const TabNavigator = createMaterialBottomTabNavigator(
+  {
+    HomeStack,
+    OtherStack,
+    ChatStack
+  },
+  {
+    shifting: true,
+    activeTintColor: "#f0edf6",
+    inactiveTintColor: "#3e2465",
+    barStyle: { backgroundColor: "#000000" }
+  }
+);
+
+export default createStackNavigator(
+  {
+    Tabs: TabNavigator,
+    Detail: DetailScreen,
+    Calendar: CalendarScreen,
+    Map: MapScreen,
+    Time: TimeScreen,
+    Radio: RadioButtonScreen
+  },
+  {
+    initialRouteName: "Time",
+    navigationOptions: {
+      header: null
+    }
+  }
+);

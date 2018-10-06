@@ -17,13 +17,14 @@ export default class MapScreen extends React.Component {
           animated
         />
         <LocationView
-        navigation={this.props.navigation}
+          navigation={this.props.navigation}
           initialLocation={{
             latitude: -1.28333,
             longitude: 36.81667
           }}
           onLocationSelect={region => {
             console.log(region);
+            this.props.navigation.navigate("Time");
           }}
         />
       </View>

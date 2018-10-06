@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import styles from "../config/styles";
 
-export default class OtherScreen extends React.Component {
+export default class ChatScreen extends React.Component {
   static navigationOptions = {
     title: "Lots of features here",
     header: null
@@ -25,7 +25,7 @@ export default class OtherScreen extends React.Component {
           backgroundColor={"#FFFFFF"}
           animated
         />
-        <Button title="I'm done, sign me out" onPress={this._signOutAsync} />
+        <Text>Chat with us</Text>
       </View>
     );
   }

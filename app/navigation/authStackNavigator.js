@@ -7,15 +7,9 @@ import WelcomeScreen from "../screens/WelcomeScreen";
 import LoginScreen from "../screens/Login";
 import NameScreen from "../screens/nameScreen";
 import PhoneNumScreen from "../screens/phoneNumScreen.js";
-import MapScreen from "../screens/mapScreen";
-import CalendarScreen from "../screens/calendar";
-import TimeScreen from "../screens/timeScreen";
-import FeedScreen from "../screens/feedScreen";
-import DetailScreen from "../screens/detailScreen";
 import PinScreen from "../screens/pinScreen";
-import SomeScreen from "../screens/someScreen";
+
 import PhoneNumLoginScreen from "../screens/phoneNumLoginScreen";
-import RadioButtonScreen from "../screens/radioButton";
 
 export default createStackNavigator(
   {
@@ -24,17 +18,10 @@ export default createStackNavigator(
     Phone: PhoneNumScreen,
     PhoneLogin: PhoneNumLoginScreen,
     Login: LoginScreen,
-    Map: MapScreen,
-    Calendar: CalendarScreen,
-    Time: TimeScreen,
-    Radio: RadioButtonScreen,
-    Feed: FeedScreen,
-    Detail: DetailScreen,
-    Pin: PinScreen,
-    Some: SomeScreen
+    Pin: PinScreen
   },
   {
-    initialRouteName: "Time",
+    initialRouteName: "Welcome",
     transitionConfig: getSlideFromRightTransition
   }
 );

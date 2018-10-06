@@ -7,8 +7,8 @@ import AuthLoadingNavigator from "./authLoadingNavigator";
 export default createSwitchNavigator(
   {
     //AuthLoading: AuthLoadingNavigator,
-    Auth: AuthStackNavigator
-    //Main: MainTabNavigator,
+    //Auth: AuthStackNavigator
+    Main: MainTabNavigator
   },
   {
     //initialRouteName: 'AuthLoading',

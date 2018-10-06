@@ -130,6 +130,7 @@ export default class FeedScreen extends React.Component {
           }}
           title={"SIGN OUT"}
         />*/}
+
         <FlatList
           showsVerticalScrollIndicator={false}
           showsHorizontalScrollIndicator={false}

@@ -5,16 +5,18 @@ import {
   Text,
   ScrollView,
   Image,
+  ImageBackground,
   TouchableNativeFeedback,
   Platform
 } from "react-native";
+import * as Animatable from "react-native-animatable";
 import {
   responsiveHeight,
   responsiveWidth,
   responsiveFontSize
 } from "react-native-responsive-dimensions";
 import Ripple from "react-native-material-ripple";
-
+import LinearGradient from "react-native-linear-gradient";
 import IonIcons from "react-native-vector-icons/Ionicons";
 import styles from "../config/styles";
 
@@ -120,7 +122,7 @@ export default class DetailScreen extends React.Component {
               resizeMode={"cover"}
             />
           </View>
-          <Image
+          {/*<Image
             style={{
               height: responsiveHeight(50),
               width: responsiveWidth(100),
@@ -130,81 +132,18 @@ export default class DetailScreen extends React.Component {
               left: 0
             }}
             source={require("../assets/transparent-fade-black-1.png")}
-          />
-          {/*<View
-            style={{
-              paddingHorizontal: responsiveWidth(4),
-              paddingVertical: responsiveHeight(2),
-              backgroundColor: "#FFFFFF"
-            }}
-          >
-            <Text style={[styles.blackish, styles.fontBold, styles.title2]}>
-              {details.title}
-            </Text>
-            <View
+          />*/}
+          <View>
+            <LinearGradient
+              locations={[0.05, 1]}
+              colors={["rgba(0,0,0,0)", "rgba(0,0,0,1)"]}
               style={{
-                marginVertical: responsiveHeight(5)
+                paddingTop: StatusBar.currentHeight,
+                width: responsiveWidth(100),
+                height: responsiveHeight(40)
               }}
-            >
-              <ReadMore
-                numberOfLines={4}
-                renderTruncatedFooter={this._renderTruncatedFooter}
-                renderRevealedFooter={this._renderRevealedFooter}
-              >
-                <Text
-                  style={[
-                    styles.blackish,
-                    styles.fontMedium,
-                    styles.regular,
-                    { marginTop: responsiveHeight(8) }
-                  ]}
-                >
-                  {details.description}
-                </Text>
-              </ReadMore>
-            </View>
-            <View style={{ borderTopWidth: 1, borderTopColor: "#DCDCDC" }}>
-              <Text
-                style={[
-                  styles.fontMedium,
-                  styles.blackish,
-                  styles.large,
-                  { marginTop: responsiveHeight(5) }
-                ]}
-              >
-                Available on:
-              </Text>
-              <View
-                style={{
-                  width: responsiveWidth(45),
-                  flexDirection: "column",
-                  alignContent: "center",
-                  marginVertical: responsiveHeight(4),
-                  borderWidth: 1,
-                  borderColor: "#DCDCDC",
-                  borderRadius: responsiveWidth(2),
-                  paddingVertical: responsiveHeight(4),
-                  paddingHorizontal: responsiveWidth(4)
-                }}
-              >
-                <Icon name="logo-playstation" size={25} color="#484848" />
-                <Text
-                  style={[
-                    styles.blackish,
-                    styles.fontMedium,
-                    styles.regular,
-                    {
-                      marginTop: responsiveHeight(1),
-                      alignSelf: "flex-start"
-                      //fontSize: responsiveFontSize(2.1)
-                    }
-                  ]}
-                >
-                  Playstation 4
-                </Text>
-              </View>
-            </View>
-          </View>*/}
+            />
+          </View>
         </View>
         <View
           style={{
@@ -222,32 +161,62 @@ export default class DetailScreen extends React.Component {
             style={{
               flex: 1,
               width: responsiveWidth(30),
-              justifyContent: "center",
+              alignContent: "center",
               paddingLeft: responsiveWidth(5)
             }}
           >
-            <Text
-              style={[
-                styles.fontMedium,
-                { color: "#FFFFFF", fontSize: responsiveFontSize(2.5) }
-              ]}
+            <View
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "flex-start",
+                marginLeft: responsiveFontSize(-0.7),
+                paddingBottom: responsiveFontSize(0.6)
+              }}
             >
-              {details.price} ksh
-            </Text>
-            <Text
-              style={[
-                styles.fontLight,
-                { fontSize: responsiveFontSize(2.1), color: "#b7b7b7" }
-              ]}
-            >
-              per day
-            </Text>
+              <IonIcons
+                name={"logo-playstation"}
+                size={responsiveFontSize(2.5)}
+                color={"#FFFFFF"}
+                style={{
+                  paddingHorizontal: responsiveWidth(2)
+                }}
+              />
+              <Text
+                style={{
+                  color: "#FFFFFF",
+                  fontFamily: "CircularStd-Black",
+                  fontSize: responsiveFontSize(2)
+                }}
+              >
+                PS4
+              </Text>
+            </View>
+
+            <View>
+              <Text>
+                <Text
+                  style={[
+                    styles.fontBlack,
+                    { color: "#FFFFFF", fontSize: responsiveFontSize(2.2) }
+                  ]}
+                >
+                  {details.price} ksh{" "}
+                </Text>
+                <Text
+                  style={[
+                    styles.fontLight,
+                    { fontSize: responsiveFontSize(2.1), color: "#b7b7b7" }
+                  ]}
+                >
+                  per day
+                </Text>
+              </Text>
+            </View>
           </View>
 
           <View
             style={{
-              //width: responsiveWidth(15),
-              //height: responsiveWidth(15),
               borderRadius: responsiveWidth(1.5),
               paddingRight: responsiveWidth(5)
             }}
@@ -266,14 +235,77 @@ export default class DetailScreen extends React.Component {
                   borderRadius: responsiveWidth(1.5),
                   paddingVertical: responsiveHeight(2),
                   backgroundColor: "rgba(255,255,255,0.2)",
-                  justifyContent: "center"
+                  justifyContent: "center",
+                  zIndex: 1
                 }}
               >
+                <Animatable.View
+                  style={{
+                    width: responsiveWidth(45),
+                    height: responsiveHeight(8),
+                    borderRadius: responsiveWidth(1.5),
+                    position: "absolute",
+                    opacity: 0.5,
+                    top: 0,
+                    zIndex: -1,
+                    bottom: 0,
+                    left: 0,
+                    right: 0
+                  }}
+                  animation={{
+                    0: {
+                      opacity: 0.6,
+                      scale: 1.2
+                    },
+                    0.25: {
+                      opacity: 0.6,
+                      scale: 1.8
+                    },
+                    0.5: {
+                      opacity: 0.6,
+                      scale: 2.2
+                    },
+                    0.75: {
+                      opacity: 0.6,
+                      scale: 2.4
+                    },
+                    1: {
+                      opacity: 0.6,
+                      scale: 2.6
+                    }
+                  }}
+                  //delay={delay}
+                  duration={8500}
+                  direction="alternate"
+                  easing="ease-in-out"
+                  iterationCount="infinite"
+                  useNativeDriver
+                >
+                  <Image
+                    style={{
+                      width: responsiveWidth(45),
+                      height: responsiveHeight(8),
+                      borderRadius: responsiveWidth(1.5),
+                      alignSelf: "center"
+                    }}
+                    resizeMode={"cover"}
+                    source={require("../assets/greenish.jpg")}
+                  />
+                </Animatable.View>
                 <Text
                   style={[
                     styles.fontMedium,
                     styles.regular,
-                    { color: "#FFFFFF", textAlign: "center" }
+                    {
+                      color: "#FFFFFF",
+                      textAlign: "center",
+                      alignSelf: "center"
+                      //position: "absolute",
+                      //top: responsiveHeight(2)
+                      //bottom: 0,
+                      //right: 0,
+                      //left: 0
+                    }
                   ]}
                 >
                   Check availability
