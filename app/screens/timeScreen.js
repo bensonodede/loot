@@ -80,7 +80,7 @@ export default class TimeScreen extends Component {
           label: "8 AM - 9 AM",
           size: responsiveFontSize(4.5),
           color: "#636c72",
-          selected: true
+          selected: false
         },
 
         {
@@ -134,6 +134,20 @@ export default class TimeScreen extends Component {
 
         {
           label: "4 PM - 5 PM",
+          size: responsiveFontSize(4.5),
+          color: "#636c72",
+          selected: false
+        },
+
+        {
+          label: "5 PM - 6 PM",
+          size: responsiveFontSize(4.5),
+          color: "#636c72",
+          selected: false
+        },
+
+        {
+          label: "6 PM - 7 PM",
           size: responsiveFontSize(4.5),
           color: "#636c72",
           selected: false
@@ -198,7 +212,7 @@ export default class TimeScreen extends Component {
               {
                 paddingTop: StatusBar.currentHeight + responsiveHeight(1),
                 flex: 1,
-                paddingBottom: responsiveHeight(11)
+                paddingBottom: responsiveHeight(11.8)
               }
             ]}
           >
@@ -282,7 +296,7 @@ export default class TimeScreen extends Component {
                 </Text>
               </View>
               {this.state.radioItems.map((item, key) => {
-                if (key <= 2) {
+                if (key <= 3) {
                   return (
                     <RadioButton
                       key={key}
@@ -320,7 +334,7 @@ export default class TimeScreen extends Component {
                 </Text>
               </View>
               {this.state.radioItems.map((item, key) => {
-                if (key >= 3 && key < 6) {
+                if (key >= 4 && key < 8) {
                   return (
                     <RadioButton
                       key={key}
@@ -358,7 +372,7 @@ export default class TimeScreen extends Component {
                 </Text>
               </View>
               {this.state.radioItems.map((item, key) => {
-                if (key >= 6) {
+                if (key >= 8) {
                   return (
                     <RadioButton
                       key={key}
@@ -389,28 +403,46 @@ export default class TimeScreen extends Component {
                 flex: 1,
                 width: responsiveWidth(30),
                 alignContent: "center",
-                paddingLeft: responsiveWidth(5)
+                paddingLeft: responsiveWidth(8),
+                paddingRight: responsiveWidth(5)
               }}
             >
-              <View>
-                <Text>
+              <View style={{ flexDirection: "column" }}>
+                {this.state.selectedItem ? (
                   <Text
                     style={[
-                      styles.fontBlack,
-                      { color: "#FFFFFF", fontSize: responsiveFontSize(2.2) }
+                      styles.fontMedium,
+                      { fontSize: responsiveFontSize(2.4), color: "#484848" }
                     ]}
                   >
-                    ksh{" "}
+                    {this.state.selectedItem}
                   </Text>
+                ) : (
                   <Text
                     style={[
-                      styles.fontLight,
-                      { fontSize: responsiveFontSize(2.1), color: "#484848" }
+                      styles.fontMedium,
+                      { fontSize: responsiveFontSize(2.4), color: "#636c72" }
                     ]}
                   >
-                    Morning: 9 AM - 10 AM
+                    Please schedule the delivery time
                   </Text>
+                )}
+                {/*<Text
+                  style={[
+                    styles.fontBlack,
+                    { color: "#484848", fontSize: responsiveFontSize(2.2) }
+                  ]}
+                >
+                  Delivery Time:
                 </Text>
+                <Text
+                  style={[
+                    styles.fontLight,
+                    { fontSize: responsiveFontSize(2.1), color: "#484848" }
+                  ]}
+                >
+                  Morning: 9 AM - 10 AM
+                </Text>*/}
               </View>
             </View>
 

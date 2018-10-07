@@ -19,7 +19,9 @@ import DetailScreen from "../screens/detailScreen";
 import CalendarScreen from "../screens/calendar";
 import MapScreen from "../screens/mapScreen";
 import TimeScreen from "../screens/timeScreen";
-import RadioButtonScreen from "../screens/radioButton";
+import PaymentScreen from "../screens/paymentScreen";
+import ReviewScreen from "../screens/reviewScreen";
+import PricingScreen from "../screens/pricingScreen";
 
 const HomeStack = createStackNavigator({
   Feed: FeedScreen
@@ -108,10 +110,12 @@ export default createStackNavigator(
     Calendar: CalendarScreen,
     Map: MapScreen,
     Time: TimeScreen,
-    Radio: RadioButtonScreen
+    Payment: PaymentScreen,
+    Review: ReviewScreen,
+    Pricing: PricingScreen
   },
   {
-    initialRouteName: "Time",
+    initialRouteName: "Review",
     navigationOptions: {
       header: null
     }
