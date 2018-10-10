@@ -4,7 +4,8 @@ import {
   View,
   Text,
   StatusBar,
-  TouchableOpacity
+  TouchableOpacity,
+  NetInfo
 } from "react-native";
 import Ripple from "react-native-material-ripple";
 import {
@@ -12,12 +13,124 @@ import {
   responsiveWidth,
   responsiveFontSize
 } from "react-native-responsive-dimensions";
-import { BoxShadow } from "react-native-shadow";
+import Moment from "moment";
+import firebase from "react-native-firebase";
+import FlashMessage from "react-native-flash-message";
 
 import IonIcons from "react-native-vector-icons/Ionicons";
 import styles from "../config/styles";
 export default class ReviewScreen extends React.Component {
+  constructor() {
+    super();
+    this.ref = firebase.firestore().collection("orders");
+    this.state = {
+      isConnected: true,
+      userID: "",
+      gameID: "",
+      deliveryTime: "",
+      startDate: "",
+      endDate: "",
+      lat: "",
+      lon: ""
+    };
+  }
+
+  componentDidMount() {
+    NetInfo.isConnected.addEventListener(
+      "connectionChange",
+      this.handleConnectivityChange
+    );
+
+    NetInfo.isConnected.fetch().then(isConnected => {
+      this.setState({ isConnected }, () => {
+        console.log(this.state);
+      });
+    });
+  }
+
+  componentWillUnmount() {
+    NetInfo.isConnected.removeEventListener(
+      "connectionChange",
+      this.handleConnectivityChange
+    );
+    this.disconnected = false;
+  }
+
+  _noInternetAlert() {
+    this.refs.fm1LocalInstance.showMessage({
+      message: "No internet connection",
+      type: "warning",
+      backgroundColor: "#d93900",
+      color: "#FFFFFF"
+    });
+  }
+
+  _yesInternetAlert() {
+    this.refs.fm1LocalInstance.showMessage({
+      message: "Connected",
+      type: "default",
+      backgroundColor: "#00A699",
+      color: "#FFFFFF"
+    });
+  }
+
+  handleConnectivityChange = isConnected => {
+    if (isConnected) {
+      this.setState({ isConnected });
+    } else {
+      this.setState({ isConnected }, () => {
+        this._noInternetAlert();
+      });
+    }
+  };
+
+  _addOrder = () => {
+    const {
+      userID,
+      gameID,
+      deliveryTime,
+      startDate,
+      endDate,
+      lat,
+      lon
+    } = this.state;
+    const loc = new firebase.firestore.GeoPoint(lat, lon);
+    console.log(loc);
+    this.ref
+      .add({
+        userID: userID,
+        gameID: gameID,
+        deliveryTime: deliveryTime,
+        bookedDates: {
+          startDate: startDate,
+          endDate: endDate
+        },
+        deliveryLocation: loc
+      })
+      .then(ref => {
+        console.log(ref);
+        this.props.navigation.navigate("Success");
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+
   render() {
+    const gameDetails = this.props.navigation.getParam("gameDetails");
+    const dates = this.props.navigation.getParam("dates");
+    const location = this.props.navigation.getParam("location");
+    const time = this.props.navigation.getParam("time");
+
+    const firstDay = Moment(dates.startDate);
+    const lastDay = Moment(dates.untilDate);
+    const daysNum = lastDay.diff(firstDay, "days") + 1;
+
+    const startDate = Moment(dates.startDate).format("MMM DD");
+    const untilDate = Moment(dates.untilDate).format("MMM DD");
+
+    const totalPrice = daysNum * gameDetails.price;
+
     return (
       <View
         style={[
@@ -101,7 +214,7 @@ export default class ReviewScreen extends React.Component {
                   }
                 ]}
               >
-                10 days booked for God of war.
+                {daysNum} days booked for {gameDetails.title}.
               </Text>
             </View>
           </View>
@@ -131,7 +244,7 @@ export default class ReviewScreen extends React.Component {
                   color: "#484848"
                 }}
               >
-                Oct 10 - Oct 20
+                {startDate} - {untilDate}
               </Text>
             </View>
             <View
@@ -159,7 +272,7 @@ export default class ReviewScreen extends React.Component {
                   color: "#484848"
                 }}
               >
-                8 AM - 9 AM
+                {time}
               </Text>
             </View>
             <View
@@ -187,12 +300,17 @@ export default class ReviewScreen extends React.Component {
                   color: "#484848"
                 }}
               >
-                650 ksh
+                {totalPrice} ksh
               </Text>
             </View>
             <TouchableOpacity
               onPress={() => {
-                this.props.navigation.navigate("Pricing");
+                this.props.navigation.navigate("Pricing", {
+                  daysNum: daysNum,
+                  title: gameDetails.title,
+                  price: gameDetails.price,
+                  totalPrice: totalPrice
+                });
               }}
             >
               <View
@@ -263,7 +381,31 @@ export default class ReviewScreen extends React.Component {
           <Ripple
             rippleColor={"#FFFFFF"}
             rippleContainerBorderRadius={responsiveWidth(15)}
-            onPressIn={() => {}}
+            onPressIn={() => {
+              firebase.auth().onAuthStateChanged(user => {
+                if (user) {
+                  this.setState(
+                    {
+                      userID: user._user.uid,
+                      gameID: gameDetails.key,
+                      deliveryTime: time,
+                      startDate: dates.startDate,
+                      endDate: dates.untilDate,
+                      lat: location.latitude,
+                      lon: location.longitude
+                    },
+                    () => {
+                      if (this.state.isConnected) {
+                        this._addOrder();
+                        console.log(this.state);
+                      } else {
+                        this._noInternetAlert();
+                      }
+                    }
+                  );
+                }
+              });
+            }}
           >
             <View
               style={{
@@ -287,6 +429,14 @@ export default class ReviewScreen extends React.Component {
             </View>
           </Ripple>
         </View>
+        <FlashMessage
+          ref="fm1LocalInstance"
+          position="bottom"
+          hideOnPress={true}
+          animated={true}
+          autoHide={true}
+          duration={4000}
+        />
       </View>
     );
   }

@@ -35,6 +35,7 @@ export default class PhoneNumLoginScreen extends React.Component {
     this.disconnected = true;
     this.state = {
       isConnected: true,
+      loadState: "",
       phoneNum: "",
       phoneValid: "",
       errorMsg: "",
@@ -59,8 +60,8 @@ export default class PhoneNumLoginScreen extends React.Component {
     this.unsubscribe = firebase.auth().onAuthStateChanged(user => {
       if (user) {
         this.setState({ sending: false });
-        console.log(user);
         this.props.navigation.navigate("Feed");
+        console.log(user);
       } else {
         console.log("NOT SIGNED IN");
         this.setState({
@@ -102,7 +103,7 @@ export default class PhoneNumLoginScreen extends React.Component {
 
   handleConnectivityChange = isConnected => {
     if (isConnected) {
-      this.setState({ isConnected });
+      this.setState({ isConnected, sending: false });
     } else {
       this.setState({ isConnected }, () => {
         this._noInternetAlert();
@@ -132,9 +133,12 @@ export default class PhoneNumLoginScreen extends React.Component {
   _signIn() {
     if (this.state.isConnected) {
       console.log(this.state);
-      this.setState({ sending: true }, () => {
-        this._sendMsg();
-      });
+      this.setState(
+        { sending: true, loadState: "Verifying your number..." },
+        () => {
+          this._sendMsg();
+        }
+      );
     } else {
       this._noInternetAlert();
     }
@@ -198,16 +202,22 @@ export default class PhoneNumLoginScreen extends React.Component {
         >
           <Spinner
             visible={this.state.sending}
+            textContent={this.state.loadState}
+            textStyle={{
+              fontFamily: "CircularStd-Medium",
+              color: "#FFFFFF",
+              fontSize: responsiveFontSize(2.5)
+            }}
             animation={"slide"}
             color={"#FFFFFF"}
             size={"large"}
-            overlayColor={"rgba(0, 0, 0, 0.35)"}
+            overlayColor={"rgba(0, 0, 0, 0.5)"}
           />
           <StatusBar
             translucent
             barStyle="dark-content"
             backgroundColor={
-              this.state.sending ? "rgba(0, 0, 0, 0.35)" : "transparent"
+              this.state.sending ? "rgba(0, 0, 0, 0.5)" : "transparent"
             }
             animated
           />

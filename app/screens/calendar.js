@@ -23,6 +23,8 @@ export default class CalendarScreen extends React.Component {
   };
 
   render() {
+    const gameDetails = this.props.navigation.getParam("gameDetails");
+
     const today_date = Moment().format("YYYYMMDD");
 
     const last_date = Moment()
@@ -56,9 +58,12 @@ export default class CalendarScreen extends React.Component {
             const begin = startDate._d;
             const end = untilDate._d;
             this.setState({ startDate: begin, untilDate: end }, () => {
-              //Pass in selected datesto next page
-              this.props.navigation.navigate("Map");
-              console.log(this.state);
+              //Pass in selected dates to next page
+              const { startDate, untilDate } = this.state;
+              this.props.navigation.navigate("Map", {
+                gameDetails: gameDetails,
+                dates: { startDate, untilDate }
+              });
             });
           }}
           onSelect={(startDate, untilDate) => {
@@ -66,7 +71,6 @@ export default class CalendarScreen extends React.Component {
               const days = untilDate.diff(startDate, "days");
               const daysNum = days + 1;
               if (daysNum >= 3) {
-                console.log(daysNum);
                 this.setState({
                   disabledBtn: false,
                   selectedDays: String(daysNum)

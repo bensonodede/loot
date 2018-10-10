@@ -15,6 +15,7 @@ import FeatherIcon from "react-native-vector-icons/Feather";
 
 import OtherScreen from "../screens/otherScreen";
 import FeedScreen from "../screens/feedScreen";
+import ChatScreen from "../screens/chatScreen";
 import DetailScreen from "../screens/detailScreen";
 import CalendarScreen from "../screens/calendar";
 import MapScreen from "../screens/mapScreen";
@@ -68,7 +69,7 @@ OtherStack.navigationOptions = {
 };
 
 const ChatStack = createStackNavigator({
-  Other: OtherScreen
+  Chat: ChatScreen
 });
 
 ChatStack.navigationOptions = {
@@ -115,7 +116,7 @@ export default createStackNavigator(
     Pricing: PricingScreen
   },
   {
-    initialRouteName: "Review",
+    initialRouteName: "Tabs",
     navigationOptions: {
       header: null
     }

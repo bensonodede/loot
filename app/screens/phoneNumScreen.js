@@ -34,6 +34,7 @@ export default class PhoneNumScreen extends React.Component {
     this.unsubscribe = null;
     this.state = {
       isConnected: true,
+      loadState: "",
       phoneNum: "",
       phoneValid: "",
       errorMsg: "",
@@ -54,6 +55,7 @@ export default class PhoneNumScreen extends React.Component {
     );
 
     NetInfo.isConnected.fetch().then(isConnected => {
+      console.log(isConnected);
       this.setState({ isConnected });
     });
 
@@ -110,7 +112,7 @@ export default class PhoneNumScreen extends React.Component {
     if (isConnected) {
       this.setState({ isConnected });
     } else {
-      this.setState({ isConnected }, () => {
+      this.setState({ isConnected, sending: false }, () => {
         this._noInternetAlert();
       });
     }
@@ -138,9 +140,12 @@ export default class PhoneNumScreen extends React.Component {
 
   _signIn() {
     if (this.state.isConnected) {
-      this.setState({ sending: true }, () => {
-        this._sendMsg();
-      });
+      this.setState(
+        { sending: true, loadState: "Verifying your number..." },
+        () => {
+          this._sendMsg();
+        }
+      );
     } else {
       this._noInternetAlert();
     }
@@ -204,16 +209,22 @@ export default class PhoneNumScreen extends React.Component {
         >
           <Spinner
             visible={this.state.sending}
+            textContent={this.state.loadState}
+            textStyle={{
+              fontFamily: "CircularStd-Medium",
+              color: "#FFFFFF",
+              fontSize: responsiveFontSize(2.5)
+            }}
             animation={"slide"}
             color={"#FFFFFF"}
             size={"large"}
-            overlayColor={"rgba(0, 0, 0, 0.35)"}
+            overlayColor={"rgba(0, 0, 0, 0.5)"}
           />
           <StatusBar
             translucent
             barStyle="dark-content"
             backgroundColor={
-              this.state.sending ? "rgba(0, 0, 0, 0.35)" : "transparent"
+              this.state.sending ? "rgba(0, 0, 0, 0.5)" : "transparent"
             }
             animated
           />

@@ -12,6 +12,11 @@ import IonIcons from "react-native-vector-icons/Ionicons";
 import styles from "../config/styles";
 export default class PricingScreen extends React.Component {
   render() {
+    const daysNum = this.props.navigation.getParam("daysNum");
+    const title = this.props.navigation.getParam("title");
+    const price = this.props.navigation.getParam("price");
+    const totalPrice = this.props.navigation.getParam("totalPrice");
+
     return (
       <View
         style={[
@@ -89,7 +94,7 @@ export default class PricingScreen extends React.Component {
                 }
               ]}
             >
-              10 days booked for God of war.
+              {daysNum} days booked for {title}.
             </Text>
           </View>
           {/************ List Container ***********/}
@@ -109,7 +114,7 @@ export default class PricingScreen extends React.Component {
                   color: "#636c72"
                 }}
               >
-                65 ksh x 10 days
+                {price} ksh x {daysNum} days
               </Text>
               <Text
                 style={{
@@ -118,7 +123,7 @@ export default class PricingScreen extends React.Component {
                   color: "#636c72"
                 }}
               >
-                650 ksh
+                {totalPrice} ksh
               </Text>
             </View>
             <View
@@ -204,7 +209,7 @@ export default class PricingScreen extends React.Component {
                   color: "#484848"
                 }}
               >
-                650 ksh
+                {totalPrice} ksh
               </Text>
             </View>
           </View>

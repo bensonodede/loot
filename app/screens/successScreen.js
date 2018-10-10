@@ -1,75 +1,72 @@
 import React from "react";
-import {
-  ActivityIndicator,
-  AsyncStorage,
-  Button,
-  StatusBar,
-  StyleSheet,
-  View,
-  Text
-} from "react-native";
+import { View, StatusBar, Text } from "react-native";
 import Ripple from "react-native-material-ripple";
 import {
   responsiveHeight,
   responsiveWidth,
   responsiveFontSize
 } from "react-native-responsive-dimensions";
-import firebase from "react-native-firebase";
 
 import IonIcons from "react-native-vector-icons/Ionicons";
 import styles from "../config/styles";
 
-export default class ChatScreen extends React.Component {
+export default class successScreen extends React.Component {
   static navigationOptions = {
     header: null
   };
-
-  constructor() {
-    super();
-    this.userUnsubscribe = null;
-    this.state = { uid: "", username: "" };
-  }
-
-  componentDidMount() {
-    this.userUnsubscribe = firebase.auth().onAuthStateChanged(user => {
-      if (user) {
-        const userId = user._user.uid;
-        const displayName = user._user.displayName;
-        this.setState({ uid: userId, username: displayName }, () => {
-          console.log(this.state);
-        });
-      } else {
-        console.log("NO USER DATA");
-      }
-    });
-  }
-
-  componentWillUnmount() {
-    if (this.userUnsubscribe) this.userUnsubscribe();
-  }
-
   render() {
     return (
-      <View style={styles.container}>
+      <View style={[styles.container]}>
         <StatusBar
           translucent
           barStyle="dark-content"
           backgroundColor={"#FFFFFF"}
           animated
         />
+        <View style={{ paddingHorizontal: responsiveWidth(2.5) }}>
+          <Text
+            style={[
+              styles.blackish,
+              styles.fontBlack,
+              styles.title2,
+              {
+                paddingTop: responsiveHeight(20) + StatusBar.currentHeight
+              }
+            ]}
+          >
+            Awesome!
+          </Text>
+          <Text
+            style={{
+              fontSize: responsiveFontSize(2.3),
+              paddingTop: responsiveHeight(3),
+              color: "#636c72"
+            }}
+          >
+            Your booking was successful. You will receive an{" "}
+            <Text style={{ fontFamily: "CircularStd-Black", color: "#484848" }}>
+              SMS
+            </Text>{" "}
+            shortly once your order is confirmed.
+          </Text>
+        </View>
         <View
           style={{
             width: responsiveWidth(15),
             height: responsiveWidth(15),
             borderRadius: responsiveWidth(15),
-            marginLeft: responsiveWidth(-2)
+            position: "absolute",
+            bottom: responsiveWidth(5),
+            right: responsiveWidth(5),
+            borderRadius: responsiveWidth(10),
+            zIndex: 3
           }}
         >
           <Ripple
-            rippleColor={"#000000"}
+            rippleColor={"#FFFFFF"}
             rippleContainerBorderRadius={responsiveWidth(15)}
             onPressIn={() => {
-              this.props.navigation.goBack();
+              this.props.navigation.navigate("Feed");
             }}
           >
             <View
@@ -78,14 +75,14 @@ export default class ChatScreen extends React.Component {
                 width: responsiveWidth(15),
                 height: responsiveWidth(15),
                 paddingVertical: responsiveHeight(2),
-                backgroundColor: "transparent",
+                backgroundColor: "#00A699",
                 justifyContent: "center"
               }}
             >
               <IonIcons
-                name={"md-arrow-back"}
+                name={"md-arrow-forward"}
                 size={responsiveFontSize(3.6)}
-                color={"#484848"}
+                color={"#FFFFFF"}
                 style={{
                   alignSelf: "center",
                   paddingHorizontal: responsiveWidth(2)
@@ -94,14 +91,7 @@ export default class ChatScreen extends React.Component {
             </View>
           </Ripple>
         </View>
-        <Text>Chat with us</Text>
-      
       </View>
     );
   }
-
-  _signOutAsync = async () => {
-    await AsyncStorage.clear();
-    this.props.navigation.navigate("Auth");
-  };
 }

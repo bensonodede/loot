@@ -78,82 +78,83 @@ export default class TimeScreen extends Component {
       radioItems: [
         {
           label: "8 AM - 9 AM",
-          size: responsiveFontSize(4.5),
+          size: responsiveFontSize(4),
           color: "#636c72",
           selected: false
         },
 
         {
           label: "9 AM - 10 AM",
-          size: responsiveFontSize(4.5),
+          size: responsiveFontSize(4),
           color: "#636c72",
           selected: false
         },
 
         {
           label: "10 AM - 11 AM",
-          size: responsiveFontSize(4.5),
+          size: responsiveFontSize(4),
           color: "#636c72",
           selected: false
         },
 
         {
           label: "11 AM - 12 PM",
-          size: responsiveFontSize(4.5),
+          size: responsiveFontSize(4),
           color: "#636c72",
           selected: false
         },
 
         {
           label: "12 PM - 1 PM",
-          size: responsiveFontSize(4.5),
+          size: responsiveFontSize(4),
           color: "#636c72",
           selected: false
         },
 
         {
           label: "1 PM - 2 PM",
-          size: responsiveFontSize(4.5),
+          size: responsiveFontSize(4),
           color: "#636c72",
           selected: false
         },
 
         {
           label: "2 PM - 3 PM",
-          size: responsiveFontSize(4.5),
+          size: responsiveFontSize(4),
           color: "#636c72",
           selected: false
         },
 
         {
           label: "3 PM - 4 PM",
-          size: responsiveFontSize(4.5),
+          size: responsiveFontSize(4),
           color: "#636c72",
           selected: false
         },
 
         {
           label: "4 PM - 5 PM",
-          size: responsiveFontSize(4.5),
+          size: responsiveFontSize(4),
           color: "#636c72",
           selected: false
         },
 
         {
           label: "5 PM - 6 PM",
-          size: responsiveFontSize(4.5),
+          size: responsiveFontSize(4),
           color: "#636c72",
           selected: false
         },
 
         {
           label: "6 PM - 7 PM",
-          size: responsiveFontSize(4.5),
+          size: responsiveFontSize(4),
           color: "#636c72",
           selected: false
         }
       ],
-      selectedItem: ""
+      selectedItem: "",
+      disabled: true
     };
   }
 
@@ -166,7 +167,7 @@ export default class TimeScreen extends Component {
   }
 
   changeActiveRadioButton(index) {
-    console.log(index);
+    this.setState({ disabled: false });
     this.state.radioItems.map(item => {
       item.selected = false;
     });
@@ -174,12 +175,15 @@ export default class TimeScreen extends Component {
     this.state.radioItems[index].selected = true;
 
     this.setState({ radioItems: this.state.radioItems }, () => {
-      console.log(this.state.radioItems);
       this.setState({ selectedItem: this.state.radioItems[index].label });
     });
   }
 
   render() {
+    const gameDetails = this.props.navigation.getParam("gameDetails");
+    const dates = this.props.navigation.getParam("dates");
+    const location = this.props.navigation.getParam("location");
+
     const shadowOpt = {
       width: responsiveWidth(100),
       height: responsiveHeight(12),
@@ -274,8 +278,8 @@ export default class TimeScreen extends Component {
                 style={{
                   justifyContent: "flex-start",
                   paddingHorizontal: responsiveWidth(5),
-                  paddingTop: responsiveHeight(4),
-                  paddingBottom: responsiveHeight(4),
+                  paddingTop: responsiveHeight(3.5),
+                  paddingBottom: responsiveHeight(3.5),
                   flexDirection: "row"
                 }}
               >
@@ -312,8 +316,8 @@ export default class TimeScreen extends Component {
                 style={{
                   justifyContent: "flex-start",
                   paddingHorizontal: responsiveWidth(5),
-                  paddingTop: responsiveHeight(4),
-                  paddingBottom: responsiveHeight(4),
+                  paddingTop: responsiveHeight(3.5),
+                  paddingBottom: responsiveHeight(3.5),
                   flexDirection: "row"
                 }}
               >
@@ -350,8 +354,8 @@ export default class TimeScreen extends Component {
                 style={{
                   justifyContent: "flex-start",
                   paddingHorizontal: responsiveWidth(5),
-                  paddingTop: responsiveHeight(4),
-                  paddingBottom: responsiveHeight(4),
+                  paddingTop: responsiveHeight(3.5),
+                  paddingBottom: responsiveHeight(3.5),
                   flexDirection: "row"
                 }}
               >
@@ -421,7 +425,7 @@ export default class TimeScreen extends Component {
                   <Text
                     style={[
                       styles.fontMedium,
-                      { fontSize: responsiveFontSize(2.4), color: "#636c72" }
+                      { fontSize: responsiveFontSize(2.3), color: "#636c72" }
                     ]}
                   >
                     Please schedule the delivery time
@@ -453,19 +457,27 @@ export default class TimeScreen extends Component {
               }}
             >
               <Ripple
+                disabled={this.state.disabled}
                 rippleColor={"#FFFFFF"}
                 rippleContainerBorderRadius={responsiveWidth(1.5)}
                 onPress={() => {
-                  //this.props.navigation.navigate("Calendar");
+                  this.props.navigation.navigate("Review", {
+                    gameDetails: gameDetails,
+                    dates: dates,
+                    location: location,
+                    time: this.state.selectedItem
+                  });
                 }}
               >
                 <View
                   style={{
                     width: responsiveWidth(30),
                     height: responsiveHeight(8),
-                    borderRadius: responsiveWidth(1.5),
+                    borderRadius: responsiveWidth(1),
                     paddingVertical: responsiveHeight(2),
-                    backgroundColor: "#00A699",
+                    backgroundColor: this.state.disabled
+                      ? "#bcd8d6"
+                      : "#00A699",
                     justifyContent: "center"
                   }}
                 >
@@ -524,7 +536,7 @@ const styles1 = StyleSheet.create({
   label: {
     fontFamily: "CircularStd-Medium",
     marginLeft: 10,
-    fontSize: responsiveFontSize(2.6)
+    fontSize: responsiveFontSize(2.4)
   },
 
   selectedTextHolder: {

@@ -225,7 +225,9 @@ export default class DetailScreen extends React.Component {
               rippleColor={"#FFFFFF"}
               rippleContainerBorderRadius={responsiveWidth(1.5)}
               onPress={() => {
-                this.props.navigation.navigate("Calendar");
+                this.props.navigation.navigate("Calendar", {
+                  gameDetails: details
+                });
               }}
             >
               <View

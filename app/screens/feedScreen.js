@@ -36,7 +36,7 @@ export default class FeedScreen extends React.Component {
     this.unsubscribe = this.ref.onSnapshot(this.onCollectionUpdate);
     this.userUnsubscribe = firebase.auth().onAuthStateChanged(user => {
       if (user) {
-        console.log(user);
+        //console.log(user);
       } else {
         console.log("NOT SIGNED IN");
       }
@@ -51,14 +51,13 @@ export default class FeedScreen extends React.Component {
   onCollectionUpdate = querySnapshot => {
     const games = [];
     querySnapshot.forEach(doc => {
-      const { title, imageUrl, price, description } = doc.data();
+      const { title, imageUrl, price } = doc.data();
       games.push({
         key: doc.id, // Document ID
         //doc, // DocumentSnapshot(The whole document) //
         title,
         imageUrl,
-        price,
-        description
+        price
       });
     });
     this.setState(

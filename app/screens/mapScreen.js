@@ -8,6 +8,9 @@ export default class MapScreen extends React.Component {
   };
 
   render() {
+    const gameDetails = this.props.navigation.getParam("gameDetails");
+    const dates = this.props.navigation.getParam("dates");
+
     return (
       <View style={{ flex: 1 }}>
         <StatusBar
@@ -23,8 +26,11 @@ export default class MapScreen extends React.Component {
             longitude: 36.81667
           }}
           onLocationSelect={region => {
-            console.log(region);
-            this.props.navigation.navigate("Time");
+            this.props.navigation.navigate("Time", {
+              gameDetails: gameDetails,
+              dates: dates,
+              location: region
+            });
           }}
         />
       </View>
