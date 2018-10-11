@@ -180,7 +180,7 @@ export default class PhoneNumScreen extends React.Component {
           console.log("Code confirmed");
         })
         .catch(error => {
-          this.setState({ sending: false });
+          this.setState({ sending: false, errorMsg: error });
           console.log(error);
           this._noInternetAlert();
         });

@@ -7,12 +7,12 @@ import successNavigator from "./successNavigator";
 
 export default createSwitchNavigator(
   {
-    //AuthLoading: AuthLoadingNavigator,
-    //Auth: AuthStackNavigator,
+    AuthLoading: AuthLoadingNavigator,
+    Auth: AuthStackNavigator,
     Main: MainTabNavigator,
     Success: successNavigator
   },
   {
-    initialRouteName: "Success"
+    initialRouteName: "AuthLoading"
   }
 );
