@@ -1,10 +1,11 @@
 import React from "react";
 import { StatusBar, View, Text } from "react-native";
 import firebase from "react-native-firebase";
+import SplashScreen from "react-native-smart-splash-screen";
 
 import styles from "../config/styles";
 
-export default class SplashScreen extends React.Component {
+export default class SplashScreenView extends React.Component {
   static navigationOptions = {
     header: null
   };
@@ -15,6 +16,11 @@ export default class SplashScreen extends React.Component {
   }
 
   componentDidMount() {
+    SplashScreen.close({
+      animationType: SplashScreen.animationType.scale,
+      duration: 850,
+      delay: 500
+    });
     this.unsubscribe = firebase.auth().onAuthStateChanged(user => {
       this.props.navigation.navigate(user ? "Feed" : "Welcome");
     });
@@ -33,9 +39,6 @@ export default class SplashScreen extends React.Component {
           backgroundColor={"transparent"}
           animated
         />
-        <View style={{ alignItems: "center" }}>
-          <Text>This is the splash screen</Text>
-        </View>
       </View>
     );
   }

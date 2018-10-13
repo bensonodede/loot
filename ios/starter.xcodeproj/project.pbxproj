@@ -57,6 +57,7 @@
 		E496B07287244E7CBDF492AB /* libRNSVG.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CBA733349564F3BB30B9CC3 /* libRNSVG.a */; };
 		D4B7CD64F2424984BC55F73E /* libRNSVG-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CCB57C330F334FE89248339B /* libRNSVG-tvOS.a */; };
 		31129F09E24A4E1B866E19B9 /* libRNTextInputMask.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 46C39338052641A1BDCEA7FD /* libRNTextInputMask.a */; };
+		BFEDF874881D4E56BBBC5A8A /* libRCTSplashScreen.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ED15B05EE85A4DD483EC8BB3 /* libRCTSplashScreen.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -387,6 +388,8 @@
 		CCB57C330F334FE89248339B /* libRNSVG-tvOS.a */ = {isa = PBXFileReference; name = "libRNSVG-tvOS.a"; path = "libRNSVG-tvOS.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 		77C40B74B776443FA3FD39E8 /* RNTextInputMask.xcodeproj */ = {isa = PBXFileReference; name = "RNTextInputMask.xcodeproj"; path = "../node_modules/react-native-text-input-mask/ios/RNTextInputMask/RNTextInputMask.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
 		46C39338052641A1BDCEA7FD /* libRNTextInputMask.a */ = {isa = PBXFileReference; name = "libRNTextInputMask.a"; path = "libRNTextInputMask.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		ABCE4FD801054DD280E4606F /* RCTSplashScreen.xcodeproj */ = {isa = PBXFileReference; name = "RCTSplashScreen.xcodeproj"; path = "../node_modules/react-native-smart-splash-screen/ios/RCTSplashScreen/RCTSplashScreen.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		ED15B05EE85A4DD483EC8BB3 /* libRCTSplashScreen.a */ = {isa = PBXFileReference; name = "libRCTSplashScreen.a"; path = "libRCTSplashScreen.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -420,6 +423,7 @@
 				37B7D4DEA8224712A8D4D694 /* libAirMaps.a in Frameworks */,
 				E496B07287244E7CBDF492AB /* libRNSVG.a in Frameworks */,
 				31129F09E24A4E1B866E19B9 /* libRNTextInputMask.a in Frameworks */,
+				BFEDF874881D4E56BBBC5A8A /* libRCTSplashScreen.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -612,6 +616,7 @@
 				1C20B9F3FFEB4EF8A9FA9DF4 /* AirMaps.xcodeproj */,
 				0C2AC7DD47DD472D97FB3944 /* RNSVG.xcodeproj */,
 				77C40B74B776443FA3FD39E8 /* RNTextInputMask.xcodeproj */,
+				ABCE4FD801054DD280E4606F /* RCTSplashScreen.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -1276,9 +1281,6 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1287,6 +1289,7 @@
 					"$(SRCROOT)\..\node_modules\react-native-maps\lib\ios/**",
 					"$(SRCROOT)\..\node_modules\react-native-svg\ios/**",
 					"$(SRCROOT)\..\node_modules\react-native-text-input-mask\ios\RNTextInputMask\RNTextInputMask/**",
+					"$(SRCROOT)\..\node_modules\react-native-smart-splash-screen\ios\RCTSplashScreen\RCTSplashScreen",
 				);
 			};
 			name = Debug;
@@ -1308,9 +1311,6 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1319,6 +1319,7 @@
 					"$(SRCROOT)\..\node_modules\react-native-maps\lib\ios/**",
 					"$(SRCROOT)\..\node_modules\react-native-svg\ios/**",
 					"$(SRCROOT)\..\node_modules\react-native-text-input-mask\ios\RNTextInputMask\RNTextInputMask/**",
+					"$(SRCROOT)\..\node_modules\react-native-smart-splash-screen\ios\RCTSplashScreen\RCTSplashScreen",
 				);
 			};
 			name = Release;
@@ -1345,6 +1346,7 @@
 					"$(SRCROOT)\..\node_modules\react-native-maps\lib\ios/**",
 					"$(SRCROOT)\..\node_modules\react-native-svg\ios/**",
 					"$(SRCROOT)\..\node_modules\react-native-text-input-mask\ios\RNTextInputMask\RNTextInputMask/**",
+					"$(SRCROOT)\..\node_modules\react-native-smart-splash-screen\ios\RCTSplashScreen\RCTSplashScreen",
 				);
 			};
 			name = Debug;
@@ -1370,6 +1372,7 @@
 					"$(SRCROOT)\..\node_modules\react-native-maps\lib\ios/**",
 					"$(SRCROOT)\..\node_modules\react-native-svg\ios/**",
 					"$(SRCROOT)\..\node_modules\react-native-text-input-mask\ios\RNTextInputMask\RNTextInputMask/**",
+					"$(SRCROOT)\..\node_modules\react-native-smart-splash-screen\ios\RCTSplashScreen\RCTSplashScreen",
 				);
 			};
 			name = Release;
@@ -1400,9 +1403,6 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1411,6 +1411,7 @@
 					"$(SRCROOT)\..\node_modules\react-native-maps\lib\ios/**",
 					"$(SRCROOT)\..\node_modules\react-native-svg\ios/**",
 					"$(SRCROOT)\..\node_modules\react-native-text-input-mask\ios\RNTextInputMask\RNTextInputMask/**",
+					"$(SRCROOT)\..\node_modules\react-native-smart-splash-screen\ios\RCTSplashScreen\RCTSplashScreen",
 				);
 			};
 			name = Debug;
@@ -1441,9 +1442,6 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1452,6 +1450,7 @@
 					"$(SRCROOT)\..\node_modules\react-native-maps\lib\ios/**",
 					"$(SRCROOT)\..\node_modules\react-native-svg\ios/**",
 					"$(SRCROOT)\..\node_modules\react-native-text-input-mask\ios\RNTextInputMask\RNTextInputMask/**",
+					"$(SRCROOT)\..\node_modules\react-native-smart-splash-screen\ios\RCTSplashScreen\RCTSplashScreen",
 				);
 			};
 			name = Release;
@@ -1481,9 +1480,6 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1492,6 +1488,7 @@
 					"$(SRCROOT)\..\node_modules\react-native-maps\lib\ios/**",
 					"$(SRCROOT)\..\node_modules\react-native-svg\ios/**",
 					"$(SRCROOT)\..\node_modules\react-native-text-input-mask\ios\RNTextInputMask\RNTextInputMask/**",
+					"$(SRCROOT)\..\node_modules\react-native-smart-splash-screen\ios\RCTSplashScreen\RCTSplashScreen",
 				);
 			};
 			name = Debug;
@@ -1521,9 +1518,6 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1532,6 +1526,7 @@
 					"$(SRCROOT)\..\node_modules\react-native-maps\lib\ios/**",
 					"$(SRCROOT)\..\node_modules\react-native-svg\ios/**",
 					"$(SRCROOT)\..\node_modules\react-native-text-input-mask\ios\RNTextInputMask\RNTextInputMask/**",
+					"$(SRCROOT)\..\node_modules\react-native-smart-splash-screen\ios\RCTSplashScreen\RCTSplashScreen",
 				);
 			};
 			name = Release;

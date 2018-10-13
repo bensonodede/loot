@@ -1,8 +1,18 @@
-package com.starter;
+package com.Loot;
 
 import com.facebook.react.ReactActivity;
+import com.reactnativecomponent.splashscreen.RCTSplashScreen;
+import android.os.Bundle; // required for onCreate parameter
+//import android.widget.ImageView; // uncomment if opening fullscreen
 
 public class MainActivity extends ReactActivity {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        RCTSplashScreen.openSplashScreen(this); // open splashscreen
+        // RCTSplashScreen.openSplashScreen(this, true, ImageView.ScaleType.FIT_XY);
+        // //open splashscreen fullscreen
+        super.onCreate(savedInstanceState);
+    }
 
     /**
      * Returns the name of the main component registered from JavaScript. This is
@@ -10,6 +20,6 @@ public class MainActivity extends ReactActivity {
      */
     @Override
     protected String getMainComponentName() {
-        return "starter";
+        return "Loot";
     }
 }

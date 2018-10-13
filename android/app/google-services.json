@@ -8,62 +8,18 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:85837547942:android:76463e9b7df53151",
+        "mobilesdk_app_id": "1:85837547942:android:5219d43a2ed7eb7b",
         "android_client_info": {
-          "package_name": "com.starter"
+          "package_name": "com.Loot"
         }
       },
       "oauth_client": [
         {
-          "client_id": "85837547942-94lu3mfaeiiri7d3693bcbjunc02gdf3.apps.googleusercontent.com",
+          "client_id": "85837547942-a3jjl1l0rn20pje69qr6fin3ioj9eeju.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.starter",
-            "certificate_hash": "e9820cfd8f0593c10995c13da4e588282cc204a8"
-          }
-        },
-        {
-          "client_id": "85837547942-2j44o2d6omda4igtm322n99sf9gsgtb6.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyDA10PyJTEwgZxu8H-mvPqSY-8cSQ82ACs"
-        }
-      ],
-      "services": {
-        "analytics_service": {
-          "status": 1
-        },
-        "appinvite_service": {
-          "status": 2,
-          "other_platform_oauth_client": [
-            {
-              "client_id": "85837547942-2j44o2d6omda4igtm322n99sf9gsgtb6.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
-        },
-        "ads_service": {
-          "status": 2
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:85837547942:android:9df1d0be50cad951",
-        "android_client_info": {
-          "package_name": "com.starter.earthandmoon"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "85837547942-2nokgis09b8cbq3i56cld7hm5rb7eils.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.starter.earthandmoon",
-            "certificate_hash": "e9820cfd8f0593c10995c13da4e588282cc204a8"
+            "package_name": "com.Loot",
+            "certificate_hash": "e1d2eec5b679d4fcf2e7a40ebc68aebd668abeba"
           }
         },
         {

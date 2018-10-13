@@ -1,8 +1,9 @@
-package com.starter;
+package com.Loot;
 
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.reactnativecomponent.splashscreen.RCTSplashScreenPackage;
 import com.RNTextInputMask.RNTextInputMaskPackage;
 import com.horcrux.svg.SvgPackage;
 import com.airbnb.android.react.maps.MapsPackage;
@@ -29,9 +30,10 @@ public class MainApplication extends Application implements ReactApplication {
 
     @Override
     protected List<ReactPackage> getPackages() {
-      return Arrays.<ReactPackage>asList(new MainReactPackage(), new RNTextInputMaskPackage(), new SvgPackage(),
-          new MapsPackage(), new LinearGradientPackage(), new VectorIconsPackage(), new RNFirebasePackage(),
-          new RNFirebaseAuthPackage(), new RNFirebaseFirestorePackage());
+      return Arrays.<ReactPackage>asList(new MainReactPackage(), new RNTextInputMaskPackage(),
+          new RCTSplashScreenPackage(), new SvgPackage(), new MapsPackage(), new LinearGradientPackage(),
+          new VectorIconsPackage(), new RNFirebasePackage(), new RNFirebaseAuthPackage(),
+          new RNFirebaseFirestorePackage());
     }
 
     @Override
