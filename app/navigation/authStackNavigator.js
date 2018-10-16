@@ -8,8 +8,10 @@ import LoginScreen from "../screens/Login";
 import NameScreen from "../screens/nameScreen";
 import PhoneNumScreen from "../screens/phoneNumScreen.js";
 import PinScreen from "../screens/pinScreen";
+import MapScreen from "../screens/mapScreen";
 
 import PhoneNumLoginScreen from "../screens/phoneNumLoginScreen";
+import locationPermissionScreen from "../screens/locationPermissionScreen";
 
 export default createStackNavigator(
   {

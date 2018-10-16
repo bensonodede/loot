@@ -150,6 +150,9 @@ android {
 
 dependencies {
     implementation project(':react-native-smart-splash-screen')
+    implementation project(':react-native-fused-location')
+    implementation project(':react-native-system-setting')
+    implementation project(':react-native-android-location-services-dialog-box')
     implementation project(':react-native-text-input-mask')
     implementation project(':react-native-linear-gradient')
     implementation project(':react-native-svg')
@@ -177,3 +180,4 @@ task copyDownloadableDepsToLibs(type: Copy) {
 }
 
 apply plugin: 'com.google.gms.google-services'
+com.google.gms.googleservices.GoogleServicesPlugin.config.disableVersionCheck = true

@@ -11,6 +11,10 @@ import { BoxShadow } from "react-native-shadow";
 import IonIcons from "react-native-vector-icons/Ionicons";
 import styles from "../config/styles";
 export default class PricingScreen extends React.Component {
+  static navigationOptions = {
+    header: null
+  };
+
   render() {
     const daysNum = this.props.navigation.getParam("daysNum");
     const title = this.props.navigation.getParam("title");

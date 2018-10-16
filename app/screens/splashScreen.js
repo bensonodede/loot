@@ -22,7 +22,7 @@ export default class SplashScreenView extends React.Component {
       delay: 500
     });
     this.unsubscribe = firebase.auth().onAuthStateChanged(user => {
-      this.props.navigation.navigate(user ? "Feed" : "Welcome");
+      this.props.navigation.navigate(user ? "Map" : "Map");
     });
   }
 

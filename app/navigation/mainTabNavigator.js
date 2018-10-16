@@ -18,6 +18,7 @@ import FeedScreen from "../screens/feedScreen";
 import ChatScreen from "../screens/chatScreen";
 import DetailScreen from "../screens/detailScreen";
 import CalendarScreen from "../screens/calendar";
+import locationPermissionScreen from "../screens/locationPermissionScreen";
 import MapScreen from "../screens/mapScreen";
 import TimeScreen from "../screens/timeScreen";
 import PaymentScreen from "../screens/paymentScreen";
@@ -109,6 +110,7 @@ export default createStackNavigator(
     Tabs: TabNavigator,
     Detail: DetailScreen,
     Calendar: CalendarScreen,
+    Permission: locationPermissionScreen,
     Map: MapScreen,
     Time: TimeScreen,
     Payment: PaymentScreen,
