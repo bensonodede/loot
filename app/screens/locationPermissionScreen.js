@@ -1,11 +1,5 @@
 import React from "react";
-import {
-  View,
-  Text,
-  StatusBar,
-  BackHandler,
-  DeviceEventEmitter
-} from "react-native";
+import { View, Text, StatusBar, PermissionsAndroid } from "react-native";
 import Ripple from "react-native-material-ripple";
 import {
   responsiveHeight,
@@ -26,10 +20,26 @@ export default class locationPermissionScreen extends React.Component {
     };
   }
 
+  async requestLocationPermission() {
+    try {
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
+      );
+      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+        console.log("You can use the Location");
+        this.props.navigation.navigate("Map", { locPermission: true });
+      } else {
+        console.log("Location permission denied");
+      }
+    } catch (err) {
+      console.warn(err);
+    }
+  }
+
   onEnableLocation = () => {
     SystemSetting.switchLocation(() => {
       SystemSetting.isLocationEnabled().then(enable => {
-        enable ? this.props.navigation.navigate("Map") : null;
+        //enable ? this.requestLocationPermission() : null;
       });
     });
   };
@@ -53,7 +63,6 @@ export default class locationPermissionScreen extends React.Component {
             width: responsiveWidth(15),
             height: responsiveWidth(15),
             borderRadius: responsiveWidth(15),
-            //marginLeft: responsiveWidth(),
             width: responsiveWidth(15),
             height: responsiveWidth(15),
             justifyContent: "center"

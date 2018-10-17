@@ -34,13 +34,13 @@ export default class FeedScreen extends React.Component {
 
   componentDidMount() {
     this.unsubscribe = this.ref.onSnapshot(this.onCollectionUpdate);
-    this.userUnsubscribe = firebase.auth().onAuthStateChanged(user => {
-      if (user) {
-        //console.log(user);
-      } else {
-        console.log("NOT SIGNED IN");
-      }
-    });
+    // this.userUnsubscribe = firebase.auth().onAuthStateChanged(user => {
+    //   if (user) {
+    //     console.log(user);
+    //   } else {
+    //     console.log("NOT SIGNED IN");
+    //   }
+    // });
   }
 
   componentWillUnmount() {

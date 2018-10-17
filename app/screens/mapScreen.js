@@ -1,8 +1,12 @@
 import React from "react";
 import LocationView from "react-native-location-view";
-import { View, StatusBar, PermissionsAndroid } from "react-native";
-import FusedLocation from "react-native-fused-location";
-import Permissions from "react-native-permissions";
+import {
+  View,
+  StatusBar,
+  PermissionsAndroid,
+  ActivityIndicator
+} from "react-native";
+import SystemSetting from "react-native-system-setting";
 
 export default class MapScreen extends React.Component {
   constructor() {
@@ -12,14 +16,22 @@ export default class MapScreen extends React.Component {
         latitude: "",
         longitude: ""
       },
-      locationEnabled: null
+      permission: null
     };
   }
 
-  componentWillMount() {
+  _findMe = () => {
     navigator.geolocation.getCurrentPosition(
       position => {
-        console.log(position);
+        const { latitude, longitude } = position.coords;
+        this.setState(
+          {
+            position: { latitude: latitude, longitude: longitude }
+          },
+          () => {
+            console.log(this.state);
+          }
+        );
       },
       error => {
         console.log(error);
@@ -29,24 +41,34 @@ export default class MapScreen extends React.Component {
           console.log(error);
         }
       },
-      { enableHighAccuracy: false, timeout: 10000 }
+      { enableHighAccuracy: false }
     );
+  };
+
+  async requestLocationPermission() {
+    try {
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
+      );
+      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+        console.log("You can use the Location");
+      } else {
+        console.log("Location permission denied");
+      }
+    } catch (err) {
+      console.warn(err);
+    }
   }
 
+  componentDidMount() {
+    // SystemSetting.isLocationEnabled().then(enable => {
+    //   enable
+    //     ? this.requestLocationPermission()
+    //     : this.props.navigation.navigate("Permission");
+    // });
+  }
   //!Location request times out in Geolocation button press
   //!Fix in package and patch.
-
-  //async componentDidMount() {
-  //  const answer = await Permissions.request("location")
-  //    .then(response => {
-  //      if (response) {
-  //        console.log(response);
-  //      }
-  //    })
-  //    .catch(error => {
-  //      console.log(error);
-  //    });
-  //}
 
   static navigationOptions = {
     header: null
@@ -55,7 +77,6 @@ export default class MapScreen extends React.Component {
   render() {
     const gameDetails = this.props.navigation.getParam("gameDetails");
     const dates = this.props.navigation.getParam("dates");
-
     return (
       <View style={{ flex: 1 }}>
         <StatusBar
@@ -64,6 +85,7 @@ export default class MapScreen extends React.Component {
           backgroundColor={"#FFFFFF"}
           animated
         />
+
         <LocationView
           navigation={this.props.navigation}
           initialLocation={{
