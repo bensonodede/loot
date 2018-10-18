@@ -39,7 +39,7 @@ export default class locationPermissionScreen extends React.Component {
   onEnableLocation = () => {
     SystemSetting.switchLocation(() => {
       SystemSetting.isLocationEnabled().then(enable => {
-        //enable ? this.requestLocationPermission() : null;
+        enable ? this.props.navigation.navigate("Map") : null;
       });
     });
   };
