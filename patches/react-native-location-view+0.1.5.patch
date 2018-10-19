@@ -1,0 +1,993 @@
+patch-package
+--- a/node_modules/react-native-location-view/src/AutoCompleteInput.js
++++ b/node_modules/react-native-location-view/src/AutoCompleteInput.js
+@@ -1,39 +1,45 @@
+-import React from 'react';
+-import {TextInput, View, StyleSheet, Animated, TouchableOpacity} from "react-native";
++import React from "react";
++import {
++  TextInput,
++  View,
++  StyleSheet,
++  Animated,
++  TouchableOpacity
++} from "react-native";
+ import AutoCompleteListView from "./AutoCompleteListView";
+ import Events from "react-native-simple-events";
+ import debounce from "../utils/debounce";
+-import fetch from 'react-native-cancelable-fetch';
+-import PropTypes from 'prop-types';
++import fetch from "react-native-cancelable-fetch";
++import PropTypes from "prop-types";
+ import MaterialIcons from "react-native-vector-icons/MaterialIcons";
+ 
+ const styles = StyleSheet.create({
+   textInputContainer: {
+-    flexDirection: 'row',
++    flexDirection: "row",
+     height: 40,
+     zIndex: 99,
+     paddingLeft: 10,
+     borderRadius: 5,
+-    backgroundColor: 'white',
++    backgroundColor: "white",
+     shadowOffset: {
+       width: 0,
+       height: 2
+     },
+     shadowRadius: 2,
+     shadowOpacity: 0.24,
+-    alignItems: 'center'
++    alignItems: "center"
+   },
+   textInput: {
+     flex: 1,
+     fontSize: 17,
+-    color: '#404752'
++    color: "#404752"
+   },
+   btn: {
+     width: 30,
+     height: 30,
+     padding: 5,
+-    justifyContent: 'center',
+-    alignItems: 'center'
++    justifyContent: "center",
++    alignItems: "center"
+   },
+   listViewContainer: {
+     paddingLeft: 3,
+@@ -42,24 +48,28 @@ const styles = StyleSheet.create({
+   }
+ });
+ 
+-const AUTOCOMPLETE_URL = "https://maps.googleapis.com/maps/api/place/autocomplete/json";
++const AUTOCOMPLETE_URL =
++  "https://maps.googleapis.com/maps/api/place/autocomplete/json";
+ const REVRSE_GEO_CODE_URL = "https://maps.googleapis.com/maps/api/geocode/json";
+ 
+ export default class AutoCompleteInput extends React.Component {
+   static propTypes = {
+-    apiKey: PropTypes.string.isRequired,
++    //apiKey: PropTypes.string.isRequired,
+     language: PropTypes.string,
+     debounceDuration: PropTypes.number.isRequired
+   };
+ 
+   static defaultProps = {
+-    language: 'en'
++    language: "en"
+   };
+ 
+   constructor(props) {
+     super(props);
+     this._onChangeText = this._onChangeText.bind(this);
+-    this._request = debounce(this._request.bind(this), this.props.debounceDuration);
++    this._request = debounce(
++      this._request.bind(this),
++      this.props.debounceDuration
++    );
+     this._abortRequest = this._abortRequest.bind(this);
+     this.fetchAddressForLocation = this.fetchAddressForLocation.bind(this);
+     this.blur = this.blur.bind(this);
+@@ -85,16 +95,22 @@ export default class AutoCompleteInput extends React.Component {
+   };
+ 
+   fetchAddressForLocation(location) {
+-    this.setState({loading: true, predictions: []});
+-    let {latitude, longitude} = location;
+-    fetch(`${REVRSE_GEO_CODE_URL}?key=${this.props.apiKey}&latlng=${latitude},${longitude}`, null, this)
++    this.setState({ loading: true, predictions: [] });
++    let { latitude, longitude } = location;
++    fetch(
++      `${REVRSE_GEO_CODE_URL}?key=${
++        this.props.apiKey
++      }&latlng=${latitude},${longitude}`,
++      null,
++      this
++    )
+       .then(res => res.json())
+       .then(data => {
+-        this.setState({loading: false});
+-        let {results} = data;
++        this.setState({ loading: false });
++        let { results } = data;
+         if (results.length > 0) {
+-          let {formatted_address} = results[0];
+-          this.setState({text: formatted_address});
++          let { formatted_address } = results[0];
++          this.setState({ text: formatted_address });
+         }
+       });
+   }
+@@ -102,31 +118,37 @@ export default class AutoCompleteInput extends React.Component {
+   _request(text) {
+     this._abortRequest();
+     if (text.length >= 3) {
+-      fetch(`${AUTOCOMPLETE_URL}?input=${encodeURIComponent(text)}&key=${this.props.apiKey}&language=${this.props.language}`, null, this)
++      fetch(
++        `${AUTOCOMPLETE_URL}?input=${encodeURIComponent(text)}&key=${
++          this.props.apiKey
++        }&language=${this.props.language}`,
++        null,
++        this
++      )
+         .then(res => res.json())
+         .then(data => {
+-          let {predictions} = data;
+-          this.setState({predictions});
++          let { predictions } = data;
++          this.setState({ predictions });
+         });
+     } else {
+-      this.setState({predictions: []});
++      this.setState({ predictions: [] });
+     }
+   }
+ 
+   _onChangeText(text) {
+     this._request(text);
+-    this.setState({text});
++    this.setState({ text });
+   }
+ 
+   _onFocus() {
+     this._abortRequest();
+-    this.setState({loading: false, inFocus: true});
+-    Events.trigger('InputFocus');
++    this.setState({ loading: false, inFocus: true });
++    Events.trigger("InputFocus");
+   }
+ 
+   _onBlur() {
+-    this.setState({inFocus: false});
+-    Events.trigger('InputBlur');
++    this.setState({ inFocus: false });
++    Events.trigger("InputBlur");
+   }
+ 
+   blur() {
+@@ -134,46 +156,42 @@ export default class AutoCompleteInput extends React.Component {
+   }
+ 
+   _onPressClear() {
+-    this.setState({text: '', predictions: []});
++    this.setState({ text: "", predictions: [] });
+   }
+ 
+   _getClearButton() {
+-    return this.state.inFocus ?
+-      (<TouchableOpacity style={styles.btn} onPress={this._onPressClear}>
+-        <MaterialIcons name={'clear'} size={20}/>
+-      </TouchableOpacity>) : null;
++    return this.state.inFocus ? (
++      <TouchableOpacity style={styles.btn} onPress={this._onPressClear}>
++        <MaterialIcons name={"clear"} size={20} />
++      </TouchableOpacity>
++    ) : null;
+   }
+ 
+   getAddress() {
+-    return this.state.loading ? '' : this.state.text;
++    return this.state.loading ? "" : this.state.text;
+   }
+ 
+   render() {
+     return (
+       <Animated.View style={this.props.style}>
+-        <View
+-          style={styles.textInputContainer}
+-          elevation={5}
+-        >
++        <View style={styles.textInputContainer} elevation={5}>
+           <TextInput
+-            ref={input => this._input = input}
+-            value={this.state.loading ? 'Loading...' : this.state.text}
++            ref={input => (this._input = input)}
++            value={this.state.loading ? "Loading..." : this.state.text}
+             style={styles.textInput}
+-            underlineColorAndroid={'transparent'}
+-            placeholder={'Search'}
++            underlineColorAndroid={"transparent"}
++            placeholder={"Search"}
+             onFocus={this._onFocus}
+             onBlur={this._onBlur}
+             onChangeText={this._onChangeText}
+-            outlineProvider='bounds'
++            outlineProvider="bounds"
+             autoCorrect={false}
+             spellCheck={false}
+           />
+           {this._getClearButton()}
+         </View>
+         <View style={styles.listViewContainer}>
+-          <AutoCompleteListView
+-            predictions={this.state.predictions}
+-          />
++          <AutoCompleteListView predictions={this.state.predictions} />
+         </View>
+       </Animated.View>
+     );
+new file mode 100644
+--- /dev/null
++++ b/node_modules/react-native-location-view/src/LightMapStyle.json
+@@ -0,0 +1,293 @@
++[
++  {
++    "featureType": "administrative",
++    "elementType": "geometry.fill",
++    "stylers": [
++      {
++        "color": "#d6e2e6"
++      }
++    ]
++  },
++  {
++    "featureType": "administrative",
++    "elementType": "geometry.stroke",
++    "stylers": [
++      {
++        "color": "#cfd4d5"
++      }
++    ]
++  },
++  {
++    "featureType": "administrative",
++    "elementType": "labels.text.fill",
++    "stylers": [
++      {
++        "color": "#7492a8"
++      }
++    ]
++  },
++  {
++    "featureType": "administrative.neighborhood",
++    "elementType": "labels.text.fill",
++    "stylers": [
++      {
++        "lightness": 25
++      }
++    ]
++  },
++  {
++    "featureType": "landscape.man_made",
++    "elementType": "geometry.fill",
++    "stylers": [
++      {
++        "color": "#dde2e3"
++      }
++    ]
++  },
++  {
++    "featureType": "landscape.man_made",
++    "elementType": "geometry.stroke",
++    "stylers": [
++      {
++        "color": "#cfd4d5"
++      }
++    ]
++  },
++  {
++    "featureType": "landscape.natural",
++    "elementType": "geometry.fill",
++    "stylers": [
++      {
++        "color": "#dde2e3"
++      }
++    ]
++  },
++  {
++    "featureType": "landscape.natural",
++    "elementType": "labels.text.fill",
++    "stylers": [
++      {
++        "color": "#7492a8"
++      }
++    ]
++  },
++  {
++    "featureType": "landscape.natural.terrain",
++    "elementType": "all",
++    "stylers": [
++      {
++        "visibility": "off"
++      }
++    ]
++  },
++  {
++    "featureType": "poi",
++    "elementType": "geometry.fill",
++    "stylers": [
++      {
++        "color": "#dde2e3"
++      }
++    ]
++  },
++  {
++    "featureType": "poi",
++    "elementType": "labels.text.fill",
++    "stylers": [
++      {
++        "color": "#588ca4"
++      }
++    ]
++  },
++  {
++    "featureType": "poi",
++    "elementType": "labels.icon",
++    "stylers": [
++      {
++        "saturation": -100
++      }
++    ]
++  },
++  {
++    "featureType": "poi.park",
++    "elementType": "geometry.fill",
++    "stylers": [
++      {
++        "color": "#a9de83"
++      }
++    ]
++  },
++  {
++    "featureType": "poi.park",
++    "elementType": "geometry.stroke",
++    "stylers": [
++      {
++        "color": "#bae6a1"
++      }
++    ]
++  },
++  {
++    "featureType": "poi.sports_complex",
++    "elementType": "geometry.fill",
++    "stylers": [
++      {
++        "color": "#c6e8b3"
++      }
++    ]
++  },
++  {
++    "featureType": "poi.sports_complex",
++    "elementType": "geometry.stroke",
++    "stylers": [
++      {
++        "color": "#bae6a1"
++      }
++    ]
++  },
++  {
++    "featureType": "road",
++    "elementType": "labels.text.fill",
++    "stylers": [
++      {
++        "color": "#41626b"
++      }
++    ]
++  },
++  {
++    "featureType": "road",
++    "elementType": "labels.icon",
++    "stylers": [
++      {
++        "saturation": -45
++      },
++      {
++        "lightness": 10
++      },
++      {
++        "visibility": "on"
++      }
++    ]
++  },
++  {
++    "featureType": "road.highway",
++    "elementType": "geometry.fill",
++    "stylers": [
++      {
++        "color": "#c1d1d6"
++      }
++    ]
++  },
++  {
++    "featureType": "road.highway",
++    "elementType": "geometry.stroke",
++    "stylers": [
++      {
++        "color": "#a6b5bb"
++      }
++    ]
++  },
++  {
++    "featureType": "road.highway",
++    "elementType": "labels.icon",
++    "stylers": [
++      {
++        "visibility": "on"
++      }
++    ]
++  },
++  {
++    "featureType": "road.highway.controlled_access",
++    "elementType": "geometry.fill",
++    "stylers": [
++      {
++        "color": "#9fb6bd"
++      }
++    ]
++  },
++  {
++    "featureType": "road.arterial",
++    "elementType": "geometry.fill",
++    "stylers": [
++      {
++        "color": "#ffffff"
++      }
++    ]
++  },
++  {
++    "featureType": "road.local",
++    "elementType": "geometry.fill",
++    "stylers": [
++      {
++        "color": "#ffffff"
++      }
++    ]
++  },
++  {
++    "featureType": "transit",
++    "elementType": "labels.icon",
++    "stylers": [
++      {
++        "saturation": -70
++      }
++    ]
++  },
++  {
++    "featureType": "transit.line",
++    "elementType": "geometry.fill",
++    "stylers": [
++      {
++        "color": "#b4cbd4"
++      }
++    ]
++  },
++  {
++    "featureType": "transit.line",
++    "elementType": "labels.text.fill",
++    "stylers": [
++      {
++        "color": "#588ca4"
++      }
++    ]
++  },
++  {
++    "featureType": "transit.station",
++    "elementType": "all",
++    "stylers": [
++      {
++        "visibility": "off"
++      }
++    ]
++  },
++  {
++    "featureType": "transit.station",
++    "elementType": "labels.text.fill",
++    "stylers": [
++      {
++        "color": "#008cb5"
++      },
++      {
++        "visibility": "on"
++      }
++    ]
++  },
++  {
++    "featureType": "transit.station.airport",
++    "elementType": "geometry.fill",
++    "stylers": [
++      {
++        "saturation": -100
++      },
++      {
++        "lightness": -5
++      }
++    ]
++  },
++  {
++    "featureType": "water",
++    "elementType": "geometry.fill",
++    "stylers": [
++      {
++        "color": "#a6cbe3"
++      }
++    ]
++  }
++]
+--- a/node_modules/react-native-location-view/src/LocationView.js
++++ b/node_modules/react-native-location-view/src/LocationView.js
+@@ -1,22 +1,43 @@
+-import React from 'react';
++import React from "react";
+ import {
+-  View, StyleSheet, Animated, Platform, UIManager,
+-  TouchableOpacity, Text, ViewPropTypes
++  View,
++  StyleSheet,
++  Animated,
++  Platform,
++  UIManager,
++  TouchableOpacity,
++  Text,
++  ViewPropTypes,
++  StatusBar,
++  Image
+ } from "react-native";
+-import MapView from 'react-native-maps';
+-import AutoCompleteInput from "./AutoCompleteInput";
+-import Events from 'react-native-simple-events';
++import {
++  responsiveHeight,
++  responsiveWidth,
++  responsiveFontSize
++} from "react-native-responsive-dimensions";
++import LinearGradient from "react-native-linear-gradient";
++import MapView from "react-native-maps";
++import Ripple from "react-native-material-ripple";
++import Events from "react-native-simple-events";
++import FusedLocation from "react-native-fused-location";
++import { BoxShadow } from "react-native-shadow";
++
++import IonIcons from "react-native-vector-icons/Ionicons";
++import LightMapStyle from "./LightMapStyle";
+ import MaterialIcons from "react-native-vector-icons/MaterialIcons";
+ import Entypo from "react-native-vector-icons/Entypo";
+-import PropTypes from 'prop-types';
+-import fetch from 'react-native-cancelable-fetch';
++import PropTypes from "prop-types";
++import fetch from "react-native-cancelable-fetch";
+ 
+-const PLACE_DETAIL_URL = 'https://maps.googleapis.com/maps/api/place/details/json';
+-const DEFAULT_DELTA = {latitudeDelta: 0.015, longitudeDelta: 0.0121};
++const PLACE_DETAIL_URL =
++  "https://maps.googleapis.com/maps/api/place/details/json";
++const DEFAULT_DELTA = { latitudeDelta: 0.015, longitudeDelta: 0.0121 };
+ 
+ export default class LocationView extends React.Component {
+   static propTypes = {
+-    apiKey: PropTypes.string.isRequired,
++    //apiKey: PropTypes.string,
++    navigation: PropTypes.object,
+     initialLocation: PropTypes.shape({
+       latitude: PropTypes.number,
+       longitude: PropTypes.number
+@@ -30,10 +51,12 @@ export default class LocationView extends React.Component {
+   };
+ 
+   static defaultProps = {
+-    markerColor: 'black',
+-    actionText: 'DONE',
++    markerColor: "#000000",
++    actionText: "Done",
+     onLocationSelect: () => ({}),
+-    debounceDuration: 300
++    debounceDuration: 300,
++    lat: 0,
++    lon: 0
+   };
+ 
+   constructor(props) {
+@@ -42,44 +65,49 @@ export default class LocationView extends React.Component {
+     this._onTextFocus = this._onTextFocus.bind(this);
+     this._onTextBlur = this._onTextBlur.bind(this);
+     this._onMapRegionChange = this._onMapRegionChange.bind(this);
+-    this._onMapRegionChangeComplete = this._onMapRegionChangeComplete.bind(this);
++    this._onMapRegionChangeComplete = this._onMapRegionChangeComplete.bind(
++      this
++    );
+     this._onPlaceSelected = this._onPlaceSelected.bind(this);
+     this._setRegion = this._setRegion.bind(this);
+     this._getCurrentLocation = this._getCurrentLocation.bind(this);
+-    if (Platform.OS === 'android') {
+-      UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true);
++    if (Platform.OS === "android") {
++      UIManager.setLayoutAnimationEnabledExperimental &&
++        UIManager.setLayoutAnimationEnabledExperimental(true);
+     }
++    this.state = {
++      inputScale: new Animated.Value(1),
++      inFocus: false,
++      region: {
++        ...DEFAULT_DELTA,
++        ...this.props.initialLocation
++      }
++    };
+   }
+ 
+   componentDidMount() {
+-    Events.listen('InputBlur', this.constructor.displayName, this._onTextBlur);
+-    Events.listen('InputFocus', this.constructor.displayName, this._onTextFocus);
+-    Events.listen('PlaceSelected', this.constructor.displayName, this._onPlaceSelected);
++    // FusedLocation.setLocationPriority(FusedLocation.Constants.HIGH_ACCURACY);
++    // // Get location once.
++    // const location = FusedLocation.getFusedLocation();
++    //
++    // location.then(
++    //   value => console.log("fulfilled:", value),
++    //   error => {
++    //     console.log(error);
++    //     if (error == "Error: No location provider found.") {
++    //       console.log("Please enable location");
++    //     } else if (error == "Error: Appropriate permissions not given.") {
++    //       console.log("Enable permissions");
++    //     }
++    //   }
++    // );
+   }
+ 
+-  componentWillUnmount() {
+-    Events.rm('InputBlur', this.constructor.displayName);
+-    Events.rm('InputFocus', this.constructor.displayName);
+-    Events.rm('PlaceSelected', this.constructor.displayName);
+-  }
+-
+-  state = {
+-    inputScale: new Animated.Value(1),
+-    inFocus: false,
+-    region: {
+-      ...DEFAULT_DELTA,
+-      ...this.props.initialLocation
+-    }
+-  };
+-
+   _animateInput() {
+-    Animated.timing(
+-      this.state.inputScale,
+-      {
+-        toValue: this.state.inFocus ? 1.2 : 1,
+-        duration: 300
+-      }
+-    ).start();
++    Animated.timing(this.state.inputScale, {
++      toValue: this.state.inFocus ? 1.2 : 1,
++      duration: 300
++    }).start();
+   }
+ 
+   _onMapRegionChange(region) {
+@@ -104,9 +132,8 @@ export default class LocationView extends React.Component {
+   }
+ 
+   _setRegion(region, animate = true) {
+-    this.state.region = {...this.state.region, ...region};
+-    if (animate)
+-      this._map.animateToRegion(this.state.region);
++    this.state.region = { ...this.state.region, ...region };
++    if (animate) this._map.animateToRegion(this.state.region);
+   }
+ 
+   _onPlaceSelected(placeId) {
+@@ -114,52 +141,202 @@ export default class LocationView extends React.Component {
+     fetch(`${PLACE_DETAIL_URL}?key=${this.props.apiKey}&placeid=${placeId}`)
+       .then(response => response.json())
+       .then(data => {
+-        let region = (({lat, lng}) => ({latitude: lat, longitude: lng}))(data.result.geometry.location);
++        let region = (({ lat, lng }) => ({ latitude: lat, longitude: lng }))(
++          data.result.geometry.location
++        );
+         this._setRegion(region);
+-      })
++      });
+   }
+ 
+   _getCurrentLocation() {
+-    navigator.geolocation.getCurrentPosition((position) => {
+-      let location = (({latitude, longitude}) => ({latitude, longitude}))(position.coords);
+-      this._setRegion(location);
+-    });
++    FusedLocation.setLocationPriority(FusedLocation.Constants.HIGH_ACCURACY);
++    // Get location once.
++    const location = FusedLocation.getFusedLocation();
++
++    location.then(
++      value => {
++        console.log("fulfilled:", value);
++        let position = (({ latitude, longitude }) => ({ latitude, longitude }))(
++          value
++        );
++        this._setRegion(position);
++      },
++      error => {
++        console.log(error);
++        if (error == "Error: No location provider found.") {
++          console.log("Please enable location");
++        } else if (error == "Error: Appropriate permissions not given.") {
++          console.log("Enable permissions");
++        }
++      }
++    );
+   }
+ 
+   render() {
+-    let {inputScale} = this.state;
++    let { inputScale } = this.state;
++    const customPadding = {
++      top: responsiveHeight(6),
++      bottom: responsiveHeight(6),
++      right: 0,
++      left: 0
++    };
++
++    const shadowOpt = {
++      width: responsiveFontSize(7),
++      height: responsiveFontSize(7),
++      color: "#000000",
++      border: 2,
++      radius: 30,
++      opacity: 0.2,
++      x: 3,
++      y: 3,
++      style: {
++        alignItems: "center",
++        justifyContent: "center",
++        //padding: responsiveFontSize(1.8),
++        //borderRadius: responsiveFontSize(6),
++        position: "absolute",
++        bottom: responsiveHeight(2),
++        left: responsiveWidth(4)
++      }
++    };
+     return (
+       <View style={styles.container}>
+         <MapView
+-          ref={(mapView) => this._map = mapView}
++          ref={mapView => (this._map = mapView)}
++          customMapStyle={LightMapStyle}
+           style={styles.mapView}
+           region={this.state.region}
+-          showsMyLocationButton={true}
+-          showsUserLocation={false}
+-          onPress={({nativeEvent}) => this._setRegion(nativeEvent.coordinate)}
+-          onRegionChange={this._onMapRegionChange}
+-          onRegionChangeComplete={this._onMapRegionChangeComplete}
++          mapPadding={customPadding}
++          showsMyLocationButton={false}
++          showsUserLocation={true}
++          showsCompass={false}
++          onPress={({ nativeEvent }) => this._setRegion(nativeEvent.coordinate)}
++          //onRegionChange={this._onMapRegionChange}
++          //onRegionChangeComplete={this._onMapRegionChangeComplete}
+         />
+-        <Entypo name={'location-pin'} size={30} color={this.props.markerColor} style={{backgroundColor: 'transparent'}}/>
+-        <View style={styles.fullWidthContainer}>
+-          <AutoCompleteInput
+-            ref={input => this._input = input}
+-            apiKey={this.props.apiKey}
+-            style={[styles.input, {transform: [{scale: inputScale}]}]}
+-            debounceDuration={this.props.debounceDuration}
++        <Entypo
++          name={"location-pin"}
++          size={responsiveFontSize(4.5)}
++          color={this.props.markerColor}
++          style={{
++            backgroundColor: "transparent",
++            bottom: responsiveHeight(2)
++          }}
++        />
++
++        <Ripple
++          rippleColor={"#484848"}
++          rippleContainerBorderRadius={responsiveFontSize(6)}
++          style={[styles.currentLocBtn]}
++          onPress={this._getCurrentLocation}
++        >
++          <MaterialIcons
++            name={"my-location"}
++            color={"#000"}
++            size={responsiveFontSize(3.2)}
+           />
++        </Ripple>
++        <View
++          pointerEvents={"none"}
++          style={{ position: "absolute", top: 0, left: 0, zIndex: 3 }}
++        >
++          <View>
++            <LinearGradient
++              locations={[0.28, 1]}
++              colors={["rgba(255,255,255,1)", "rgba(255,255,255,0)"]}
++              style={{
++                paddingTop: StatusBar.currentHeight,
++                width: responsiveWidth(100),
++                height: responsiveHeight(30)
++              }}
++            />
++          </View>
++        </View>
++        <View
++          pointerEvents={"none"}
++          style={{
++            paddingTop: StatusBar.currentHeight,
++            position: "absolute",
++            top: responsiveHeight(4),
++            right: 0,
++            left: 0,
++            zIndex: 5,
++            alignItems: "center"
++          }}
++        >
++          <Text
++            style={{
++              fontFamily: "CircularStd-Medium",
++              fontSize: responsiveFontSize(3.2),
++              color: "#484848"
++            }}
++          >
++            Where do we deliver?
++          </Text>
++        </View>
++        <View
++          style={{
++            paddingTop: StatusBar.currentHeight,
++            position: "absolute",
++            top: responsiveHeight(2),
++            right: 0,
++            left: responsiveWidth(0.5),
++            zIndex: 5,
++            alignItems: "flex-start"
++          }}
++        >
++          <Ripple
++            rippleColor={"#000000"}
++            rippleContainerBorderRadius={responsiveWidth(15)}
++            onPressIn={() => {
++              this.props.navigation.goBack();
++            }}
++          >
++            <View
++              style={{
++                borderRadius: responsiveWidth(15),
++                width: responsiveWidth(15),
++                height: responsiveWidth(15),
++
++                backgroundColor: "transparent",
++                justifyContent: "center"
++              }}
++            >
++              <IonIcons
++                name={"md-arrow-back"}
++                size={responsiveFontSize(3.2)}
++                color={"#484848"}
++                style={{
++                  alignSelf: "center",
++                  paddingHorizontal: responsiveWidth(2)
++                }}
++              />
++            </View>
++          </Ripple>
+         </View>
+-        <TouchableOpacity style={[styles.currentLocBtn, {backgroundColor: this.props.markerColor}]} onPress={this._getCurrentLocation}>
+-          <MaterialIcons name={'my-location'} color={'white'} size={25}/>
+-        </TouchableOpacity>
+-        <TouchableOpacity
++        <Ripple
++          rippleContainerBorderRadius={responsiveFontSize(6)}
++          rippleColor={"#FFFFFF"}
+           style={[styles.actionButton, this.props.actionButtonStyle]}
+-          onPress={() => this.props.onLocationSelect({...this.state.region, address: this._input.getAddress()})}
++          onPress={() =>
++            this.props.onLocationSelect({
++              ...this.state.region
++            })
++          }
+         >
+           <View>
+-            <Text style={[styles.actionText, this.props.actionTextStyle]}>{this.props.actionText}</Text>
++            <Text
++              style={{
++                color: "#FFFFFF",
++                fontSize: responsiveFontSize(2.5),
++                fontFamily: "CircularStd-Medium"
++              }}
++            >
++              Confirm delivery
++            </Text>
+           </View>
+-        </TouchableOpacity>
++        </Ripple>
+         {this.props.children}
+       </View>
+     );
+@@ -169,43 +346,49 @@ export default class LocationView extends React.Component {
+ const styles = StyleSheet.create({
+   container: {
+     flex: 1,
+-    justifyContent: 'center',
+-    alignItems: 'center'
++    justifyContent: "center",
++    alignItems: "center"
+   },
+   mapView: {
+     ...StyleSheet.absoluteFillObject
+   },
+   fullWidthContainer: {
+-    position: 'absolute',
+-    width: '100%',
++    position: "absolute",
++    width: "100%",
+     top: 80,
+-    alignItems: 'center',
++    alignItems: "center"
+   },
+   input: {
+-    width: '80%',
++    width: "80%",
+     padding: 5
+   },
+   currentLocBtn: {
+-    backgroundColor: '#000',
+-    padding: 5,
+-    borderRadius: 5,
+-    position: 'absolute',
+-    bottom: 70,
+-    right: 10,
++    backgroundColor: "#FFFFFF",
++    elevation: 5,
++    width: responsiveFontSize(7),
++    height: responsiveFontSize(7),
++    borderRadius: responsiveFontSize(6),
++    position: "absolute",
++    bottom: responsiveHeight(2),
++    left: responsiveWidth(4),
++    alignItems: "center",
++    justifyContent: "center"
+   },
+   actionButton: {
+-    backgroundColor: '#000',
+-    height: 50,
+-    position: 'absolute',
+-    bottom: 10,
+-    left: 10,
+-    right: 10,
+-    justifyContent: 'center',
+-    alignItems: 'center',
+-    borderRadius: 5,
++    backgroundColor: "#000000",
++    width: responsiveFontSize(39),
++    height: responsiveFontSize(7),
++    elevation: 10,
++    position: "absolute",
++    bottom: responsiveHeight(2),
++    right: responsiveWidth(4),
++    justifyContent: "center",
++    alignItems: "center",
++    borderRadius: responsiveFontSize(6)
+   },
+   actionText: {
+-    color: 'white',
+-    fontSize: 23,
++    color: "white",
++    fontSize: responsiveFontSize(2.8),
++    fontFamily: "CircularStd-Bold"
+   }
+ });

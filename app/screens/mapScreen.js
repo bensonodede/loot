@@ -15,16 +15,13 @@ export default class MapScreen extends React.Component {
   constructor() {
     super();
     this.state = {
-      position: {
-        latitude: "",
-        longitude: ""
-      },
+      lat: 0,
+      lon: 0,
+      locationFound: null,
       locationEnabled: null,
       locationPermission: null
     };
   }
-
-  componentDidMount() {}
 
   _turnLocationOn() {
     SystemSetting.isLocationEnabled().then(enable => {
@@ -60,13 +57,18 @@ export default class MapScreen extends React.Component {
     }
   }
 
-  async _findMe() {
+  _findMe() {
     FusedLocation.setLocationPriority(FusedLocation.Constants.HIGH_ACCURACY);
     // Get location once.
-    const location = await FusedLocation.getFusedLocation();
+    const location = FusedLocation.getFusedLocation();
 
     location.then(
-      value => console.log("fulfilled:", value),
+      value => {
+        console.log("fulfilled:", value);
+        this.setState({ lat: value.latitude, lon: value.longitude }, () => {
+          this.setState({ locationFound: true });
+        });
+      },
       error => {
         console.log(error);
         if (error == "Error: No location provider found.") {
@@ -86,7 +88,13 @@ export default class MapScreen extends React.Component {
     const gameDetails = this.props.navigation.getParam("gameDetails");
     const dates = this.props.navigation.getParam("dates");
 
-    const { locationEnabled, locationPermission } = this.state;
+    const {
+      locationEnabled,
+      locationPermission,
+      locationFound,
+      lat,
+      lon
+    } = this.state;
     return (
       <View style={{ flex: 1 }}>
         <NavigationEvents
@@ -105,33 +113,22 @@ export default class MapScreen extends React.Component {
           backgroundColor={"#FFFFFF"}
           animated
         />
-        {locationEnabled && locationPermission ? (
-          <LocationView
-            navigation={this.props.navigation}
-            initialLocation={{
-              latitude: -1.28333,
-              longitude: 36.81667
-            }}
-            onLocationSelect={region => {
-              this.props.navigation.navigate("Time", {
-                gameDetails: gameDetails,
-                dates: dates,
-                location: region
-              });
-            }}
-          />
-        ) : (
-          <View
-            style={{
-              flex: 1,
-              alignContent: "center",
-              justifyContent: "center",
-              backgroundColor: "#FFFFFF"
-            }}
-          >
-            <ActivityIndicator size="large" color="#0000ff" />
-          </View>
-        )}
+
+        <LocationView
+          navigation={this.props.navigation}
+          initialLocation={{
+            latitude: locationFound ? lat : -1.28333,
+            longitude: locationFound ? lon : 36.81667
+          }}
+          onLocationSelect={region => {
+            console.log(region);
+            this.props.navigation.navigate("Time", {
+              gameDetails: gameDetails,
+              dates: dates,
+              location: region
+            });
+          }}
+        />
       </View>
     );
   }
