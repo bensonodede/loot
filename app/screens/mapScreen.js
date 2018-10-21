@@ -20,7 +20,7 @@ export default class MapScreen extends React.Component {
       locationPermission: null
     };
   }
-
+  //Comment to test branch
   _turnLocationOn() {
     SystemSetting.isLocationEnabled().then(enable => {
       if (enable) {
