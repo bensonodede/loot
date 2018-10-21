@@ -15,8 +15,6 @@ export default class MapScreen extends React.Component {
   constructor() {
     super();
     this.state = {
-      lat: 0,
-      lon: 0,
       locationFound: null,
       locationEnabled: null,
       locationPermission: null
