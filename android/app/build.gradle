@@ -163,6 +163,13 @@ android {
             resValue "string", "build_config_package", "com.Loot"
             signingConfig signingConfigs.dev
         }
+        release{
+            minSdkVersion 16
+            applicationId 'com.Loot'
+            targetSdkVersion 22
+            resValue "string", "build_config_package", "com.Loot"
+            signingConfig signingConfigs.release
+        }
         // beta {
         //     minSdkVersion 16
         //     applicationId 'com.Loot.beta'
