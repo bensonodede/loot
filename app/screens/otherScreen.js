@@ -8,6 +8,8 @@ import {
   View,
   Text
 } from "react-native";
+import firebase from "react-native-firebase";
+
 import styles from "../config/styles";
 
 export default class OtherScreen extends React.Component {
@@ -25,7 +27,18 @@ export default class OtherScreen extends React.Component {
           backgroundColor={"#FFFFFF"}
           animated
         />
-        <Button title="I'm done, sign me out" onPress={this._signOutAsync} />
+        <Button
+          onPress={() => {
+            firebase
+              .auth()
+              .signOut()
+              .then(() => {
+                console.log("SIGNED OUT");
+              })
+              .catch(error => console.log(error));
+          }}
+          title={"SIGN OUT"}
+        />
       </View>
     );
   }

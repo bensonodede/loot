@@ -34,13 +34,6 @@ export default class FeedScreen extends React.Component {
 
   componentDidMount() {
     this.unsubscribe = this.ref.onSnapshot(this.onCollectionUpdate);
-    // this.userUnsubscribe = firebase.auth().onAuthStateChanged(user => {
-    //   if (user) {
-    //     console.log(user);
-    //   } else {
-    //     console.log("NOT SIGNED IN");
-    //   }
-    // });
   }
 
   componentWillUnmount() {
@@ -117,18 +110,6 @@ export default class FeedScreen extends React.Component {
           backgroundColor={"#FFFFFF"}
           animated
         />
-        {/* <Button
-          onPress={() => {
-            firebase
-              .auth()
-              .signOut()
-              .then(() => {
-                console.log("SIGNED OUT");
-              })
-              .catch(error => console.log(error));
-          }}
-          title={"SIGN OUT"}
-        />*/}
 
         <FlatList
           showsVerticalScrollIndicator={false}

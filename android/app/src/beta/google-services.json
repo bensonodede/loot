@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "732271924247",
+    "firebase_url": "https://loot-beta.firebaseio.com",
+    "project_id": "loot-beta",
+    "storage_bucket": "loot-beta.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:732271924247:android:976630bf29da2af2",
+        "android_client_info": {
+          "package_name": "com.Loot.beta"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "732271924247-3b972v6kg5n2pigb1abqe47206dcju8a.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.Loot.beta",
+            "certificate_hash": "7945b468acae0aeab7db784d6e20e4549ebb3762"
+          }
+        },
+        {
+          "client_id": "732271924247-g61uht8q90uhcohs1guimq542bnd43f6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBNTTrGeDutp28pixpo9pGm7mGZ_AGa7nM"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "732271924247-g61uht8q90uhcohs1guimq542bnd43f6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
