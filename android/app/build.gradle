@@ -148,14 +148,21 @@ android {
         release {
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
-             signingConfig signingConfigs.release
+            signingConfig signingConfigs.release
         }
         debug {
-             signingConfig signingConfigs.dev
+            signingConfig signingConfigs.dev
         }
     }
     flavorDimensions "default"
     productFlavors {
+        prod {
+            minSdkVersion 16
+            applicationId 'com.Loot'
+            targetSdkVersion 22
+            resValue "string", "build_config_package", "com.Loot"
+            signingConfig signingConfigs.release
+        }
         dev {
             minSdkVersion 16
             applicationId 'com.Loot.dev'
