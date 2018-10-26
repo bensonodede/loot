@@ -115,11 +115,13 @@ android {
     }
      signingConfigs {
          dev {
-            storeFile file(project.env.get("MYAPP_DEV_RELEASE_STORE_FILE"))
-            storePassword project.env.get("MYAPP_DEV_RELEASE_STORE_PASSWORD")
-            keyAlias project.env.get("MYAPP_DEV_RELEASE_KEY_ALIAS")
-            keyPassword project.env.get("MYAPP_DEV_RELEASE_KEY_PASSWORD")
-        }
+            if (project.hasProperty('MYAPP_DEV_RELEASE_STORE_FILE')) {
+                storeFile rootProject.file("app/" + project.findProperty('MYAPP_DEV_RELEASE_STORE_FILE') ?: "ANDROID_STORE_FILE_NOT_SET")
+                storePassword project.findProperty('MYAPP_DEV_RELEASE_STORE_PASSWORD') ?: "ANDROID_STORE_PASSWORD_NOT_SET"
+                keyAlias project.findProperty('MYAPP_DEV_RELEASE_KEY_ALIAS') ?: "ANDROID_KEY_ALIAS_NOT_SET"
+                keyPassword project.findProperty('MYAPP_DEV_RELEASE_KEY_PASSWORD') ?: "ANDROID_KEY_PASSWORD_NOT_SET"
+            }
+        }   
 
         // beta {
         //     storeFile file(project.env.get("MYAPP_BETA_RELEASE_STORE_FILE"))
@@ -128,12 +130,14 @@ android {
         //     keyPassword project.env.get("MYAPP_BETA_RELEASE_KEY_PASSWORD")
         // }
 
-        release {
-            storeFile file(project.env.get("MYAPP_RELEASE_STORE_FILE"))
-            storePassword project.env.get("MYAPP_RELEASE_STORE_PASSWORD")
-            keyAlias project.env.get("MYAPP_RELEASE_KEY_ALIAS")
-            keyPassword project.env.get("MYAPP_RELEASE_KEY_PASSWORD")
-        }
+         release {
+            if (project.hasProperty('MYAPP_RELEASE_STORE_FILE')) {
+                storeFile rootProject.file("app/" + project.findProperty('MYAPP_RELEASE_STORE_FILE') ?: "ANDROID_STORE_FILE_NOT_SET")
+                storePassword project.findProperty('MYAPP_RELEASE_STORE_PASSWORD') ?: "ANDROID_STORE_PASSWORD_NOT_SET"
+                keyAlias project.findProperty('MYAPP_RELEASE_KEY_ALIAS') ?: "ANDROID_KEY_ALIAS_NOT_SET"
+                keyPassword project.findProperty('MYAPP_RELEASE_KEY_PASSWORD') ?: "ANDROID_KEY_PASSWORD_NOT_SET"
+            }
+         }
 
     }
     splits {
@@ -148,7 +152,14 @@ android {
         release {
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+             if (project.hasProperty('MYAPP_RELEASE_STORE_FILE')) {
             signingConfig signingConfigs.release
+            } else {
+            println '-------------------------------------------------'
+            println 'The MYAPP_RELEASE_STORE_FILE property was not set!'
+            println 'This release will not be signed by gradle!'
+            println '-------------------------------------------------'
+            }
         }
         debug {
             signingConfig signingConfigs.dev
