@@ -114,26 +114,13 @@ android {
         
     }
      signingConfigs {
-         //release {               
-         //   storeFile rootProject.file("my-release-key.keystore")
-         //   storePassword System.getProperty("APPCENTER_KEYSTORE_PASSWORD")
-         //   keyAlias System.getProperty("APPCENTER_KEY_ALIAS")
-         //   keyPassword System.getProperty("APPCENTER_KEY_PASSWORD")           
-         //}
+         //release key configured on app center and signed on build         
          dev {    
             storeFile file(MYAPP_DEV_RELEASE_STORE_FILE)
             storePassword MYAPP_DEV_RELEASE_STORE_PASSWORD
             keyAlias MYAPP_DEV_RELEASE_KEY_ALIAS
             keyPassword MYAPP_DEV_RELEASE_KEY_PASSWORD        
-        }   
-
-        // beta {
-        //     storeFile file(project.env.get("MYAPP_BETA_RELEASE_STORE_FILE"))
-        //     storePassword project.env.get("MYAPP_BETA_RELEASE_STORE_PASSWORD")
-        //     keyAlias project.env.get("MYAPP_BETA_RELEASE_KEY_ALIAS")
-        //     keyPassword project.env.get("MYAPP_BETA_RELEASE_KEY_PASSWORD")
-        // }
-
+        }         
 
     }
     splits {
@@ -148,7 +135,6 @@ android {
         release {
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
-           // signingConfig signingConfigs.release
            
         }
         debug {
@@ -162,7 +148,7 @@ android {
             applicationId 'com.Loot'
             targetSdkVersion 22
             resValue "string", "build_config_package", "com.Loot"
-           // signingConfig signingConfigs.release
+            //signed on build by appcenter
         }
         dev {
             minSdkVersion 16
