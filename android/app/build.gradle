@@ -114,13 +114,11 @@ android {
         
     }
      signingConfigs {
-         dev {
-            if (project.hasProperty('MYAPP_DEV_RELEASE_STORE_FILE')) {
-                storeFile file(MYAPP_DEV_RELEASE_STORE_FILE)
-                storePassword MYAPP_DEV_RELEASE_STORE_PASSWORD
-                keyAlias MYAPP_DEV_RELEASE_KEY_ALIAS
-                keyPassword MYAPP_DEV_RELEASE_KEY_PASSWORD
-            }
+         dev {    
+            storeFile file(MYAPP_DEV_RELEASE_STORE_FILE)
+            storePassword MYAPP_DEV_RELEASE_STORE_PASSWORD
+            keyAlias MYAPP_DEV_RELEASE_KEY_ALIAS
+            keyPassword MYAPP_DEV_RELEASE_KEY_PASSWORD        
         }   
 
         // beta {
@@ -130,13 +128,11 @@ android {
         //     keyPassword project.env.get("MYAPP_BETA_RELEASE_KEY_PASSWORD")
         // }
 
-         release {
-            if (project.hasProperty('MYAPP_RELEASE_STORE_FILE')) {
-                storeFile file(MYAPP_RELEASE_STORE_FILE)
-                storePassword MYAPP_RELEASE_STORE_PASSWORD
-                keyAlias MYAPP_RELEASE_KEY_ALIAS
-                keyPassword MYAPP_RELEASE_KEY_PASSWORD
-            }
+         release {            
+            storeFile file(MYAPP_RELEASE_STORE_FILE)
+            storePassword MYAPP_RELEASE_STORE_PASSWORD
+            keyAlias MYAPP_RELEASE_KEY_ALIAS
+            keyPassword MYAPP_RELEASE_KEY_PASSWORD            
          }
 
     }
