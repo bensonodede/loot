@@ -114,6 +114,12 @@ android {
         
     }
      signingConfigs {
+         release {            
+            storeFile rootProject.file("app/my-release-key.keystore")
+            storePassword System.getProperty("APPCENTER_KEYSTORE_PASSWORD")
+            keyAlias System.getProperty("APPCENTER_KEY_ALIAS")
+            keyPassword System.getProperty("APPCENTER_KEY_PASSWORD")           
+         }
          dev {    
             storeFile file(MYAPP_DEV_RELEASE_STORE_FILE)
             storePassword MYAPP_DEV_RELEASE_STORE_PASSWORD
@@ -128,12 +134,6 @@ android {
         //     keyPassword project.env.get("MYAPP_BETA_RELEASE_KEY_PASSWORD")
         // }
 
-         release {            
-            storeFile file(MYAPP_RELEASE_STORE_FILE)
-            storePassword MYAPP_RELEASE_STORE_PASSWORD
-            keyAlias MYAPP_RELEASE_KEY_ALIAS
-            keyPassword MYAPP_RELEASE_KEY_PASSWORD            
-         }
 
     }
     splits {
