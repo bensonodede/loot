@@ -116,10 +116,10 @@ android {
      signingConfigs {
          dev {
             if (project.hasProperty('MYAPP_DEV_RELEASE_STORE_FILE')) {
-                storeFile rootProject.file("app/" + project.findProperty('MYAPP_DEV_RELEASE_STORE_FILE') ?: "ANDROID_STORE_FILE_NOT_SET")
-                storePassword project.findProperty('MYAPP_DEV_RELEASE_STORE_PASSWORD') ?: "ANDROID_STORE_PASSWORD_NOT_SET"
-                keyAlias project.findProperty('MYAPP_DEV_RELEASE_KEY_ALIAS') ?: "ANDROID_KEY_ALIAS_NOT_SET"
-                keyPassword project.findProperty('MYAPP_DEV_RELEASE_KEY_PASSWORD') ?: "ANDROID_KEY_PASSWORD_NOT_SET"
+                storeFile file(MYAPP_DEV_RELEASE_STORE_FILE)
+                storePassword MYAPP_DEV_RELEASE_STORE_PASSWORD
+                keyAlias MYAPP_DEV_RELEASE_KEY_ALIAS
+                keyPassword MYAPP_DEV_RELEASE_KEY_PASSWORD
             }
         }   
 
@@ -132,10 +132,10 @@ android {
 
          release {
             if (project.hasProperty('MYAPP_RELEASE_STORE_FILE')) {
-                storeFile rootProject.file("app/" + project.findProperty('MYAPP_RELEASE_STORE_FILE') ?: "ANDROID_STORE_FILE_NOT_SET")
-                storePassword project.findProperty('MYAPP_RELEASE_STORE_PASSWORD') ?: "ANDROID_STORE_PASSWORD_NOT_SET"
-                keyAlias project.findProperty('MYAPP_RELEASE_KEY_ALIAS') ?: "ANDROID_KEY_ALIAS_NOT_SET"
-                keyPassword project.findProperty('MYAPP_RELEASE_KEY_PASSWORD') ?: "ANDROID_KEY_PASSWORD_NOT_SET"
+                storeFile file(MYAPP_RELEASE_STORE_FILE)
+                storePassword MYAPP_RELEASE_STORE_PASSWORD
+                keyAlias MYAPP_RELEASE_KEY_ALIAS
+                keyPassword MYAPP_RELEASE_KEY_PASSWORD
             }
          }
 
@@ -152,14 +152,8 @@ android {
         release {
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
-             if (project.hasProperty('MYAPP_RELEASE_STORE_FILE')) {
             signingConfig signingConfigs.release
-            } else {
-            println '-------------------------------------------------'
-            println 'The MYAPP_RELEASE_STORE_FILE property was not set!'
-            println 'This release will not be signed by gradle!'
-            println '-------------------------------------------------'
-            }
+           
         }
         debug {
             signingConfig signingConfigs.dev
