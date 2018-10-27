@@ -162,7 +162,7 @@ android {
             applicationId 'com.Loot'
             targetSdkVersion 22
             resValue "string", "build_config_package", "com.Loot"
-            signingConfig signingConfigs.release
+           // signingConfig signingConfigs.release
         }
         dev {
             minSdkVersion 16
