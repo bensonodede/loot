@@ -114,7 +114,8 @@ android {
         
     }
      signingConfigs {
-         release {            
+         release {       
+             //Test     
             storeFile rootProject.file("my-release-key.keystore")
             storePassword System.getProperty("APPCENTER_KEYSTORE_PASSWORD")
             keyAlias System.getProperty("APPCENTER_KEY_ALIAS")
