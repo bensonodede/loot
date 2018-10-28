@@ -3,8 +3,9 @@ package com.Loot;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
-import com.lugg.ReactNativeConfig.ReactNativeConfigPackage;
+import com.facebook.react.ReactInstanceManager;
 import com.reactnativecomponent.splashscreen.RCTSplashScreenPackage;
+import com.lugg.ReactNativeConfig.ReactNativeConfigPackage;
 import com.ninty.system.setting.SystemSettingPackage;
 import com.mustansirzia.fused.FusedLocationPackage;
 import com.showlocationservicesdialogbox.LocationServicesDialogBoxPackage;
@@ -15,6 +16,7 @@ import com.oblador.vectoricons.VectorIconsPackage;
 import io.invertase.firebase.RNFirebasePackage;
 import io.invertase.firebase.auth.RNFirebaseAuthPackage;
 import io.invertase.firebase.firestore.RNFirebaseFirestorePackage;
+import io.invertase.firebase.messaging.RNFirebaseMessagingPackage;
 import com.BV.LinearGradient.LinearGradientPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
@@ -35,10 +37,10 @@ public class MainApplication extends Application implements ReactApplication {
     @Override
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(new MainReactPackage(),
-            new ReactNativeConfigPackage(), new SystemSettingPackage(), new FusedLocationPackage(),
+          new ReactNativeConfigPackage(), new SystemSettingPackage(), new FusedLocationPackage(),
           new LocationServicesDialogBoxPackage(), new RNTextInputMaskPackage(), new RCTSplashScreenPackage(),
           new SvgPackage(), new MapsPackage(), new LinearGradientPackage(), new VectorIconsPackage(),
-          new RNFirebasePackage(), new RNFirebaseAuthPackage(), new RNFirebaseFirestorePackage());
+          new RNFirebasePackage(), new RNFirebaseAuthPackage(), new RNFirebaseFirestorePackage(),new RNFirebaseMessagingPackage());
     }
 
     @Override

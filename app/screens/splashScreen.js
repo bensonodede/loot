@@ -16,12 +16,12 @@ export default class SplashScreenView extends React.Component {
   }
 
   componentDidMount() {
-    SplashScreen.close({
-      animationType: SplashScreen.animationType.scale,
-      duration: 850,
-      delay: 500
-    });
     this.unsubscribe = firebase.auth().onAuthStateChanged(user => {
+      SplashScreen.close({
+        animationType: SplashScreen.animationType.scale,
+        duration: 850,
+        delay: 500
+      });
       this.props.navigation.navigate(user ? "Feed" : "Welcome");
     });
   }
