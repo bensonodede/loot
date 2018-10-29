@@ -36,9 +36,9 @@ public class MainApplication extends Application implements ReactApplication {
 
     @Override
     protected List<ReactPackage> getPackages() {
-      return Arrays.<ReactPackage>asList(new MainReactPackage(),
+      return Arrays.<ReactPackage>asList(new MainReactPackage(),new RCTSplashScreenPackage(),
           new ReactNativeConfigPackage(), new SystemSettingPackage(), new FusedLocationPackage(),
-          new LocationServicesDialogBoxPackage(), new RNTextInputMaskPackage(), new RCTSplashScreenPackage(),
+          new LocationServicesDialogBoxPackage(), new RNTextInputMaskPackage(), 
           new SvgPackage(), new MapsPackage(), new LinearGradientPackage(), new VectorIconsPackage(),
           new RNFirebasePackage(), new RNFirebaseAuthPackage(), new RNFirebaseFirestorePackage(),new RNFirebaseMessagingPackage());
     }
