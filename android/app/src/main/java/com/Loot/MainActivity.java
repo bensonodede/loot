@@ -1,8 +1,8 @@
 package com.Loot;
 
-import android.os.Bundle; // required for onCreate parameter
 import com.facebook.react.ReactActivity;
 import com.reactnativecomponent.splashscreen.RCTSplashScreen;    
+import android.os.Bundle; // required for onCreate parameter
 
 
 public class MainActivity extends ReactActivity {

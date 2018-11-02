@@ -5966,7 +5966,7 @@ new file mode 100644
 --- /dev/null
 +++ b/node_modules/react-native-smart-splash-screen/android/build/intermediates/incremental/packageDebugResources/compile-file-map.properties
 @@ -0,0 +1 @@
-+#Sun Oct 28 14:40:32 EAT 2018
++#Fri Nov 02 15:45:30 EAT 2018
 new file mode 100644
 --- /dev/null
 +++ b/node_modules/react-native-smart-splash-screen/android/build/intermediates/incremental/packageDebugResources/merger.xml
@@ -9247,3 +9247,29 @@ new file mode 100644
  
 -
  }
+--- a/node_modules/react-native-smart-splash-screen/android/src/main/java/com/reactnativecomponent/splashscreen/RCTSplashScreenPackage.java
++++ b/node_modules/react-native-smart-splash-screen/android/src/main/java/com/reactnativecomponent/splashscreen/RCTSplashScreenPackage.java
+@@ -10,19 +10,16 @@ import java.util.Arrays;
+ import java.util.Collections;
+ import java.util.List;
+ 
+-
+ public class RCTSplashScreenPackage implements ReactPackage {
+ 
+     @Override
+     public List<NativeModule> createNativeModules(ReactApplicationContext reactContext) {
+-        return Arrays.<NativeModule>asList(
+-                new RCTSplashScreenModule(reactContext)
+-        );
++        return Arrays.<NativeModule>asList(new RCTSplashScreenModule(reactContext));
+     }
+ 
+-    public List<Class<? extends JavaScriptModule>> createJSModules() {
+-        return Collections.emptyList();
+-    }
++    // public List<Class<? extends JavaScriptModule>> createJSModules() {
++    // return Collections.emptyList();
++    // }
+ 
+     @Override
+     public List<ViewManager> createViewManagers(ReactApplicationContext reactContext) {
