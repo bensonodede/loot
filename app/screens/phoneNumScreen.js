@@ -1,11 +1,12 @@
 import React from "react";
 import {
   View,
+  ScrollView,
   Text,
   StyleSheet,
   StatusBar,
   NetInfo,
-  PermissionsAndroid
+  KeyboardAvoidingView
 } from "react-native";
 import {
   responsiveHeight,
@@ -189,15 +190,13 @@ export default class PhoneNumScreen extends React.Component {
 
   render() {
     return (
-      <KeyboardAwareScrollView
-        enableOnAndroid={true}
-        enableAutomaticScroll={true}
+      <KeyboardAvoidingView
         style={{
           flex: 1,
           backgroundColor: "#FFFFFF"
         }}
       >
-        <View
+        <ScrollView
           style={[
             styles.container,
             {
@@ -317,49 +316,48 @@ export default class PhoneNumScreen extends React.Component {
               />
             </View>
           </View>
-
-          <View
-            style={{
-              width: responsiveWidth(15),
-              height: responsiveWidth(15),
-              borderRadius: responsiveWidth(15),
-              position: "absolute",
-              bottom: responsiveWidth(5),
-              right: responsiveWidth(5),
-              borderRadius: responsiveWidth(10),
-              zIndex: 3
+        </ScrollView>
+        <View
+          style={{
+            width: responsiveWidth(15),
+            height: responsiveWidth(15),
+            borderRadius: responsiveWidth(15),
+            position: "absolute",
+            bottom: responsiveWidth(5),
+            right: responsiveWidth(5),
+            borderRadius: responsiveWidth(10),
+            elevation: 6
+          }}
+        >
+          <Ripple
+            disabled={this.state.disabled}
+            rippleColor={"#FFFFFF"}
+            rippleContainerBorderRadius={responsiveWidth(15)}
+            onPressIn={() => {
+              this._signIn();
             }}
           >
-            <Ripple
-              disabled={this.state.disabled}
-              rippleColor={"#FFFFFF"}
-              rippleContainerBorderRadius={responsiveWidth(15)}
-              onPressIn={() => {
-                this._signIn();
+            <View
+              style={{
+                borderRadius: responsiveWidth(15),
+                width: responsiveWidth(15),
+                height: responsiveWidth(15),
+                paddingVertical: responsiveHeight(2),
+                backgroundColor: this.state.disabled ? "#bcd8d6" : "#00A699",
+                justifyContent: "center"
               }}
             >
-              <View
+              <IonIcons
+                name={"md-arrow-forward"}
+                size={responsiveFontSize(3.6)}
+                color={"#FFFFFF"}
                 style={{
-                  borderRadius: responsiveWidth(15),
-                  width: responsiveWidth(15),
-                  height: responsiveWidth(15),
-                  paddingVertical: responsiveHeight(2),
-                  backgroundColor: this.state.disabled ? "#bcd8d6" : "#00A699",
-                  justifyContent: "center"
+                  alignSelf: "center",
+                  paddingHorizontal: responsiveWidth(2)
                 }}
-              >
-                <IonIcons
-                  name={"md-arrow-forward"}
-                  size={responsiveFontSize(3.6)}
-                  color={"#FFFFFF"}
-                  style={{
-                    alignSelf: "center",
-                    paddingHorizontal: responsiveWidth(2)
-                  }}
-                />
-              </View>
-            </Ripple>
-          </View>
+              />
+            </View>
+          </Ripple>
         </View>
         <FlashMessage
           ref="fmLocalInstance"
@@ -369,7 +367,7 @@ export default class PhoneNumScreen extends React.Component {
           autoHide={true}
           duration={4000}
         />
-      </KeyboardAwareScrollView>
+      </KeyboardAvoidingView>
     );
   }
 }

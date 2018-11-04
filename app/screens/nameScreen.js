@@ -1,6 +1,7 @@
 import React from "react";
 import {
   View,
+  ScrollView,
   Text,
   StyleSheet,
   StatusBar,
@@ -13,7 +14,6 @@ import {
   responsiveWidth,
   responsiveFontSize
 } from "react-native-responsive-dimensions";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { Hoshi } from "react-native-textinput-effects";
 import Ripple from "react-native-material-ripple";
 import dismissKeyboard from "react-native-dismiss-keyboard";
@@ -51,25 +51,17 @@ export default class NameScreen extends React.Component {
   render() {
     const offset = Platform.OS === "android" ? -500 : 0;
     return (
-      <KeyboardAwareScrollView
-        enableOnAndroid={true}
-        enableAutomaticScroll={true}
-        extraHeight={responsiveHeight(10)}
-        style={{
-          flex: 1,
-          backgroundColor: "#FFFFFF"
-        }}
+      <KeyboardAvoidingView
+        style={[
+          styles.container,
+          {
+            flex: 1,
+            paddingTop: responsiveHeight(6),
+            height: responsiveHeight(100)
+          }
+        ]}
       >
-        <View
-          style={[
-            styles.container,
-            {
-              flex: 1,
-              paddingTop: responsiveHeight(6),
-              height: responsiveHeight(100)
-            }
-          ]}
-        >
+        <ScrollView>
           <StatusBar
             translucent
             barStyle="dark-content"
@@ -182,54 +174,57 @@ export default class NameScreen extends React.Component {
               }}
             />
           </View>
-
-          <View
-            style={{
-              width: responsiveWidth(15),
-              height: responsiveWidth(15),
-              borderRadius: responsiveWidth(15),
-              position: "absolute",
-              bottom: responsiveWidth(5),
-              right: responsiveWidth(5),
-              borderRadius: responsiveWidth(10),
-              zIndex: 3
+        </ScrollView>
+        {/*Bottom button */}
+        <View
+          style={{
+            alignSelf: "flex-end",
+            width: responsiveWidth(15),
+            height: responsiveWidth(15),
+            borderRadius: responsiveWidth(15),
+            position: "absolute",
+            bottom: responsiveWidth(5),
+            right: responsiveWidth(5),
+            borderRadius: responsiveWidth(10),
+            elevation: 6
+          }}
+        >
+          <Ripple
+            disabled={this.state.disabled}
+            rippleColor={"#FFFFFF"}
+            rippleContainerBorderRadius={responsiveWidth(15)}
+            onPressIn={() => {
+              this.props.navigation.navigate("Phone", {
+                firstName: this.state.firstName,
+                lastName: this.state.lastName
+              });
             }}
+            style={{}}
           >
-            <Ripple
-              disabled={this.state.disabled}
-              rippleColor={"#FFFFFF"}
-              rippleContainerBorderRadius={responsiveWidth(15)}
-              onPressIn={() => {
-                this.props.navigation.navigate("Phone", {
-                  firstName: this.state.firstName,
-                  lastName: this.state.lastName
-                });
+            <View
+              style={{
+                borderRadius: responsiveWidth(15),
+                width: responsiveWidth(15),
+                height: responsiveWidth(15),
+                paddingVertical: responsiveHeight(2),
+                backgroundColor: this.state.disabled ? "#bcd8d6" : "#00A699",
+                justifyContent: "center"
               }}
             >
-              <View
+              <IonIcons
+                name={"md-arrow-forward"}
+                size={responsiveFontSize(3.6)}
+                color={"#FFFFFF"}
                 style={{
-                  borderRadius: responsiveWidth(15),
-                  width: responsiveWidth(15),
-                  height: responsiveWidth(15),
-                  paddingVertical: responsiveHeight(2),
-                  backgroundColor: this.state.disabled ? "#bcd8d6" : "#00A699",
-                  justifyContent: "center"
+                  alignSelf: "center",
+                  paddingHorizontal: responsiveWidth(2)
                 }}
-              >
-                <IonIcons
-                  name={"md-arrow-forward"}
-                  size={responsiveFontSize(3.6)}
-                  color={"#FFFFFF"}
-                  style={{
-                    alignSelf: "center",
-                    paddingHorizontal: responsiveWidth(2)
-                  }}
-                />
-              </View>
-            </Ripple>
-          </View>
+              />
+            </View>
+          </Ripple>
         </View>
-      </KeyboardAwareScrollView>
+        {/*Bottom button */}
+      </KeyboardAvoidingView>
     );
   }
 }

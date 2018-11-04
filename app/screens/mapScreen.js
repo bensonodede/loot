@@ -20,7 +20,7 @@ export default class MapScreen extends React.Component {
       locationPermission: null
     };
   }
-  //Comment to test branch
+
   _turnLocationOn() {
     SystemSetting.isLocationEnabled().then(enable => {
       if (enable) {
@@ -96,11 +96,7 @@ export default class MapScreen extends React.Component {
     return (
       <View style={{ flex: 1 }}>
         <NavigationEvents
-          onWillFocus={payload => {
-            console.log("will focus", payload);
-          }}
           onDidFocus={payload => {
-            console.log("did focus", payload);
             this._turnLocationOn();
           }}
         />
