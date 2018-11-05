@@ -22,7 +22,7 @@ export default class SplashScreenView extends React.Component {
         duration: 850,
         delay: 500
       });
-      this.props.navigation.navigate(user ? "Feed" : "Welcome");
+      this.props.navigation.navigate(user ? "Chat" : "Chat");
     });
   }
 

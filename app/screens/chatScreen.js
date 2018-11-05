@@ -1,107 +1,139 @@
 import React from "react";
-import {
-  ActivityIndicator,
-  AsyncStorage,
-  Button,
-  StatusBar,
-  StyleSheet,
-  View,
-  Text
-} from "react-native";
+import { AsyncStorage, StatusBar, Linking, View, Text } from "react-native";
 import Ripple from "react-native-material-ripple";
 import {
   responsiveHeight,
   responsiveWidth,
   responsiveFontSize
 } from "react-native-responsive-dimensions";
-import firebase from "react-native-firebase";
+import Emoji from "react-native-emoji";
 
 import IonIcons from "react-native-vector-icons/Ionicons";
 import styles from "../config/styles";
 
+const text = "Hello";
+const phoneNumber = "+254724645546";
 export default class ChatScreen extends React.Component {
   static navigationOptions = {
     header: null
   };
 
-  constructor() {
-    super();
-    this.userUnsubscribe = null;
-    this.state = { uid: "", username: "" };
-  }
-
-  componentDidMount() {
-    this.userUnsubscribe = firebase.auth().onAuthStateChanged(user => {
-      if (user) {
-        const userId = user._user.uid;
-        const displayName = user._user.displayName;
-        this.setState({ uid: userId, username: displayName }, () => {
-          console.log(this.state);
-        });
-      } else {
-        console.log("NO USER DATA");
-      }
-    });
-  }
-
-  componentWillUnmount() {
-    if (this.userUnsubscribe) this.userUnsubscribe();
-  }
+  shareToWhatsAppWithContact = (text, phoneNumber) => {
+    Linking.openURL(`whatsapp://send?text=${text}&phone=${phoneNumber}`);
+  };
 
   render() {
     return (
-      <View style={styles.container}>
+      <View
+        style={[
+          styles.container,
+          { paddingTop: StatusBar.currentHeight + responsiveHeight(13) }
+        ]}
+      >
         <StatusBar
           translucent
           barStyle="dark-content"
           backgroundColor={"#FFFFFF"}
           animated
         />
-        <View
-          style={{
-            width: responsiveWidth(15),
-            height: responsiveWidth(15),
-            borderRadius: responsiveWidth(15),
-            marginLeft: responsiveWidth(-2)
-          }}
-        >
-          <Ripple
-            rippleColor={"#000000"}
-            rippleContainerBorderRadius={responsiveWidth(15)}
-            onPressIn={() => {
-              this.props.navigation.goBack();
+
+        <View>
+          <Text
+            style={[
+              styles.fontBold,
+              styles.blackish,
+              {
+                fontSize: responsiveFontSize(4),
+                marginTop: responsiveHeight(2),
+                marginBottom: responsiveHeight(1.2),
+                paddingHorizontal: responsiveWidth(3)
+              }
+            ]}
+          >
+            Talk to us.
+          </Text>
+          <Text
+            style={[
+              styles.fontMedium,
+              {
+                fontSize: responsiveFontSize(2.5),
+                paddingHorizontal: responsiveWidth(4),
+                color: "#636c72",
+                marginBottom: responsiveHeight(6),
+                lineHeight: responsiveFontSize(3.4)
+              }
+            ]}
+          >
+            Having trouble choosing a game? Delivery hasn't arrived? Done
+            playing and you don't know how to request a pickup?
+          </Text>
+          <Text
+            style={[
+              styles.fontMedium,
+              {
+                fontSize: responsiveFontSize(2.5),
+                paddingHorizontal: responsiveWidth(4),
+                color: "#636c72",
+                marginBottom: responsiveHeight(6),
+                lineHeight: responsiveFontSize(3.4)
+              }
+            ]}
+          >
+            Reach us below on whatsapp.{" "}
+            <Emoji
+              name="space_invader"
+              style={{ fontSize: responsiveFontSize(2.5) }}
+            />
+            <Emoji
+              name="video_game"
+              style={{ fontSize: responsiveFontSize(2.5) }}
+            />
+          </Text>
+          {/*****Button******/}
+          <View
+            style={{
+              width: responsiveWidth(28),
+              borderRadius: responsiveWidth(1.5),
+              marginLeft: responsiveWidth(3.5),
+              elevation: 3
             }}
           >
-            <View
-              style={{
-                borderRadius: responsiveWidth(15),
-                width: responsiveWidth(15),
-                height: responsiveWidth(15),
-                paddingVertical: responsiveHeight(2),
-                backgroundColor: "transparent",
-                justifyContent: "center"
+            <Ripple
+              rippleColor={"#FFFFFF"}
+              rippleContainerBorderRadius={responsiveWidth(1.5)}
+              onPress={() => {
+                this.shareToWhatsAppWithContact("", "+254775310247s");
               }}
             >
-              <IonIcons
-                name={"md-arrow-back"}
-                size={responsiveFontSize(3.6)}
-                color={"#484848"}
+              <View
                 style={{
-                  alignSelf: "center",
-                  paddingHorizontal: responsiveWidth(2)
+                  borderRadius: responsiveWidth(1.3),
+                  paddingVertical: responsiveHeight(2),
+                  backgroundColor: "#484848",
+                  justifyContent: "center"
                 }}
-              />
-            </View>
-          </Ripple>
+              >
+                <Text
+                  style={[
+                    styles.fontMedium,
+                    styles.regular,
+                    {
+                      paddingVertical: responsiveWidth(1),
+                      fontSize: responsiveFontSize(2.5),
+                      color: "#FFFFFF",
+                      textAlign: "center",
+                      alignSelf: "center"
+                    }
+                  ]}
+                >
+                  Chat
+                </Text>
+              </View>
+            </Ripple>
+          </View>
+          {/*****Button******/}
         </View>
-        <Text>Chat with us</Text>
-      
       </View>
     );
   }
-
-  _signOutAsync = async () => {
-    await AsyncStorage.clear();
-    this.props.navigation.navigate("Auth");
-  };
 }

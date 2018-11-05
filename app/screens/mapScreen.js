@@ -17,21 +17,20 @@ export default class MapScreen extends React.Component {
     this.state = {
       locationFound: null,
       locationEnabled: null,
-      locationPermission: null
+      locationPermission: null,
+      lat: 0,
+      lon: 0
     };
   }
 
   _turnLocationOn() {
     SystemSetting.isLocationEnabled().then(enable => {
       if (enable) {
-        console.log("Location is currently " + enable);
         this.setState({ locationEnabled: true }, () => {
           this._enableLocationPermission();
-          console.log(this.state);
         });
       } else {
         this.props.navigation.navigate("Permission");
-        console.log("Location is currently " + enable);
       }
     });
   }
@@ -42,10 +41,8 @@ export default class MapScreen extends React.Component {
         PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
       );
       if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-        console.log("ALLOWED");
         this.setState({ locationPermission: true }, () => {
           this._findMe();
-          console.log(this.state);
         });
       } else {
         console.log("Location permission denied");
@@ -62,9 +59,10 @@ export default class MapScreen extends React.Component {
 
     location.then(
       value => {
-        console.log("fulfilled:", value);
-        this.setState({ lat: value.latitude, lon: value.longitude }, () => {
-          this.setState({ locationFound: true });
+        this.setState({ locationFound: true }, () => {
+          this.setState({ lat: value.latitude, lon: value.longitude }, () => {
+            console.log(this.state);
+          });
         });
       },
       error => {
@@ -85,7 +83,6 @@ export default class MapScreen extends React.Component {
   render() {
     const gameDetails = this.props.navigation.getParam("gameDetails");
     const dates = this.props.navigation.getParam("dates");
-
     const {
       locationEnabled,
       locationPermission,

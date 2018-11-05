@@ -557,7 +557,7 @@ new file mode 100644
 +import Ripple from "react-native-material-ripple";
 +import Events from "react-native-simple-events";
 +import FusedLocation from "react-native-fused-location";
-+import { BoxShadow } from "react-native-shadow";
++import { NavigationEvents } from "react-navigation";
 +
 +import IonIcons from "react-native-vector-icons/Ionicons";
 +import LightMapStyle from "./LightMapStyle";
@@ -598,7 +598,7 @@ new file mode 100644
    };
  
    constructor(props) {
-@@ -42,44 +65,49 @@ export default class LocationView extends React.Component {
+@@ -42,44 +65,31 @@ export default class LocationView extends React.Component {
      this._onTextFocus = this._onTextFocus.bind(this);
      this._onTextBlur = this._onTextBlur.bind(this);
      this._onMapRegionChange = this._onMapRegionChange.bind(this);
@@ -625,27 +625,12 @@ new file mode 100644
 +    };
    }
  
-   componentDidMount() {
+-  componentDidMount() {
 -    Events.listen('InputBlur', this.constructor.displayName, this._onTextBlur);
 -    Events.listen('InputFocus', this.constructor.displayName, this._onTextFocus);
 -    Events.listen('PlaceSelected', this.constructor.displayName, this._onPlaceSelected);
-+    // FusedLocation.setLocationPriority(FusedLocation.Constants.HIGH_ACCURACY);
-+    // // Get location once.
-+    // const location = FusedLocation.getFusedLocation();
-+    //
-+    // location.then(
-+    //   value => console.log("fulfilled:", value),
-+    //   error => {
-+    //     console.log(error);
-+    //     if (error == "Error: No location provider found.") {
-+    //       console.log("Please enable location");
-+    //     } else if (error == "Error: Appropriate permissions not given.") {
-+    //       console.log("Enable permissions");
-+    //     }
-+    //   }
-+    // );
-   }
- 
+-  }
+-
 -  componentWillUnmount() {
 -    Events.rm('InputBlur', this.constructor.displayName);
 -    Events.rm('InputFocus', this.constructor.displayName);
@@ -676,7 +661,7 @@ new file mode 100644
    }
  
    _onMapRegionChange(region) {
-@@ -104,9 +132,8 @@ export default class LocationView extends React.Component {
+@@ -104,9 +114,8 @@ export default class LocationView extends React.Component {
    }
  
    _setRegion(region, animate = true) {
@@ -688,7 +673,7 @@ new file mode 100644
    }
  
    _onPlaceSelected(placeId) {
-@@ -114,52 +141,202 @@ export default class LocationView extends React.Component {
+@@ -114,52 +123,188 @@ export default class LocationView extends React.Component {
      fetch(`${PLACE_DETAIL_URL}?key=${this.props.apiKey}&placeid=${placeId}`)
        .then(response => response.json())
        .then(data => {
@@ -739,27 +724,13 @@ new file mode 100644
 +      left: 0
 +    };
 +
-+    const shadowOpt = {
-+      width: responsiveFontSize(7),
-+      height: responsiveFontSize(7),
-+      color: "#000000",
-+      border: 2,
-+      radius: 30,
-+      opacity: 0.2,
-+      x: 3,
-+      y: 3,
-+      style: {
-+        alignItems: "center",
-+        justifyContent: "center",
-+        //padding: responsiveFontSize(1.8),
-+        //borderRadius: responsiveFontSize(6),
-+        position: "absolute",
-+        bottom: responsiveHeight(2),
-+        left: responsiveWidth(4)
-+      }
-+    };
      return (
        <View style={styles.container}>
++        <NavigationEvents
++          onDidFocus={payload => {
++            this._getCurrentLocation();
++          }}
++        />
          <MapView
 -          ref={(mapView) => this._map = mapView}
 +          ref={mapView => (this._map = mapView)}
@@ -778,14 +749,7 @@ new file mode 100644
 +          onPress={({ nativeEvent }) => this._setRegion(nativeEvent.coordinate)}
 +          //onRegionChange={this._onMapRegionChange}
 +          //onRegionChangeComplete={this._onMapRegionChangeComplete}
-         />
--        <Entypo name={'location-pin'} size={30} color={this.props.markerColor} style={{backgroundColor: 'transparent'}}/>
--        <View style={styles.fullWidthContainer}>
--          <AutoCompleteInput
--            ref={input => this._input = input}
--            apiKey={this.props.apiKey}
--            style={[styles.input, {transform: [{scale: inputScale}]}]}
--            debounceDuration={this.props.debounceDuration}
++        />
 +        <Entypo
 +          name={"location-pin"}
 +          size={responsiveFontSize(4.5)}
@@ -794,7 +758,14 @@ new file mode 100644
 +            backgroundColor: "transparent",
 +            bottom: responsiveHeight(2)
 +          }}
-+        />
+         />
+-        <Entypo name={'location-pin'} size={30} color={this.props.markerColor} style={{backgroundColor: 'transparent'}}/>
+-        <View style={styles.fullWidthContainer}>
+-          <AutoCompleteInput
+-            ref={input => this._input = input}
+-            apiKey={this.props.apiKey}
+-            style={[styles.input, {transform: [{scale: inputScale}]}]}
+-            debounceDuration={this.props.debounceDuration}
 +
 +        <Ripple
 +          rippleColor={"#484848"}
@@ -918,7 +889,7 @@ new file mode 100644
          {this.props.children}
        </View>
      );
-@@ -169,43 +346,49 @@ export default class LocationView extends React.Component {
+@@ -169,43 +314,49 @@ export default class LocationView extends React.Component {
  const styles = StyleSheet.create({
    container: {
      flex: 1,
@@ -953,12 +924,12 @@ new file mode 100644
 -    right: 10,
 +    backgroundColor: "#FFFFFF",
 +    elevation: 5,
-+    width: responsiveFontSize(7),
-+    height: responsiveFontSize(7),
++    width: responsiveFontSize(6.2),
++    height: responsiveFontSize(6.2),
 +    borderRadius: responsiveFontSize(6),
 +    position: "absolute",
-+    bottom: responsiveHeight(2),
-+    left: responsiveWidth(4),
++    bottom: responsiveHeight(12),
++    right: responsiveWidth(4.2),
 +    alignItems: "center",
 +    justifyContent: "center"
    },
@@ -973,15 +944,15 @@ new file mode 100644
 -    alignItems: 'center',
 -    borderRadius: 5,
 +    backgroundColor: "#000000",
-+    width: responsiveFontSize(39),
-+    height: responsiveFontSize(7),
++    width: responsiveWidth(92),
++    height: responsiveHeight(8),
 +    elevation: 10,
 +    position: "absolute",
 +    bottom: responsiveHeight(2),
-+    right: responsiveWidth(4),
 +    justifyContent: "center",
 +    alignItems: "center",
-+    borderRadius: responsiveFontSize(6)
++    alignSelf: "center",
++    borderRadius: responsiveWidth(1.5)
    },
    actionText: {
 -    color: 'white',

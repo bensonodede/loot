@@ -162,7 +162,7 @@ export default class locationPermissionScreen extends React.Component {
               rippleColor={"#484848"}
               rippleContainerBorderRadius={responsiveWidth(1.5)}
               onPress={() => {
-                this.props.navigation.goBack();
+                this.props.navigation.navigate("Calendar");
               }}
             >
               <View

@@ -36,7 +36,7 @@ HomeStack.navigationOptions = {
       <FeatherIcon
         name={"home"}
         size={responsiveFontSize(3.4)}
-        color={"#FFFFFF"}
+        color={"#000000"}
       />
     ) : (
       <FeatherIcon
@@ -58,7 +58,7 @@ OtherStack.navigationOptions = {
       <FeatherIcon
         name={"user"}
         size={responsiveFontSize(3.4)}
-        color={"#FFFFFF"}
+        color={"#000000"}
       />
     ) : (
       <FeatherIcon
@@ -81,7 +81,7 @@ ChatStack.navigationOptions = {
       <FeatherIcon
         name={"message-circle"}
         size={responsiveFontSize(3.4)}
-        color={"#FFFFFF"}
+        color={"#000000"}
       />
     ) : (
       <FeatherIcon
@@ -99,9 +99,9 @@ const TabNavigator = createMaterialBottomTabNavigator(
   },
   {
     shifting: true,
-    activeTintColor: "#f0edf6",
+    activeTintColor: "#000",
     inactiveTintColor: "#3e2465",
-    barStyle: { backgroundColor: "#000000" }
+    barStyle: { backgroundColor: "#FFFFFF", elevation: 8 }
   }
 );
 
