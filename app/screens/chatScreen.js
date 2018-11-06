@@ -64,8 +64,8 @@ export default class ChatScreen extends React.Component {
               }
             ]}
           >
-            Having trouble choosing a game? Delivery hasn't arrived? Done
-            playing and you don't know how to request a pickup?
+            Having trouble choosing a game? Delivery hasn't arrived? Don't know
+            how to request a pickup?
           </Text>
           <Text
             style={[

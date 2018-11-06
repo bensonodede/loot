@@ -83,13 +83,7 @@ export default class MapScreen extends React.Component {
   render() {
     const gameDetails = this.props.navigation.getParam("gameDetails");
     const dates = this.props.navigation.getParam("dates");
-    const {
-      locationEnabled,
-      locationPermission,
-      locationFound,
-      lat,
-      lon
-    } = this.state;
+    const { locationFound, lat, lon } = this.state;
     return (
       <View style={{ flex: 1 }}>
         <NavigationEvents

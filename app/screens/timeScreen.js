@@ -431,22 +431,6 @@ export default class TimeScreen extends Component {
                     Please schedule the delivery time
                   </Text>
                 )}
-                {/*<Text
-                  style={[
-                    styles.fontBlack,
-                    { color: "#484848", fontSize: responsiveFontSize(2.2) }
-                  ]}
-                >
-                  Delivery Time:
-                </Text>
-                <Text
-                  style={[
-                    styles.fontLight,
-                    { fontSize: responsiveFontSize(2.1), color: "#484848" }
-                  ]}
-                >
-                  Morning: 9 AM - 10 AM
-                </Text>*/}
               </View>
             </View>
 

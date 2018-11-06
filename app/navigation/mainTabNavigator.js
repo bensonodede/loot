@@ -13,7 +13,7 @@ import {
 import FeatherIcon from "react-native-vector-icons/Feather";
 //import { FluidNavigator, Transition } from 'react-navigation-fluid-transitions';
 
-import OtherScreen from "../screens/otherScreen";
+import ProfileScreen from "../screens/profileScreen";
 import FeedScreen from "../screens/feedScreen";
 import ChatScreen from "../screens/chatScreen";
 import DetailScreen from "../screens/detailScreen";
@@ -47,11 +47,11 @@ HomeStack.navigationOptions = {
     )
 };
 
-const OtherStack = createStackNavigator({
-  Other: OtherScreen
+const ProfileStack = createStackNavigator({
+  Profile: ProfileScreen
 });
 
-OtherStack.navigationOptions = {
+ProfileStack.navigationOptions = {
   tabBarLabel: "Profile",
   tabBarIcon: ({ focused, tintColor }) =>
     focused ? (
@@ -94,7 +94,7 @@ ChatStack.navigationOptions = {
 const TabNavigator = createMaterialBottomTabNavigator(
   {
     HomeStack,
-    OtherStack,
+    ProfileStack,
     ChatStack
   },
   {

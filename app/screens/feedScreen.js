@@ -161,7 +161,7 @@ export default class FeedScreen extends React.Component {
                   </Text>
                   <Text
                     style={[
-                      styles.fontLight,
+                      //styles.fontLight,
                       styles.regular,
                       styles.greyish,
                       {
