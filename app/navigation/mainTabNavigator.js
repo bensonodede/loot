@@ -11,7 +11,6 @@ import {
   responsiveFontSize
 } from "react-native-responsive-dimensions";
 import FeatherIcon from "react-native-vector-icons/Feather";
-//import { FluidNavigator, Transition } from 'react-navigation-fluid-transitions';
 
 import ProfileScreen from "../screens/profileScreen";
 import PlayScreen from "../screens/playScreen";
@@ -48,27 +47,27 @@ HomeStack.navigationOptions = {
     )
 };
 
-const ProfileStack = createStackNavigator({
-  Profile: ProfileScreen
-});
+// const ProfileStack = createStackNavigator({
+//   Profile: ProfileScreen
+// });
 
-ProfileStack.navigationOptions = {
-  tabBarLabel: "Profile",
-  tabBarIcon: ({ focused, tintColor }) =>
-    focused ? (
-      <FeatherIcon
-        name={"user"}
-        size={responsiveFontSize(3.4)}
-        color={"#000000"}
-      />
-    ) : (
-      <FeatherIcon
-        name={"user"}
-        size={responsiveFontSize(3.2)}
-        color={"#727272"}
-      />
-    )
-};
+// ProfileStack.navigationOptions = {
+//   tabBarLabel: "Profile",
+//   tabBarIcon: ({ focused, tintColor }) =>
+//     focused ? (
+//       <FeatherIcon
+//         name={"user"}
+//         size={responsiveFontSize(3.4)}
+//         color={"#000000"}
+//       />
+//     ) : (
+//       <FeatherIcon
+//         name={"user"}
+//         size={responsiveFontSize(3.2)}
+//         color={"#727272"}
+//       />
+//     )
+// };
 
 const ChatStack = createStackNavigator({
   Chat: ChatScreen
@@ -93,28 +92,29 @@ ChatStack.navigationOptions = {
     )
 };
 
-const PlayStack = createStackNavigator({
-  Plays: PlayScreen
-});
+// const PlayStack = createStackNavigator({
+//   Plays: PlayScreen
+// });
 
-PlayStack.navigationOptions = {
-  tabBarLabel: "Plays",
+// PlayStack.navigationOptions = {
+//   tabBarLabel: "Plays",
 
-  tabBarIcon: ({ focused, tintColor }) =>
-    focused ? (
-      <FeatherIcon
-        name={"play-circle"}
-        size={responsiveFontSize(3.4)}
-        color={"#000000"}
-      />
-    ) : (
-      <FeatherIcon
-        name={"play-circle"}
-        size={responsiveFontSize(3.2)}
-        color={"#727272"}
-      />
-    )
-};
+//   tabBarIcon: ({ focused, tintColor }) =>
+//     focused ? (
+//       <FeatherIcon
+//         name={"play-circle"}
+//         size={responsiveFontSize(3.4)}
+//         color={"#000000"}
+//       />
+//     ) : (
+//       <FeatherIcon
+//         name={"play-circle"}
+//         size={responsiveFontSize(3.2)}
+//         color={"#727272"}
+//       />
+//     )
+// };
+
 const TabNavigator = createMaterialBottomTabNavigator(
   {
     HomeStack,
