@@ -4,6 +4,8 @@
     android:versionName="1.0">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+  <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -30,7 +32,8 @@
         android:name=".MainActivity"
         android:label="@string/app_name"
         android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
-        android:windowSoftInputMode="adjustResize">
+        android:windowSoftInputMode="adjustResize"
+        android:launchMode="singleTop">
         <intent-filter>
             <action android:name="android.intent.action.MAIN" />
             <category android:name="android.intent.category.LAUNCHER" />
@@ -48,7 +51,7 @@
         </intent-filter>
     </service>
     <service android:name="io.invertase.firebase.messaging.RNFirebaseBackgroundMessagingService" />
-
+     
     </application>
 
 </manifest>

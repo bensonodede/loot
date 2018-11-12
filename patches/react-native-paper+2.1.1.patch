@@ -1,0 +1,18 @@
+patch-package
+--- a/node_modules/react-native-paper/src/components/BottomNavigation.js
++++ b/node_modules/react-native-paper/src/components/BottomNavigation.js
+@@ -729,6 +729,7 @@ class BottomNavigation<T: *> extends React.Component<Props<T>, State> {
+                               style={[
+                                 styles.label,
+                                 {
++                                  
+                                   color: activeTintColor,
+                                 },
+                               ]}
+@@ -829,5 +830,6 @@ const styles = StyleSheet.create({
+     fontSize: 12,
+     textAlign: 'center',
+     backgroundColor: 'transparent',
++    fontFamily: "CircularStd-Medium",
+   },
+ });

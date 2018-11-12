@@ -14,6 +14,7 @@ import FeatherIcon from "react-native-vector-icons/Feather";
 //import { FluidNavigator, Transition } from 'react-navigation-fluid-transitions';
 
 import ProfileScreen from "../screens/profileScreen";
+import PlayScreen from "../screens/playScreen";
 import FeedScreen from "../screens/feedScreen";
 import ChatScreen from "../screens/chatScreen";
 import DetailScreen from "../screens/detailScreen";
@@ -91,10 +92,33 @@ ChatStack.navigationOptions = {
       />
     )
 };
+
+const PlayStack = createStackNavigator({
+  Plays: PlayScreen
+});
+
+PlayStack.navigationOptions = {
+  tabBarLabel: "Plays",
+
+  tabBarIcon: ({ focused, tintColor }) =>
+    focused ? (
+      <FeatherIcon
+        name={"play-circle"}
+        size={responsiveFontSize(3.4)}
+        color={"#000000"}
+      />
+    ) : (
+      <FeatherIcon
+        name={"play-circle"}
+        size={responsiveFontSize(3.2)}
+        color={"#727272"}
+      />
+    )
+};
 const TabNavigator = createMaterialBottomTabNavigator(
   {
     HomeStack,
-    ProfileStack,
+    //PlayStack,
     ChatStack
   },
   {

@@ -43,11 +43,11 @@ export default class successScreen extends React.Component {
               color: "#636c72"
             }}
           >
-            Your booking was successful. You will receive an{" "}
+            Your booking was successful. You will receive a{" "}
             <Text style={{ fontFamily: "CircularStd-Black", color: "#484848" }}>
-              SMS
+              Notification
             </Text>{" "}
-            shortly once your order is confirmed.
+            once your order is confirmed.
           </Text>
         </View>
         <View

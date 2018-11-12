@@ -120,16 +120,18 @@ export default class ProfileScreen extends React.Component {
                 alignItems: "center",
                 justifyContent: "space-between",
                 paddingVertical: responsiveHeight(3.5),
-                paddingHorizontal: responsiveWidth(2)
+                paddingHorizontal: responsiveWidth(2),
+                borderBottomWidth: 1,
+                borderColor: "#DCDCDC"
               }}
             >
               <Text
-                style={{ fontSize: responsiveFontSize(3), color: "#484848" }}
+                style={{ fontSize: responsiveFontSize(2.8), color: "#484848" }}
               >
                 Notifications
               </Text>
               <SimpleLineIcons
-                size={responsiveFontSize(3.5)}
+                size={responsiveFontSize(3.2)}
                 name={"bell"}
                 color={"#484848"}
               />
@@ -142,16 +144,18 @@ export default class ProfileScreen extends React.Component {
                 alignItems: "center",
                 justifyContent: "space-between",
                 paddingVertical: responsiveHeight(3.5),
-                paddingHorizontal: responsiveWidth(2)
+                paddingHorizontal: responsiveWidth(2),
+                borderBottomWidth: 1,
+                borderColor: "#DCDCDC"
               }}
             >
               <Text
-                style={{ fontSize: responsiveFontSize(3), color: "#484848" }}
+                style={{ fontSize: responsiveFontSize(2.8), color: "#484848" }}
               >
                 Settings
               </Text>
               <SimpleLineIcons
-                size={responsiveFontSize(3.5)}
+                size={responsiveFontSize(3.2)}
                 name={"settings"}
                 color={"#484848"}
               />
