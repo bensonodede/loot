@@ -145,14 +145,14 @@ android {
         prod {
             minSdkVersion 16
             applicationId 'com.Loot'
-            targetSdkVersion 22
+            targetSdkVersion 26
             resValue "string", "build_config_package", "com.Loot"
             //signed on build by appcenter
         }
         dev {
             minSdkVersion 16
             applicationId 'com.Loot.dev'
-            targetSdkVersion 22
+            targetSdkVersion 26
             resValue "string", "build_config_package", "com.Loot"
             signingConfig signingConfigs.dev
         }
